@@ -1,0 +1,31 @@
+nov 10 2023
+
+figure out google maps api
+get data from burrito slut db
+create component that shows the map for the given restaurant
+plan larger file structure with various components
+
+how will each page be set up?
+
+home page?
+
+search
+    sort by
+        proximity
+        reviews
+            highest rated burrito within x miles
+            highest rated restaurant within x miles
+        burrito tags
+
+search results
+    array of burritos / restaurants
+        burritos include
+            burrito data
+            burrito reviews
+            link to restaurant/s if they have multiple locations
+        restaurants include
+            restaurant data
+            restaurant reviews
+            filter burritos within restaurant
+            rest of the menu
+            map
