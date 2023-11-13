@@ -1,23 +1,38 @@
 <script lang="ts">
-    import type { Restaurant, Coordinates, Address } from "$lib/types";
+    import type { Restaurant, Address } from "$lib/types";
 	import { onDestroy, onMount } from "svelte";
     import { browser } from '$app/environment';
+	import type { GeoPoint } from "firebase/firestore";
 
     export let address: Address;
-    export let coordinates: Coordinates;
     export let restaurant: Restaurant;
+
+    // change the GeoPoint type into one that satisfies {lat: number, lng: number}
+    let center = {lat: address.coordinates.latitude, lng: address.coordinates.longitude};
 
     
     if (browser) {
 
         // Define `initMap` inside onMount to ensure it's client-side
-        (window as any).initMap = () => {
+        (window as any).initMap = async () => {
             const mapElement = document.getElementById('map');
-            if (mapElement) {
-                let map = new google.maps.Map(mapElement, { zoom: 18, center: coordinates });
-                let marker = new google.maps.Marker({ position: coordinates, map: map });
-            } else {
-                console.error('Map element not found');
+            try {
+                //@ts-ignore
+                const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
+                const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
+
+                if (mapElement) {
+                    let map = new google.maps.Map(mapElement, { zoom: 18, center: center });
+                    const marker = new AdvancedMarkerElement({
+                        map: map,
+                        position: center,
+                        title: 'Uluru'
+                    });
+                } else {
+                    console.error('Map element not found');
+                }
+            } catch (error) {
+                console.error('Error initializing Google Maps:', error);
             }
         };
 

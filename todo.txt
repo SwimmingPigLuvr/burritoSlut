@@ -29,3 +29,57 @@ search results
             filter burritos within restaurant
             rest of the menu
             map
+
+
+items to implement:
+
+custom markers?
+
+user
+    userAuth
+        signin / register with socials
+    create account
+        bio
+        pfp
+
+reviews
+    add new burritos / restaurants
+    rate them
+    text review
+    photos
+    
+
+
+november 13
+ui todos:
+
+search: 
+    the search will yield search results in a numbered order based on search parameters
+        the parameters include
+            distance
+            highest rating
+            highest rating within x miles
+            burrito tags
+            name search
+
+
+burrito / restuarant search
+sponsored results
+featured results
+all results
+
+<searchresult>
+    photos. can click through
+    <info>
+        Title
+        <rating>
+            stars
+            avg rating
+            (#of reviews: links to reviews)
+        </rating>
+        tags + price
+        Open Until
+        top review with link
+        outdoor seating / delivery / takeout
+    </info
+</searchresult>
