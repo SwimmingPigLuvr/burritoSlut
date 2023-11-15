@@ -2,74 +2,75 @@
     import type { Restaurant, Address } from "$lib/types";
 	import { onDestroy, onMount } from "svelte";
     import { browser } from '$app/environment';
-	import type { GeoPoint } from "firebase/firestore";
+	import { doc, type GeoPoint } from "firebase/firestore";
 	import { cubicInOut } from "svelte/easing";
 	import { fly } from "svelte/transition";
     
     export let address: Address;
     export let restaurant: Restaurant;
 
+    let map: google.maps.Map;
+    let autocomplete;
+    let inputElement: HTMLInputElement;
+
     let mobileView = false;
     let viewMapMsg = false;
     let closeMapMsg = false;
 
-    let center = {lat: address.coordinates.latitude, lng: address.coordinates.longitude};
+    onMount(() => {
+        if (browser /*&& typeof window !== 'undefined'*/) {
+            loadGoogleMapsScript().then(() => {
+                console.log('google maps script loaded');
+                initMap();
+            }).catch(error => {
+                console.error('error loading google maps: ', error);
+            });
+        }
+    });
 
-    
-    if (browser) {
+    async function initMap() {
+        const center = {
+            lat: address.coordinates.latitude,
+            lng: address.coordinates.longitude,
+        };
 
-
-        let map: google.maps.Map;
-        (window as any).initMap = async (): Promise<void> => {  console.log('initing the mapp');
-
-        // Request needed libraries.
-        //@ts-ignore
+        // request needed libraries
+        // @ts-ignore
         const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
 
-        // The map, centered at Uluru
+        // create map
         map = new Map(
             document.getElementById('map') as HTMLElement,
             {
-            zoom: 18,
-            center: center,
-            mapId: 'DEMO_MAP_ID',
+                zoom: 14,
+                center: center,
+                mapId: 'c9dc6f1b5dba17d5',
+                fullscreenControl: false,
             }
         );
 
-        const pinScaled = new PinElement({
-            scale: 1.5,
-        });
-        // The marker, positioned at Uluru
+        // create marker
         const marker = new AdvancedMarkerElement({
             map: map,
             position: center,
             title: `${restaurant?.name}`,
-            content: pinScaled.element,
         });
+        inputElement = document.getElementById('inputElement') as HTMLInputElement;
+        autocomplete = new google.maps.places.Autocomplete(inputElement, { /* options */});
     }
 
-        // Function to load the Google Maps script
-        async function loadGoogleMapsScript() {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDG4Pb3-0S8cRFv4WfZuoariZXwTkq6pvY&callback=initMap`;
-                script.async = true;
-                script.defer = true;
-                document.head.appendChild(script);
-                script.onload = resolve;
-                script.onerror = reject;
-            });
-        }
-
-        // Load the Google Maps script
-        loadGoogleMapsScript().then(() => {
-            console.log('Google Maps script loaded');
-        }).catch(error => {
-            console.error('Error loading Google Maps:', error);
+    async function loadGoogleMapsScript() {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=places`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+            script.onload = resolve;
+            script.onerror = reject;
         });
-
-    };
+    }
 
 
 
@@ -83,6 +84,15 @@
         background-color: #07FF00;
         border: solid 10px
     } */
+    .custom-height {
+        height: calc(100vh - 144px);
+    }
+
+    @media (min-width: 768px) {
+        .custom-height {
+            height: calc(100vh - 6.125rem); /* adjust the value as needed */
+        }
+    }
 </style>
 
 <body>
@@ -90,7 +100,7 @@
     <div 
         
         class="fixed sm:block top-36 md:top-24 right-[0%] h-[100%] bg-white md:w-[33%] transform transition-all duration-1000 ease-in-out {mobileView? 'w-full block' : ''}">
-        <div id="map" class="w-full h-[100vh]"></div>
+        <div id="map" class="w-full custom-height"></div>
     </div>
     <!-- map button for mobileView -->
     {#if !mobileView}

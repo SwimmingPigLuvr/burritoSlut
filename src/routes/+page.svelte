@@ -5,6 +5,8 @@
     import type { BurritoData, MenuItem, Restaurant, ReviewData, UserData } from "$lib/types";
     import { GeoPoint, Timestamp } from "firebase/firestore";
 
+    let inputElement: HTMLElement;
+
     let steakBurrito: BurritoData;
     let pedrosTacosSanClemente: Restaurant;
     // Declare MenuItems

@@ -148,3 +148,9 @@ use a map icon in the top right to let the user click on it and see the search r
 
 get rid of full screen map option
 i can't think of a reason why someone would want that anyways
+
+
+nov 15
+
+add autocomplete for places / burritos
+contain to location
