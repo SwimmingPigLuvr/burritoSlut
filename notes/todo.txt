@@ -83,3 +83,68 @@ all results
         outdoor seating / delivery / takeout
     </info
 </searchresult>
+
+
+
+todos
+
+fix map. configure query
+
+create review form so the users can add burritos and restaurants
+
+configure auth so users can sign in
+
+
+
+ui ideas
+
+take a page out of y**p's book
+
+search results on the left
+map on the right
+markers correlating to the search results
+
+
+maps are only ever used for search results
+and directions once we are on a restaurant page
+the map.svelte component is for search results
+the directions.svelte component is for specific restaurant directions
+
+need components for many different things
+search results
+
+restuarant page
+    has multiple inside it as well the menu can be a component
+    info card: website, phone directions, suggest an edit
+
+
+routes ideas
+
+burritoBudyy.com/search
+
+use search params in the routing
+
+https://www.burritoSlut.com/search?find_desc=Breakfast+Burrito&find_loc=Newport+Beach,%20CA
+
+this will be the url when a user searches for "breakfast burrito", with the location set to "newport beach, ca"
+
+
+map component ideas:
+
+use search to fetch data.
+use fetched data to order and place markers
+hovering marker shows data for that burrito place
+
+
+main focus of this app is the search
+the top nav bar should be a search bar that let's the user search from everypage
+
+
+left side = search filters
+
+
+make the map invisible on the mobile screen size
+use a map icon in the top right to let the user click on it and see the search results
+
+get rid of full screen map option
+i can't think of a reason why someone would want that anyways

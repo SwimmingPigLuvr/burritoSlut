@@ -1,6 +1,7 @@
 <script lang="ts">
     import { browser } from "$app/environment";
     import Map from "$lib/components/Map.svelte";
+	import Nav from "$lib/components/Nav.svelte";
     import type { BurritoData, MenuItem, Restaurant, ReviewData, UserData } from "$lib/types";
     import { GeoPoint, Timestamp } from "firebase/firestore";
 
@@ -84,17 +85,13 @@
     
 </script>
 
-<body data-theme="garden" class="bg-primary w-screen h-screen">
-    <div class="mx-auto max-w-xl text-center p-4 flex flex-col">
-        <h1 class="">Welcome to</h1>
-        <h2 class="text-4xl">BurritoSlut</h2>
-        <p class="mx-auto max-w-lg text-center">Find HOT BURRITOS near you!</p>
-    </div>
+<Nav />
 
-    <div class="mx-auto max-w-xl my-8">
+<body data-theme="garden" class="bg-stone-200 w-screen h-screen">
+   
+
         <Map 
             address={pedrosTacosSanClemente.address}
             restaurant={pedrosTacosSanClemente}
         />
-    </div>
 </body>
