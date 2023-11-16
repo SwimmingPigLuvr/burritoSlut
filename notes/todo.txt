@@ -154,3 +154,20 @@ nov 15
 
 add autocomplete for places / burritos
 contain to location
+
+
+now let's write reviews
+
+that way i can manually enter in new restaurants and burritos
+then once the db is a little bit more populated i can test out how the search works
+
+oh wait i guess i should have auth enabled before
+
+figure out the auth
+
+
+form notes
+
+birthday
+only allow date options for specific months
+for example feb has 28 days

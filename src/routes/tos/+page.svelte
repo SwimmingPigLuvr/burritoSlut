@@ -1,0 +1,1 @@
+<h1 class="font-black">TERMS OF SERVICE</h1>

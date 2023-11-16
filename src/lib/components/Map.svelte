@@ -19,51 +19,59 @@
 
     onMount(() => {
         if (browser /*&& typeof window !== 'undefined'*/) {
+
+            // initMap functionerino
+            (window as any).initMap = async(): Promise<void> => {
+                const center = {
+                    lat: address.coordinates.latitude,
+                    lng: address.coordinates.longitude,
+                };
+
+                // request needed libraries
+                // @ts-ignore
+                const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
+                const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
+
+                // create map
+                map = new Map(
+                    document.getElementById('map') as HTMLElement,
+                    {
+                        zoom: 16,
+                        center: center,
+                        mapId: 'c9dc6f1b5dba17d5',
+                        fullscreenControl: false,
+                    }
+                );
+
+                // create marker
+                const marker = new AdvancedMarkerElement({
+                    map: map,
+                    position: center,
+                    title: `${restaurant?.name}`,
+                });
+                inputElement = document.getElementById('inputElement') as HTMLInputElement;
+                autocomplete = new google.maps.places.Autocomplete(inputElement, { /* options */});
+            }
+
+            // load the google maps script
             loadGoogleMapsScript().then(() => {
                 console.log('google maps script loaded');
-                initMap();
+
+                // then call initMap
+                (window as any).initMap();
+
             }).catch(error => {
                 console.error('error loading google maps: ', error);
             });
         }
     });
 
-    async function initMap() {
-        const center = {
-            lat: address.coordinates.latitude,
-            lng: address.coordinates.longitude,
-        };
-
-        // request needed libraries
-        // @ts-ignore
-        const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
-        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
-
-        // create map
-        map = new Map(
-            document.getElementById('map') as HTMLElement,
-            {
-                zoom: 14,
-                center: center,
-                mapId: 'c9dc6f1b5dba17d5',
-                fullscreenControl: false,
-            }
-        );
-
-        // create marker
-        const marker = new AdvancedMarkerElement({
-            map: map,
-            position: center,
-            title: `${restaurant?.name}`,
-        });
-        inputElement = document.getElementById('inputElement') as HTMLInputElement;
-        autocomplete = new google.maps.places.Autocomplete(inputElement, { /* options */});
-    }
+    
 
     async function loadGoogleMapsScript() {
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=places`;
+            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDG4Pb3-0S8cRFv4WfZuoariZXwTkq6pvY&callback=initMap&libraries=places`;
             script.async = true;
             script.defer = true;
             document.head.appendChild(script);
