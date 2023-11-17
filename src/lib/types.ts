@@ -24,6 +24,11 @@ export interface Restaurant {
 
 }
 
+export interface MyUser {
+    uid?: string;
+    userData?: UserData;
+}
+
 export interface UserData {
     username: string;
     bio: string;

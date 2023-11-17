@@ -3,3 +3,7 @@ https://console.cloud.google.com/google/maps-apis/discover?project=euphoric-axon
 
 advanced markers docs
 https://developers.google.com/maps/documentation/javascript/examples/advanced-markers-basic-style
+
+learn the page options
+client side vs. server side rendering
+https://kit.svelte.dev/docs/page-options

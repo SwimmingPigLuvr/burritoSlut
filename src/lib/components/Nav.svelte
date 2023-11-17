@@ -26,7 +26,7 @@
 <div class="p-[1.25rem] flex fixed top-0 w-full h-36 md:h-24 bg-white justify-end items-end md:items-start transform transition-all duration-1000 ease-in-out">
     <!-- logo -->
     <div class="font-black fixed top-[1.75rem] left-[2rem]">
-        <!-- BURRITOSLUT -->
+        BURRITOSLUT
         ⚡︎⚡️⚡︎
     </div>
     <!-- searchbar -->

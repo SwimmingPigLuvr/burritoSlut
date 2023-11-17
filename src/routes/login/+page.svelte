@@ -1,4 +1,12 @@
-<script>
+<script lang='ts'>
+	// import FirebaseLogin from "$lib/components/FirebaseLogin.svelte";
+
+    let viewGoogleSignIn: boolean = false;
+
+
+    
+
+
 </script>
 
 <body class="bg-white fixed h-screen w-full">
@@ -20,7 +28,7 @@
 
         <!-- continue with google / apple -->
         <div class="mx-auto flex flex-col space-y-2">
-            <button class="rounded-sm text-xs hover:bg-opacity-20 font-mono text-black btn btn-sm h-[2.5rem] btn-wide btn-outline">🦞 Continue with Google</button>
+            <button on:click={() => viewGoogleSignIn = true} class="rounded-sm text-xs hover:bg-opacity-20 font-mono text-black btn btn-sm h-[2.5rem] btn-wide btn-outline">🦞 Continue with Google</button>
             <button class="rounded-sm text-xs hover:bg-opacity-80 font-mono text-white btn btn-sm h-[2.5rem] btn-wide">🍎 Continue with Apple</button>
         </div>
 
@@ -39,8 +47,12 @@
             <button class="my-2 rounded-sm text-xs hover:bg-opacity-80 font-mono text-black btn btn-sm h-[2.5rem] btn-wide bg-lime-400">Login</button>
             <p class="text-[0.6rem] font-thin text-right text-black my-1">New to BurritoSlut? <a href="/signup">Sign up</a></p>
 
-
     </div>
+
+    {#if viewGoogleSignIn}
+        <!-- google sign in -->
+        <!-- <FirebaseLogin /> -->
+    {/if}
 </body>
 <style>
     a {

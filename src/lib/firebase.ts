@@ -1,9 +1,16 @@
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, EmailAuthProvider } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-import { writable } from "svelte/store";
+import { writable, type Readable, derived } from "svelte/store";
+// import firebaseui from "firebaseui";
+import * as firebaseui from 'firebaseui';
+import type { MyUser, Restaurant, Address, UserData, BurritoData } from "./types";
+import { subscribe } from 'diagnostics_channel';
 
 
 
@@ -22,6 +29,72 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
-export const auth = getAuth();
 export const storage = getStorage();
-const analytics = getAnalytics(app);
+
+// auth
+export const auth = getAuth(app);
+onAuthStateChanged(auth, user => {
+  // check for user status
+});
+export const ui = new firebaseui.auth.AuthUI(auth);
+
+const analytics = getAnalytics(app); 
+
+function userStore() {
+  let unsubscribe: () => void;
+
+  if (!auth || !globalThis.window) {
+    console.warn("auth is not initialized or not in browser");
+    const { subscribe } = writable<MyUser | null>(null);
+    return {
+      subscribe,
+    };
+  }
+
+  const { subscribe } = writable(auth?.currentUser ?? null, (set) => {
+    onAuthStateChanged(auth, (user) => {
+      set(user);
+    });
+
+    return () => unsubscribe();
+  });
+
+    return {
+      subscribe,
+    };
+}
+
+export const user: Readable<MyUser | null> = userStore();
+
+export function docStore<T>(path: string) {
+  let unsubscribe: () => void;
+
+  const docRef = doc(db, path);
+
+  const { subscribe } = writable<T | null>(null, (set) => {
+    unsubscribe = onSnapshot(docRef, (snapshot) => {
+      set((snapshot.data() as T) ?? null);
+    });
+
+    return () => unsubscribe();
+  });
+
+  return {
+    subscribe,
+    ref: docRef,
+    id: docRef.id,
+  };
+}
+
+export const userData: Readable<UserData | null> = derived(
+  user,
+  ($user, set) => {
+    if ($user) {
+      return docStore<UserData>(`users/${$user.uid}`).subscribe(set);
+    } else {
+      set(null);
+    }
+  },
+);
+
+const provider = new GoogleAuthProvider();
