@@ -1,3 +1,9 @@
+declare global {
+    interface Window {
+        initMap: () => void;
+    }
+} 
+
 import type { Timestamp, GeoPoint, DocumentReference } from "firebase/firestore";
 
 export interface Address {

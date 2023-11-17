@@ -175,3 +175,13 @@ for example feb has 28 days
 
 autocomplete:
 
+add suggestions to the left search bar
+
+    these are types of burritos names etc. not addresses
+
+add current location to the top of the address autocomplete on the left
+find out how to style autocomplete
+
+figure out how to run auto complete config twice so that there are 2 different types of suto complete
+
+

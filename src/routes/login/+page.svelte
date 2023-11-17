@@ -1,8 +1,20 @@
 <script lang='ts'>
+	import { browser } from "$app/environment";
+	import { onMount } from "svelte";
+    let FirebaseLogin: any = null;
+
 	// import FirebaseLogin from "$lib/components/FirebaseLogin.svelte";
 
-    let viewGoogleSignIn: boolean = false;
+    onMount(() => {
+        if (browser) {
+            import("$lib/components/FirebaseLogin.svelte").then(module => {
+                    FirebaseLogin = module.default;
+            });
 
+        }
+    });
+    
+    let viewGoogleSignIn: boolean = false;
 
     
 

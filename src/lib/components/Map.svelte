@@ -1,17 +1,24 @@
 <script lang="ts">
+    
+    
     import type { Restaurant, Address } from "$lib/types";
 	import { onDestroy, onMount } from "svelte";
     import { browser } from '$app/environment';
 	import { doc, type GeoPoint } from "firebase/firestore";
 	import { cubicInOut } from "svelte/easing";
 	import { fly } from "svelte/transition";
+
+   
     
     export let address: Address;
     export let restaurant: Restaurant;
 
-    let map: google.maps.Map;
+    let map: google.maps.Map, infoWindow: google.maps.InfoWindow;
+    
     let autocomplete;
     let inputElement: HTMLInputElement;
+    let autocompleteName;
+    let inputElementName: HTMLInputElement;
 
     let mobileView = false;
     let viewMapMsg = false;
@@ -42,6 +49,58 @@
                         fullscreenControl: false,
                     }
                 );
+                infoWindow = new google.maps.InfoWindow();
+
+                const locationButton = document.createElement("button");
+                locationButton.className = 'current-location-btn';
+
+                locationButton.textContent = "Jump to Current Location";
+                locationButton.classList.add("custom-map-control-button");
+
+                map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+
+                locationButton.addEventListener("click", () => {
+                    // try html5 geolocation
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            (position: GeolocationPosition) => {
+                                const pos = {
+                                    lat: position.coords.latitude,
+                                    lng: position.coords.longitude,
+                                };
+
+                                infoWindow.setPosition(pos);
+                                infoWindow.setContent("location found.");
+                                infoWindow.open(map);
+                                map.setCenter(pos);
+                            },
+                            () => {
+                                handleLocationError(true, infoWindow, map.getCenter()!);
+                            }
+                        );
+                    } else {
+                        // browser does not support geolocation
+                        handleLocationError(false, infoWindow, map.getCenter()!);
+                    }
+                });
+
+                function handleLocationError(
+                    browserHasGeolocation: boolean,
+                    infoWindow: google.maps.InfoWindow,
+                    pos: google.maps.LatLng,
+                ) {
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent(
+                        browserHasGeolocation
+                            ? "error: the geolocation service failed."
+                            : "error: your browser does not support geolocation."
+                    );
+                    infoWindow.open(map);
+                }
+
+                
+
+
 
                 // create marker
                 const marker = new AdvancedMarkerElement({
@@ -49,8 +108,32 @@
                     position: center,
                     title: `${restaurant?.name}`,
                 });
+
+                // auto complete
+                
+                // name input
+                const nameOptions = {
+                    componentRestrictions: { country: 'us'},
+                    fields: ["address_components", "geometry", "icon", "name"],
+                    strictBounds: false,
+                    types: ["cafe", "meal-delivery", "meal-takeaway", "restaurant", "supermarket"],
+                };
+                
+                inputElementName = document.getElementById('inputElementName') as HTMLInputElement;
+                autocompleteName = new google.maps.places.Autocomplete(inputElementName, nameOptions);
+
+                // input
+                const options = {
+                    componentRestrictions: { country: 'us'},
+                    fields: ["address_components", "geometry", "icon", "name"],
+                    strictBounds: false,
+                    types: ["(cities)", "postal_code", "locality", "sublocality"],
+                };
+
                 inputElement = document.getElementById('inputElement') as HTMLInputElement;
-                autocomplete = new google.maps.places.Autocomplete(inputElement, { /* options */});
+                autocomplete = new google.maps.places.Autocomplete(inputElement, options);
+
+
             }
 
             // load the google maps script
@@ -101,6 +184,8 @@
             height: calc(100vh - 6.125rem); /* adjust the value as needed */
         }
     }
+
+
 </style>
 
 <body>

@@ -2,3 +2,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.current-location-btn {
+    background-color: hsl(var(--p));
+    padding: 12px;
+    color: hsl(var(--pc));
+}
