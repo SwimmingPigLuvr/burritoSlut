@@ -7,10 +7,7 @@ import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, EmailAuthProvider } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { writable, type Readable, derived } from "svelte/store";
-// import firebaseui from "firebaseui";
-import * as firebaseui from 'firebaseui';
-import type { MyUser, Restaurant, Address, UserData, BurritoData } from "./types";
-import { subscribe } from 'diagnostics_channel';
+import type { MyUser, RestaurantData, Address, UserData, BurritoData } from "./types";
 
 
 
@@ -36,7 +33,6 @@ export const auth = getAuth(app);
 onAuthStateChanged(auth, user => {
   // check for user status
 });
-export const ui = new firebaseui.auth.AuthUI(auth);
 
 const analytics = getAnalytics(app); 
 

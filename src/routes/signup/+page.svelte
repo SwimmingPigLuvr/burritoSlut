@@ -1,4 +1,5 @@
 <script>
+    export const ssr = false;
 </script>
 
 <body class="bg-white fixed h-screen w-full">

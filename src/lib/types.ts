@@ -14,14 +14,23 @@ export interface Address {
     coordinates: GeoPoint;
 }
 
-export interface Restaurant {
+export interface RestaurantData {
     address: Address;
     name: string;
     menu: BurritoData[];
     fullMenu: MenuItem[];
-    profilePictureURL: string;
+    profilePicture: {
+        url: string,
+        altText: string,
+    };
     reviews: ReviewData[];
     owner: UserData;
+    hours: {
+        [key: string]: {
+            open: string;
+            close: string;
+        };
+    };
 
     // is this part of a chain?
     chain: string | null;
@@ -64,7 +73,7 @@ export interface Badge {
 // 🛎️has todo!
 export interface BurritoData {
     name: string;
-    restaurant: Restaurant;
+    restaurant: RestaurantData;
     imageURLs: string[];
     ingredients: string[];
     price: number;

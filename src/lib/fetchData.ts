@@ -2,7 +2,7 @@ import { collection, getDocs, limit, orderBy, query, startAfter, where } from "f
 import { db } from "./firebase";
 import { error } from "@sveltejs/kit";
 
-import type { Restaurant, Address, UserData, BurritoData } from "./types";
+import type { RestaurantData, Address, UserData, BurritoData } from "./types";
 
 // create functions to fetch data
 // user data
@@ -33,11 +33,11 @@ export async function fetchUserData(username: string): Promise<UserData> {
 
 interface FetchBurritoDataResult {
     burritos: BurritoData[];
-    lastVisible: any;
 }
 
-export async function fetchBurritoData(lastVisible: any, tags: string[], maxLimit: number): Promise<FetchBurritoDataResult> {
-    const collectionRef = collection(db, "burritos");
+export async function fetchRestaurantData(lastVisible: any, tags: string[], maxLimit: number): Promise<RestaurantData[]> {
+    console.log('hello from inside FetchRestaurantData()');
+    const collectionRef = collection(db, "restaurants");
 
     let q;
 
@@ -58,9 +58,9 @@ export async function fetchBurritoData(lastVisible: any, tags: string[], maxLimi
     const snapshot = await getDocs(q);
     const lastVisibleDocument = snapshot.docs[snapshot.docs.length - 1];
 
-    const burritos: BurritoData[] = snapshot.docs.map(doc => doc.data() as BurritoData);
+    const restaurants: RestaurantData[] = snapshot.docs.map(doc => doc.data() as RestaurantData);
 
-    return { burritos, lastVisible: lastVisibleDocument};
+    return restaurants;
 
 
 }

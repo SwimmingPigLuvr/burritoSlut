@@ -1,7 +1,7 @@
 <script lang="ts">
     
     
-    import type { Restaurant, Address } from "$lib/types";
+    import type { RestaurantData, Address } from "$lib/types";
 	import { onDestroy, onMount } from "svelte";
     import { browser } from '$app/environment';
 	import { doc, type GeoPoint } from "firebase/firestore";
@@ -9,9 +9,10 @@
 	import { fly } from "svelte/transition";
 
    
+    export const ssr = false;
     
     export let address: Address;
-    export let restaurant: Restaurant;
+    export let restaurant: RestaurantData;
 
     let map: google.maps.Map, infoWindow: google.maps.InfoWindow;
     

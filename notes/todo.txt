@@ -185,3 +185,50 @@ find out how to style autocomplete
 figure out how to run auto complete config twice so that there are 2 different types of suto complete
 
 
+let's get going with the search results component
+
+components:
+    filters
+        left hand side
+        or condensed version on top for mobile
+    search
+        middle of the page between map and filters
+        components:
+            result
+                info?
+    map
+        components:
+            result
+                photo / title / reviews on marker hover
+
+i need one unified search query that sends the relevant data to each component
+all of the data is in the db
+    i just have to figure out which functions pull it out
+        and i have to figure out how to set search params
+
+
+
+
+
+nov 20 2023
+
+setting up the fetch data functions so that i can search for the burritos from the db
+
+should i pass the data into the search page so that it is available for the maps as well?
+
+yes because the alternative would be to pass data into each one separately so i have to pass the data anyways shrug
+
+instead of having a single prop for the search results and having to switch everything for whether its a burrito search or a restaurant search
+i'll just make burritoresults.svelte and restaurantresults.svelte
+boom way easier
+
+
+for the home page im thinking we should make the slider into a component
+
+that way i can easily code in the fact that a certain slide is active and they can be more customizable
+
+then i can easily add new data into these in the future
+
+
+
+
