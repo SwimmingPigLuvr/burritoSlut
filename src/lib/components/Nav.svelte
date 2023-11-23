@@ -2,8 +2,6 @@
 	import { browser } from "$app/environment";
 	import { onMount } from "svelte";
 	import LogIn from "./LogIn.svelte";
-    
-    export const ssr = false;
 
     let autocomplete;
     let inputElement: HTMLInputElement;
@@ -50,7 +48,7 @@
 </script>
 <div class="z-20 p-[1.25rem] flex fixed top-0 w-full h-36 md:h-24  justify-end items-end md:items-start transform transition-all duration-1000 ease-in-out">
     <!-- logo -->
-    <div class="text-white font-mono font-extrabold -tracking-widest fixed top-[1.75rem] left-[2rem]">
+    <div class="text-primary font-mono font-extrabold -tracking-widest fixed top-[1.75rem] left-[2rem]">
         <!-- BURRITOSLUT -->
         yelp 4 burritos
     </div>

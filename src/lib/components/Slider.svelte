@@ -3,18 +3,18 @@
 	import { backIn, backInOut, backOut, cubicIn, cubicInOut, cubicOut } from "svelte/easing";
 	import { blur, fade, fly, slide } from "svelte/transition";
 
-    export const ssr = false;
-
     let images: string[] = [
-        '/images/mountFuji.jpeg',
+        // '/images/mountFuji.jpeg',
         '/images/moon.jpeg',
+        '/images/fortniteBurrito.jpeg',
         '/images/actionMovie.jpeg',
+        '/images/burritoFortnite.jpeg',
     ];
     let taglines: string[][] = [
         ["No matter where you are or what you're doing, ", "YOU NEED A BURRITO"],
         ["LIFE'S SHORT, ", "EAT MORE BURRITOS"],
         ["No talkie, until I've had my", "hashbrowns and steak breakfast burrito"],
-        ["Daring Journeys", " deserve EPIC BURRITOS"],
+        ["Daring Journeys deserve", "EPIC BURRITOS"],
     ];
 
 
@@ -24,25 +24,30 @@
 <div class="mx-auto w-[100%] h-[100%] carousel carousel-vertical fixed top-0 ">
     {#each images as image, index}
         <div id="item{index}" class="relative carousel-item h-full">
-            <img src={image} alt="slide {index}" class="slider-item w-full h-full">
+
+            <img data-theme="autumn" src={image} alt="slide {index}" class="slider-item w-full h-full">
+
             <!-- tagline -->
-            <div class="z-20 absolute left-10 md:left-[21%] top-36 md:top-[7.5rem] flex flex-col space-y-4">
+            {#if index === index}
+            <div class="transform transition-all duration-1000 ease-in-out pr-4 w-full md:w-[70%] z-20 absolute left-6 sm:left-10 md:left-[20%] top-36 md:top-[7.5rem] flex flex-col space-y-4">
                     <h3 
                         in:fade={{duration: 1000, easing: cubicIn, delay: 500}}
-                        class=" font-mono font-black text-white text-5xl ">{taglines[index][0]}</h3>
+                        class="font-extralight text-accent text-5xl">{taglines[index][0]}</h3>
                     <h3 
                         in:fade={{duration: 1000, easing: cubicIn, delay: 1000}}
-                        class=" font-mono font-black text-white text-[5rem] leading-[1]">{taglines[index][1]}</h3>
+                        class="font-black text-opacity-95 text-white text-[5rem] leading-[1]">{taglines[index][1]}</h3>
             </div>
+            {/if}
         </div> 
     {/each}
     <!-- tint -->
+    <div class="overlay"></div>
     <div class="tint"></div>
     
 </div>
 
 <!-- slider controls -->
-<div class="flex flex-col justify-center py-2 gap-4 fixed top-36 md:top-28 left-4 md:left-[18%]">
+<div class="transform transition-all duration-1000 ease-in-out flex flex-col justify-center py-2 gap-2 fixed top-36 md:top-28 sm:left-4 left-2 md:left-[18%]">
     {#each images as image, index}
         <a 
             href="#item{index}" class="transform transition-all duration-500 ease-in-out rounded-full bg-white opacity-50 hover:opacity-100 w-2 h-20 text-white">.</a> 
@@ -63,8 +68,21 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: hsl(var(--p)); /* Tint color */
-        opacity: 0.2; /* Tint opacity */
+        background: linear-gradient(to top, hsl(var(--p)), rgba(0, 0, 0, 0), hsl(var(--s))); /* Tint color */
+        opacity: 1; /* Tint opacity */
         z-index: 1; /* Ensure it's above the image */
+        mix-blend-mode: normal;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, hsl(var(--p)), hsl(var(--s))); /* Tint color */
+        opacity: 1; /* Tint opacity */
+        z-index: 1; /* Ensure it's above the image */
+        mix-blend-mode: overlay;
     }
 </style>

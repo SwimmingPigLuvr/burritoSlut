@@ -1,16 +1,15 @@
 <script lang="ts">
     import type { RestaurantData, ReviewData } from "$lib/types";
 
-    export const ssr = false;
     export let restaurant: RestaurantData;
+    console.log('photo: ', restaurant?.profilePicture?.url);
+    console.log('alt: ', restaurant?.profilePicture?.alt);
 
     // add hours to restaurant data
     // if restaurant is open then
     let isOpen: boolean = true;
+    let reviewText = 'i love pancakes.';
 
-    let reviews: ReviewData[] = restaurant.reviews;
-    let reviewOne: ReviewData = reviews[0];
-    let reviewText: string = reviewOne.text;
 
     function parseTime(militaryTime: string): string {
         const time = militaryTime.replace(':', '');
@@ -37,11 +36,11 @@
 </script>
 
 
-<div class="relative mt-2 flex space-x-6 items-start border-b-2 border-slate-100 p-6 hover:cursor-pointer hover:shadow-lg font-mono">
+<div class="bg-white relative mt-2 flex space-x-6 items-start border-b-2 border-slate-100 p-6 hover:cursor-pointer hover:shadow-lg font-mono">
     <!-- images from reviews -->
     <div>
         <!-- slideshow -->
-        <img class="search-result-image h-[175px] w-[175px] rounded-[0.23rem]" src={restaurant.profilePicture.url} alt={restaurant.profilePicture.altText}>
+        <img class="search-result-image w-[175px] h-[175px] rounded-[0.23rem]" src={restaurant.profilePicture?.url} alt={restaurant.profilePicture?.alt}>
     </div>
 
 
@@ -68,8 +67,8 @@
         <div class="flex space-x-1 items-center">
 
             <!-- tags -->
-            <button class="text-[0.6rem] -tracking-wide h-[1rem] font-bold px-[0.3rem] rounded-md first-letter:uppercase lowercase hover:bg-primary bg-secondary text-primary-content">Mexican</button>
-            <button class="text-[0.6rem] -tracking-wide h-[1rem] font-bold px-[0.3rem] rounded-md first-letter:uppercase lowercase bg-secondary hover:bg-primary text-primary-content">Breakfast</button>
+            <button class="text-[0.6rem] -tracking-wide h-[1rem] font-bold px-[0.3rem] rounded-md first-letter:uppercase lowercase hover:bg-primary bg-secondary text-secondary-content hover:text-primary-content">Mexican</button>
+            <button class="text-[0.6rem] -tracking-wide h-[1rem] font-bold px-[0.3rem] rounded-md first-letter:uppercase lowercase bg-secondary hover:bg-primary text-secondary-content hover:text-primary-content">Breakfast</button>
 
             <!-- price -->
             <p>💰💰</p>
@@ -80,7 +79,7 @@
 
         <!-- review preview -->
         <div class="text-xs pr-8 group py-2">
-            <p> <span class="text-[1rem]">🗣️</span> <span class="opacity-50 group-hover:opacity-100"> "{reviewText}"</span></p>
+            <p> <span class="text-[1rem]">🗣️</span> <span class="opacity-50 group-hover:opacity-100">"{reviewText}"</span></p>
         </div>
 
         <!-- amenities -->
@@ -91,12 +90,13 @@
         </div>
 
         <!-- start order -->
-        <button class=" lowercase absolute left-2 bottom-2 btn btn-lg btn-circle btn-primary outline-primary-content outline-4 outline-double bg-opacity-100 -tracking-widest ">Start Order</button>
+        <button class="lowercase absolute left-2 bottom-2 btn transform transition-all duration-1000 ease-in-out  sm:btn-lg btn-circle btn-primary outline-primary-content outline-4 outline-double bg-opacity-100 -tracking-widest ">Start Order</button>
     </div>
 </div>
 
 <style>
     .search-result-image {
         object-fit: cover;
+        object-position: center;
     }
 </style>

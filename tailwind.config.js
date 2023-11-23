@@ -35,6 +35,12 @@ export default {
       "retro",
       "business",
       "winter",
+      "emerald",
+      "luxury",
+      "acid",
+      "autumn",
+      "cmyk",
+      "nord",
 
     ],
   },

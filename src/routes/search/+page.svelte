@@ -6,9 +6,17 @@
 	import Search from "$lib/components/Search.svelte";
     import type { BurritoData, MenuItem, RestaurantData, ReviewData, UserData } from "$lib/types";
     import { GeoPoint, Timestamp } from "firebase/firestore";
+	import { theme } from "../../stores/stores.js";
+
+	let themeValue: string;
+
+	theme.subscribe((value) => {
+		themeValue = value;
+	});
 
     export let data;
     console.log('hello from the browser ', {browser});
+    console.log('hello from the data ', {data});
 
     let inputElement: HTMLElement;
 
@@ -127,10 +135,10 @@
 
 <Nav />
 
-<body data-theme="garden" class="bg-white w-screen h-screen">
+<body data-theme={themeValue} class="bg-white w-screen h-screen">
    
     <Filters />
-    <Search data={data}/>
+    <Search data={data.restaurant}/>
     <Map 
         address={pedrosTacosSanClemente.address}
         restaurant={pedrosTacosSanClemente}

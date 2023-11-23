@@ -2,7 +2,14 @@
 	import Nav from "$lib/components/Nav.svelte";
 	import Slider from "$lib/components/Slider.svelte";
     
-    export const ssr = false;
+
+    import { theme } from '../stores/stores';
+	
+	let themeValue: string;
+
+	theme.subscribe((value) => {
+		themeValue = value;
+	});
 
 </script>
 
@@ -10,7 +17,7 @@
 
 
 
-<body class="bg-white w-screen h-screen">
+<body data-theme={themeValue} class="bg-white w-screen h-screen">
     <Slider />
     
    

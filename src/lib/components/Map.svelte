@@ -7,9 +7,6 @@
 	import { doc, type GeoPoint } from "firebase/firestore";
 	import { cubicInOut } from "svelte/easing";
 	import { fly } from "svelte/transition";
-
-   
-    export const ssr = false;
     
     export let address: Address;
     export let restaurant: RestaurantData;

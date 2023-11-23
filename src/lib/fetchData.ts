@@ -1,4 +1,4 @@
-import { collection, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore";
 import { db } from "./firebase";
 import { error } from "@sveltejs/kit";
 
@@ -35,9 +35,15 @@ interface FetchBurritoDataResult {
     burritos: BurritoData[];
 }
 
-export async function fetchRestaurantData(lastVisible: any, tags: string[], maxLimit: number): Promise<RestaurantData[]> {
-    console.log('hello from inside FetchRestaurantData()');
-    const collectionRef = collection(db, "restaurants");
+interface SeachResults {
+    results: BurritoData[] | RestaurantData[];
+}
+
+export async function fetchSearchResults(lastVisible: any, tags: string[], maxLimit: number, mode: string): Promise<SeachResults> {
+    console.log('hello from inside fetchSearchResults()');
+
+
+    const collectionRef = collection(db, mode);
 
     let q;
 
@@ -58,9 +64,53 @@ export async function fetchRestaurantData(lastVisible: any, tags: string[], maxL
     const snapshot = await getDocs(q);
     const lastVisibleDocument = snapshot.docs[snapshot.docs.length - 1];
 
-    const restaurants: RestaurantData[] = snapshot.docs.map(doc => doc.data() as RestaurantData);
+    if (mode === 'restaurants') {
+        const restaurants: RestaurantData[] = snapshot.docs.map(doc => doc.data() as RestaurantData);
+        return { results: restaurants };
+    } else if (mode === 'burritos') {
+        const burritos: BurritoData[] = snapshot.docs.map(doc => doc.data() as BurritoData);
+        return { results: burritos };
+    }
 
-    return restaurants;
+    throw new Error(`Unsupported mode: ${mode}`);
 
+}
 
+export async function fetchRestaurantData(restaurantId: string): Promise<RestaurantData> {
+
+    // fetch restaurant by ID
+    const restaurantRef = doc(db, "restaurants", restaurantId);
+    const restaurantDoc = await getDoc(restaurantRef);
+
+    if (!restaurantDoc.exists()) {
+        throw new Error("uh oh, restaurant not found");
+    }
+
+    const restaurantData = restaurantDoc.data() as RestaurantData;
+
+    // fetch each burrito by ID
+    const burritoIds = restaurantData.menu;
+    const burritoDocs = await Promise.all(
+        burritoIds.map(async (burritoId) => {
+            const burritoRef = doc(db, "burritos", burritoId);
+            return await getDoc(burritoRef);
+        })
+    );
+
+    // map the docs to a list of burritos
+    const burritos = burritoDocs.map(burritoDoc => {
+        if (!burritoDoc.exists()) {
+            throw new Error("uh oh, burrito not found");
+        }
+        return {
+            id: burritoDoc.id,
+            ...(burritoDoc.data() as BurritoData)
+        };
+    });
+
+    // return the restaurant data with menu
+    return {
+        ...restaurantData,
+        menu: burritos,
+    };
 }

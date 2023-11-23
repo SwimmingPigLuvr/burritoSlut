@@ -21,9 +21,9 @@ export interface RestaurantData {
     fullMenu: MenuItem[];
     profilePicture: {
         url: string,
-        altText: string,
+        alt: string,
     };
-    reviews: ReviewData[];
+    reviewIDs: string[];
     owner: UserData;
     hours: {
         [key: string]: {
@@ -34,8 +34,6 @@ export interface RestaurantData {
 
     // is this part of a chain?
     chain: string | null;
-
-    // ads & offers
 
 }
 

@@ -231,4 +231,23 @@ then i can easily add new data into these in the future
 
 
 
+novemeber 22
+
+find out why this is fine
+// fetch restaurant by ID
+    const restaurantRef = doc(db, "restaurants", restaurantId);
+    const restaurantDoc = await getDoc(restaurantRef);
+
+but this isn't
+// fetch each burrito by ID
+    const burritoIds = restaurantData.menu;
+    const burritoDocs = await Promise.all(
+        burritoIds.map(burritoId => {
+            const burritoRef = doc(db, "burritos", burritoId);
+            const burritoDoc = getDoc(burritoRef)
+        })
+    );
+
+
+
 

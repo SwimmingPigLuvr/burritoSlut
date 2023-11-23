@@ -34,7 +34,6 @@ onAuthStateChanged(auth, user => {
   // check for user status
 });
 
-const analytics = getAnalytics(app); 
 
 function userStore() {
   let unsubscribe: () => void;
