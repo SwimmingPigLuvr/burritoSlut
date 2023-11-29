@@ -36,12 +36,13 @@ interface FetchBurritoDataResult {
 }
 
 interface SeachResults {
-    results: BurritoData[] | RestaurantData[];
+    burritos?: BurritoData[];
+    restaurants?: RestaurantData[];
+    lastVisible: any;
 }
 
-export async function fetchSearchResults(lastVisible: any, tags: string[], maxLimit: number, mode: string): Promise<SeachResults> {
+export async function fetchSearchResults(mode: string, maxLimit: number, lastVisible?: any, tags?: string[],): Promise<SeachResults> {
     console.log('hello from inside fetchSearchResults()');
-
 
     const collectionRef = collection(db, mode);
 
@@ -63,17 +64,21 @@ export async function fetchSearchResults(lastVisible: any, tags: string[], maxLi
 
     const snapshot = await getDocs(q);
     const lastVisibleDocument = snapshot.docs[snapshot.docs.length - 1];
+    const lastVisibleSerializable = lastVisibleDocument ? { id: lastVisibleDocument.id } : null;
 
     if (mode === 'restaurants') {
-        const restaurants: RestaurantData[] = snapshot.docs.map(doc => doc.data() as RestaurantData);
-        return { results: restaurants };
+
+        const restaurants = snapshot.docs.map(doc => doc.data() as RestaurantData);
+        return { restaurants, lastVisible: lastVisibleSerializable };
+
     } else if (mode === 'burritos') {
-        const burritos: BurritoData[] = snapshot.docs.map(doc => doc.data() as BurritoData);
-        return { results: burritos };
+
+        const burritos = snapshot.docs.map(doc => doc.data() as BurritoData);
+        return { burritos, lastVisible: lastVisibleSerializable };
+
+    } else {
+        throw new Error(`unsupported mode: ${mode}`);
     }
-
-    throw new Error(`Unsupported mode: ${mode}`);
-
 }
 
 export async function fetchRestaurantData(restaurantId: string): Promise<RestaurantData> {

@@ -2,11 +2,19 @@
 	import { browser } from "$app/environment";
 	import { onMount } from "svelte";
 	import LogIn from "./LogIn.svelte";
+	import { page } from "$app/stores";
+
+    $: currentPath = $page.url.pathname;
 
     let autocomplete;
     let inputElement: HTMLInputElement;
     let autocompleteName;
     let inputElementName: HTMLInputElement;
+
+    let isHomePage: boolean = false;
+    if (currentPath === '/') {
+        isHomePage = true;
+    };
 
     onMount(() => {
         if (browser) {
@@ -46,12 +54,13 @@
     });
 
 </script>
-<div class="z-20 p-[1.25rem] flex fixed top-0 w-full h-36 md:h-24  justify-end items-end md:items-start transform transition-all duration-1000 ease-in-out">
+<div class="{currentPath === '/' ? `bg-none` : `bg-white`} z-20 p-[1.25rem] flex fixed top-0 w-full h-36 md:h-24  justify-end items-end md:items-start transform transition-all duration-1000 ease-in-out">
     <!-- logo -->
-    <div class="text-primary font-mono font-extrabold -tracking-widest fixed top-[1.75rem] left-[2rem]">
+    <a href="/" class="text-primary font-mono font-extrabold -tracking-widest fixed top-[1.75rem] left-[2rem]">
         <!-- BURRITOSLUT -->
         yelp 4 burritos
-    </div>
+
+    </a>
     <!-- searchbar -->
     <div class="bg-white rounded md:-translate-x-[10%] items-center join mx-auto shadow-lg h-10 font-light tracking-widest w-full md:w-[55%]">
         <input bind:this={inputElementName} id="inputElementName" placeholder="breakfast burritos" type="text" class="rounded focus:outline-none tracking-wide text-xs px-4 h-full w-[365px]">

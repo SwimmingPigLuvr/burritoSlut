@@ -7,6 +7,7 @@
     import type { BurritoData, MenuItem, RestaurantData, ReviewData, UserData } from "$lib/types";
     import { GeoPoint, Timestamp } from "firebase/firestore";
 	import { theme } from "../../stores/stores.js";
+	import RestaurantResult from "$lib/components/RestaurantResult.svelte";
 
 	let themeValue: string;
 
@@ -15,8 +16,29 @@
 	});
 
     export let data;
+    
+    let searchResults: {
+        restaurants: RestaurantData[],
+        burritos: BurritoData[],
+        lastVisible: null
+    };
+
+    $: {
+        if (data) {
+            console.log('data is iffed');
+            searchResults = {
+                restaurants: data.res.restaurants ?? [],
+                burritos: data.res.burritos ?? [],
+                lastVisible: data.res.lastVisible,
+            };
+        }
+    }
+
+    
+
     console.log('hello from the browser ', {browser});
     console.log('hello from the data ', {data});
+
 
     let inputElement: HTMLElement;
 
@@ -73,12 +95,15 @@
         fullMenu: fullMenu,
         menu: [],
         name: "Pedro's Tacos",
-        owner: bowser,
-        chain: "Pedro's Tacos",
-        reviews: [firstReview],
+        ownerID: null,
+        chain: {
+            name: "Pedro's Tacos",
+            restaurantIDs: null
+        },
+        reviewIDs: null,
         profilePicture: {
             url: 'https://s3-media0.fl.yelpcdn.com/bphoto/Py7Pfl7vCUpbTeDX9Ennlg/o.jpg',
-            altText: 'pedros tacos logo'
+            alt: 'pedros tacos logo'
         },
         hours: {
             monday: {
@@ -138,7 +163,7 @@
 <body data-theme={themeValue} class="bg-white w-screen h-screen">
    
     <Filters />
-    <Search data={data.restaurant}/>
+    <Search restaurants={searchResults.restaurants} burritos={searchResults.burritos}/>
     <Map 
         address={pedrosTacosSanClemente.address}
         restaurant={pedrosTacosSanClemente}

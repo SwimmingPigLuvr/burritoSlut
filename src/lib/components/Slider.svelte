@@ -29,13 +29,14 @@
 
             <!-- tagline -->
             {#if index === index}
-            <div class="transform transition-all duration-1000 ease-in-out pr-4 w-full md:w-[70%] z-20 absolute left-6 sm:left-10 md:left-[20%] top-36 md:top-[7.5rem] flex flex-col space-y-4">
+            <div class="transform transition-all duration-1000 ease-in-out pr-4 w-full md:w-[50%] z-20 absolute left-6 sm:left-10 md:left-[20%] top-36 md:top-[7.5rem] flex flex-col space-y-4">
                     <h3 
                         in:fade={{duration: 1000, easing: cubicIn, delay: 500}}
-                        class="font-extralight text-accent text-5xl">{taglines[index][0]}</h3>
+                        class="font-black text-accent text-5xl">{taglines[index][0]}</h3>
                     <h3 
                         in:fade={{duration: 1000, easing: cubicIn, delay: 1000}}
                         class="font-black text-opacity-95 text-white text-[5rem] leading-[1]">{taglines[index][1]}</h3>
+                    <a href="/search" class="btn-primary btn font-mono btn-lg w-[20rem]">Find One Near You</a>
             </div>
             {/if}
         </div> 
@@ -68,8 +69,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(to top, hsl(var(--p)), rgba(0, 0, 0, 0), hsl(var(--s))); /* Tint color */
-        opacity: 1; /* Tint opacity */
+        background: linear-gradient(to bottom right, hsl(var(--p)), rgb(0, 0, 0), hsl(var(--s))); /* Tint color */
+        opacity: 0.5; /* Tint opacity */
         z-index: 1; /* Ensure it's above the image */
         mix-blend-mode: normal;
     }
@@ -80,7 +81,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(to top, hsl(var(--p)), hsl(var(--s))); /* Tint color */
+        background: linear-gradient(to right, hsl(var(--p)), hsl(var(--s))); /* Tint color */
         opacity: 1; /* Tint opacity */
         z-index: 1; /* Ensure it's above the image */
         mix-blend-mode: overlay;

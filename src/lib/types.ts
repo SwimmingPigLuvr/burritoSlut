@@ -17,23 +17,27 @@ export interface Address {
 export interface RestaurantData {
     address: Address;
     name: string;
-    menu: BurritoData[];
-    fullMenu: MenuItem[];
+    menu: BurritoData[] | null;
+    fullMenu: MenuItem[] | null;
     profilePicture: {
         url: string,
-        alt: string,
-    };
-    reviewIDs: string[];
-    owner: UserData;
+        alt: string | null,
+    } | null;
+    reviewIDs: string[] | null;
+    ownerID: string | null;
     hours: {
         [key: string]: {
-            open: string;
-            close: string;
+            open: string | null;
+            close: string | null;
         };
-    };
+    } | null;
 
-    // is this part of a chain?
-    chain: string | null;
+    // other restaurants with matching chain.names 
+    // will be added later
+    chain: {
+        name: string,
+        restaurantIDs: string[] | null,
+    } | null;
 
 }
 

@@ -251,3 +251,82 @@ but this isn't
 
 
 
+
+add new restaurant should use autocomplete so that the user doesn't have to do much work
+
+
+
+todo
+
+fetch search results as an array of restaurant ids
+use those to populate search results page
+
+
+
+november 27
+
+the way that i am handling hte data is all out of whack!
+
+what do i need for each componenet and how can i get it there?
+
+components
+    Search
+        needs the search results in an array: RestaurantData[] | BurritoData[]
+    RestaurantResult
+        needs RestaurantData
+
+data that i am returning should easily feed this into the components
+
+    right now the data being passed from the fetchSearchResults is the SearchResults type
+
+        interface SearchResults: {
+            results: BurritoData[] | RestaurantData[],
+            lastVisible: any
+        }
+
+            i don't need to worry about lastVisible at the moment. 
+            i will be passing that back into the fetchSearchResults later
+        
+    
+
+
+
+todo:
+
+create user auth
+change the write setting so that only signed in users can make changes
+fix maps autocomplete
+
+click on pedros result => go to /restaurant/pedros
+click on pedros reviews => go to /restuarant/pedros/reviews
+tap/hover hours => see modal for full hours
+start order button => restuarants native ordering site
+click on tags => start search based on those specific tags
+
+
+things to consider going forward
+
+where will i get my data from?
+
+    google places
+        is a good start
+        has reviews
+        will need to convert into a RestaurantData object in my db
+    
+    customer entry
+        maybe not sure
+        won't look professional if our burrito review site doesn't have a burrito spot
+    
+
+
+todo
+
+restuarant entry
+    when restaurant is saved to the database there should be more default values added so that it will work
+
+data proliferation
+    the review data needs to be pulled right away with the searched restaurants 
+        that way the correct photos can be displayed in the slideshow
+            if the restaurant has a pfp then that will be used
+                if not then we will use the first review photo
+                    if not that then we will use the default
