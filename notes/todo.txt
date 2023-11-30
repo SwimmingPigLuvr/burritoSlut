@@ -330,3 +330,27 @@ data proliferation
             if the restaurant has a pfp then that will be used
                 if not then we will use the first review photo
                     if not that then we will use the default
+
+map
+    add markers to map based on search results
+        need
+            to calculate the geopoint based on the address given?
+            use data from google places to cross reference?
+
+
+let's add tags and let users add tags to restaurants
+
+
+todo let the search reflect in the url
+
+example if i click on the 'most handsome' tag. 
+    any restaurants with that tag will show up
+        and the url should be something like /search#most-handsome
+
+search within certain radius
+sort by closest
+best reviews
+lowest prices
+
+this makes a database call for every restaurant that shows up inside this radius. 
+then sorts it by a certain criteria

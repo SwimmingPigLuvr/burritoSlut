@@ -19,6 +19,7 @@ export interface RestaurantData {
     name: string;
     menu: BurritoData[] | null;
     fullMenu: MenuItem[] | null;
+    tags: string[];
     profilePicture: {
         url: string,
         alt: string | null,

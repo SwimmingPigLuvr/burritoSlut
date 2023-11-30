@@ -53,6 +53,7 @@
 
     let showHoursMsg = false;
     let showHours = false;
+    let tags: string[] = [];
 
     console.log('restaurant', restaurant);
     if (restaurant) {
@@ -82,6 +83,10 @@
             // for day in days
             // open = parseTime(restaurant.hours[day].open)
             // close = parseTime(restaurant.hours[day].close)
+        }
+
+        if (restaurant.tags) {
+            tags = restaurant.tags;
         }
     }
 
@@ -168,8 +173,13 @@
         <div class="flex space-x-1 items-center px-2">
 
             <!-- tags -->
-            <button class="text-[0.6rem] -tracking-wide h-[1rem] font-bold px-[0.3rem] rounded-md first-letter:uppercase lowercase hover:bg-primary bg-secondary text-secondary-content hover:text-primary-content">Mexican</button>
-            <button class="text-[0.6rem] -tracking-wide h-[1rem] font-bold px-[0.3rem] rounded-md first-letter:uppercase lowercase bg-secondary hover:bg-primary text-secondary-content hover:text-primary-content">Breakfast</button>
+            <div class="flex space-x-1">
+                {#if tags.length > 0}
+                    {#each tags as tag}
+                        <button class="text-[0.6rem] -tracking-wide h-[1rem] font-bold px-[0.3rem] rounded-md first-letter:uppercase lowercase hover:bg-primary bg-secondary text-secondary-content hover:text-primary-content">{tag}</button>
+                    {/each}
+                {/if}
+            </div>
 
             <!-- price -->
             <p>💰💰</p>
