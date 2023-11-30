@@ -323,6 +323,11 @@ todo
 
 restuarant entry
     when restaurant is saved to the database there should be more default values added so that it will work
+        let's thinks about what those would be:
+            ill add a new resty then see what happens
+                Need:
+                    restaurant added successfully 
+                    after adding take user to restaurant page
 
 data proliferation
     the review data needs to be pulled right away with the searched restaurants 
@@ -354,3 +359,15 @@ lowest prices
 
 this makes a database call for every restaurant that shows up inside this radius. 
 then sorts it by a certain criteria
+
+
+steps: bind the search input as a url param
+
+so when i search for something it is inserted into the url
+but also if i send a url to someone withthe search in it it will use that as a search argument
+
+
+passing in mexican and breakfast as strings in the tags array but i am getting undefined when i console log the results
+
+
+tags are case sensitive so i need to work some magic to get those to be a little more loose for all of the people who do typos and whatnot

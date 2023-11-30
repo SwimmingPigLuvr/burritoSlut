@@ -41,8 +41,13 @@ interface SeachResults {
     lastVisible: any;
 }
 
-export async function fetchSearchResults(mode: string, maxLimit: number, lastVisible?: any, tags?: string[],): Promise<SeachResults> {
+export async function fetchSearchResults(mode: string, maxLimit: number, tags?: string[], lastVisible?: any ): Promise<SeachResults> {
     console.log('hello from inside fetchSearchResults()');
+    if (tags) {
+        console.log('mode: ', mode, 'tags', tags[0]);
+    }
+    console.log('maxlimit: ', maxLimit);
+
 
     const collectionRef = collection(db, mode);
 

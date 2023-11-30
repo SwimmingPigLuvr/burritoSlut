@@ -1,4 +1,4 @@
-this has everything i need
+google maps api
 https://console.cloud.google.com/google/maps-apis/discover?project=euphoric-axon-404717
 
 advanced markers docs
@@ -7,3 +7,6 @@ https://developers.google.com/maps/documentation/javascript/examples/advanced-ma
 learn the page options
 client side vs. server side rendering
 https://kit.svelte.dev/docs/page-options
+
+superform docs
+https://superforms.rocks/get-started
