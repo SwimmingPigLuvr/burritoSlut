@@ -3,27 +3,34 @@
 	import { onMount } from "svelte";
 	import LogIn from "./LogIn.svelte";
 	import { page } from "$app/stores";
+	import { inputElementStore } from "$lib/stores";
 
     $: currentPath = $page.url.pathname;
 
     let autocomplete;
-    let inputElement: HTMLInputElement;
-    let autocompleteName;
-    let inputElementName: HTMLInputElement;
+    let inputElement: HTMLInputElement | null = null;
 
     let isHomePage: boolean = false;
     if (currentPath === '/') {
         isHomePage = true;
     };
 
+    $: if (inputElement) {
+        inputElementStore.set(inputElement);
+    }
+
     onMount(() => {
+
+        
+
         if (browser) {
+
+            
             // check if google maps script is loaded
             if (window.google && window.google.maps) {
 
                 // init autocomplete
                 inputElement = document.getElementById('inputElement') as HTMLInputElement;
-                inputElementName = document.getElementById('inputElementName') as HTMLInputElement;
 
                 console.log('inputElement: ', inputElement);
 
@@ -42,7 +49,6 @@
                 };
                 
                 autocomplete = new google.maps.places.Autocomplete(inputElement, options);
-                autocompleteName = new google.maps.places.Autocomplete(inputElementName, nameOptions);
 
                 // add listener for place_changed event
             } else {
@@ -63,7 +69,7 @@
     </a>
     <!-- searchbar -->
     <div class="bg-white rounded md:-translate-x-[10%] items-center join mx-auto shadow-lg h-10 font-light tracking-widest w-full md:w-[55%]">
-        <input bind:this={inputElementName} id="inputElementName" placeholder="breakfast burritos" type="text" class="rounded focus:outline-none tracking-wide text-xs px-4 h-full w-[365px]">
+        <input placeholder="breakfast burritos" type="text" class="rounded focus:outline-none tracking-wide text-xs px-4 h-full w-[365px]">
         <p class="scale-y-[2] -translate-y-1 text-slate-100">|</p>
         <input bind:this={inputElement} id="inputElement" placeholder="address, neighborhood, city, state, or zip" type="text" class="focus:outline-none tracking-wide text-xs p-4 w-[365px] h-full">
         <p class="scale-y-[2] -translate-y-1 text-slate-100">|</p>

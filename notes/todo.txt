@@ -371,3 +371,55 @@ passing in mexican and breakfast as strings in the tags array but i am getting u
 
 
 tags are case sensitive so i need to work some magic to get those to be a little more loose for all of the people who do typos and whatnot
+
+
+when the restaurants are queried we should also make sure that the review data is loaded so that a good review can popluate the result
+also we want to allow the users to search the reviews
+
+
+should have a function to calculate the coordinates from the given addy of a resty
+
+im thinking there's a google maps documentation for how they tell us to do this
+
+
+
+restaurant address shouldn't be adde unless it passes the autocomplete that way we can guarentee a location
+o
+
+
+
+
+
+
+december 5 2023
+o
+
+now that i untangled the beast that is simply accessing google maps
+
+i can start to:
+
+1. add autocomplete to the new restaurant page
+    a. require address to be valid before submitting new resty
+
+2. geocode restaurant location before saving to db
+    a. this allows us to start the geoquery process using geohashes
+
+3. optimize my geoquery
+    (users search location to each restaurant within userdefined search radius)
+
+4. add a text query for searches
+
+5. get restaurants from restaurant databases.
+
+
+notes about the api call
+
+we don't need to be setting up a custom api endpoint because it doesn't not matter if the client has our api key
+so that is good because now i know that it's a lot easier to load this dang script.
+
+i just have to be patient in taking everything apart and pay attention to how i put it together
+
+
+
+
+let's go 

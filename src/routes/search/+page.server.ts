@@ -1,15 +1,20 @@
+import { page } from '$app/stores';
 import { fetchRestaurantData, fetchSearchResults } from '$lib/fetchData';
 import type { RestaurantData } from '$lib/types';
 
+let mode: string = 'restaurants';
+let tags: string[] = ['Mexican', 'Breakfast'];
+let maxLimit = 10;
+let lastVisible = '';
 
-export const load = async () => {
-    const mode: string = 'restaurants';
-    const tags: string[] = ['mexican', 'breakfast'];
-    const maxLimit = 10;
-    const lastVisible = '';
+
+export const load = async ({ url }) => {
+    const urlParams = new URLSearchParams(url.search);
+    tags = urlParams.getAll(`tags`); // get tags from urlsearch params
+   
 
     // argument order:
     // mode, maxLimit, tags, lastVisible
     const res = await fetchSearchResults(mode, maxLimit, tags);
-    return { res };
+    return { props: { res } };
 };

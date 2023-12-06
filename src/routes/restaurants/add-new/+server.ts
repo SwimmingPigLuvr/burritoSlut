@@ -1,7 +1,11 @@
 import { db, user, userData, storage } from "$lib/firebase";
 import { doc, setDoc, addDoc, updateDoc, writeBatch, collection } from "firebase/firestore";
+let geocoder: google.maps.Geocoder;
 
 export async function POST({ request }) {
+    console.log('this is from inside the post request');
+
+
     const form = await request.formData();
 
     const restaurantData = {
@@ -13,16 +17,32 @@ export async function POST({ request }) {
             zip: form.get('zip'),
         },
         chain: form.get('chain') || null,
-        // Add other fields as necessary
+        // calulate geopoint from address here
+        // calculate geohash from geopoint here
     };
-    console.log(restaurantData);
+
+    const street = form.get('street') || '';
+    const city = form.get('city') || '';
+    const state = form.get('state') || '';
+    const zip = form.get('zip') || '';
+    const formattedAddress = `${street}, ${city}, ${state}, ${zip}`;
+
+    const location = await geocode({ address: formattedAddress });
+
+    if (location) {
+        console.log('geocoding results:');
+        console.log('lat: ', location.lat, ' lng: ', location.lng);
+        console.log('formatted_address: ', location.formattedAddress);
+    }
+
+    console.log('server.ts*****', restaurantData);
 
     const restuarantsCollectionRef = collection(db, "restaurants");
 
     try {
         const restaurantRef = await addDoc(restuarantsCollectionRef, restaurantData);
 
-        console.log("New restaurant added with ID:", restaurantRef.id);
+        console.log("New restaurant added with ID*********:", restaurantRef.id);
         
         return new Response(JSON.stringify({ success: true, id: restaurantRef.id }), {
             headers: { 'Content-Type': 'application/json' }
@@ -36,3 +56,5 @@ export async function POST({ request }) {
         });
     }
 }
+
+

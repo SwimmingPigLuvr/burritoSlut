@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore";
+import { GeoPoint, collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore";
 import { db } from "./firebase";
 import { error } from "@sveltejs/kit";
 
@@ -35,51 +35,72 @@ interface FetchBurritoDataResult {
     burritos: BurritoData[];
 }
 
-interface SeachResults {
+export interface SearchResults {
     burritos?: BurritoData[];
     restaurants?: RestaurantData[];
     lastVisible: any;
+    location: GeoPoint | null;
 }
 
-export async function fetchSearchResults(mode: string, maxLimit: number, tags?: string[], lastVisible?: any ): Promise<SeachResults> {
+export async function fetchSearchResults(
+    mode: string, 
+    maxLimit: number, 
+    location: GeoPoint, 
+    searchRadius: number,
+    tags?: string[], 
+    lastVisible?: any , 
+): Promise<SearchResults> {
+
     console.log('hello from inside fetchSearchResults()');
+    console.log('executing a search for ', mode, 'wihtin ', searchRadius, 'of ', location);
     if (tags) {
-        console.log('mode: ', mode, 'tags', tags[0]);
+        console.log('tags:')
+        for (const tag of tags) {
+            console.log(tag);
+        }
     }
     console.log('maxlimit: ', maxLimit);
-
 
     const collectionRef = collection(db, mode);
 
     let q;
-
     if (tags && tags.length > 0) {
-        if (lastVisible) {
-            q = query(collectionRef, where("tags", "array-contains-any", tags), orderBy("name"), startAfter(lastVisible), limit(maxLimit));
-        } else {
-            q = query(collectionRef, where("tags", "array-contains-any", tags), orderBy("name"), limit(maxLimit));
-        }
+        q = query(collectionRef, where("tags", "array-contains-any", tags), orderBy("name"));
     } else {
-        if (lastVisible) {
-            q = query(collectionRef, orderBy("name"), startAfter(lastVisible), limit(maxLimit));
-        } else {
-            q = query(collectionRef, orderBy("name"), limit(maxLimit));
-        }
+        q = query(collectionRef, orderBy("name"));
     }
 
+    if (lastVisible) {
+        q = query(q, startAfter(lastVisible));
+    }
+
+    q = query(q, limit(maxLimit));
+
     const snapshot = await getDocs(q);
+    let filteredResults = snapshot.docs.map(doc => doc.data() as RestaurantData | BurritoData);
+
+    if (location && searchRadius) {
+        const start = 'gbsuv';
+        const end = start + '~';
+
+        collectionRef
+            .orderBy('location')
+            .startAt(start)
+            .endAt(end);
+
+    }
     const lastVisibleDocument = snapshot.docs[snapshot.docs.length - 1];
     const lastVisibleSerializable = lastVisibleDocument ? { id: lastVisibleDocument.id } : null;
 
     if (mode === 'restaurants') {
 
-        const restaurants = snapshot.docs.map(doc => doc.data() as RestaurantData);
-        return { restaurants, lastVisible: lastVisibleSerializable };
+        const restaurants = filteredResults as RestaurantData[];
+        return { restaurants, lastVisible: lastVisibleSerializable, location };
 
     } else if (mode === 'burritos') {
 
-        const burritos = snapshot.docs.map(doc => doc.data() as BurritoData);
-        return { burritos, lastVisible: lastVisibleSerializable };
+        const burritos = filteredResults as BurritoData[];
+        return { burritos, lastVisible: lastVisibleSerializable, location };
 
     } else {
         throw new Error(`unsupported mode: ${mode}`);
@@ -124,3 +145,5 @@ export async function fetchRestaurantData(restaurantId: string): Promise<Restaur
         menu: burritos,
     };
 }
+
+

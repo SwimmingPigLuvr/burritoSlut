@@ -10,3 +10,6 @@ https://kit.svelte.dev/docs/page-options
 
 superform docs
 https://superforms.rocks/get-started
+
+how to perform geoqueries with geohashes
+https://cloud.google.com/firestore/docs/solutions/geoqueries

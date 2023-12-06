@@ -1,0 +1,14 @@
+1. add autocomplete to the new restaurant page
+    a. require address to be valid before submitting new resty
+
+2. geocode restaurant location before saving to db
+    a. this allows us to start the geoquery process using geohashes
+
+
+
+2 options
+
+1 use autocomplete in the same way that a search does
+
+or 2
+ waint until the address is impouted then ask user if that s the one that they want to use

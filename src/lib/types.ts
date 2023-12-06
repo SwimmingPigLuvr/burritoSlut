@@ -16,6 +16,13 @@ export interface Address {
 
 export interface RestaurantData {
     address: Address;
+    location: {
+        geoHash: string,
+        coordinates: {
+            lat: string,
+            lng: string
+        }
+    };
     name: string;
     menu: BurritoData[] | null;
     fullMenu: MenuItem[] | null;

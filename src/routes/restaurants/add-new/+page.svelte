@@ -3,6 +3,9 @@
     import type { RestaurantData } from "$lib/types";
 	import { superForm } from "sveltekit-superforms/client";
 	import type { PageData } from "./$types";
+	import { onMount } from "svelte";
+	import { browser } from "$app/environment";
+	import { loadGoogleMapsScript } from "$lib/map";
 
     export let data: PageData;
     const { form } = superForm(data.form, {
@@ -11,6 +14,16 @@
     
 
     let newRestaurant: RestaurantData;
+
+    onMount(async () => {
+        if (browser) {
+            try {
+                await loadGoogleMapsScript();
+            } catch (error) {
+                console.error('Error loading Google Maps:', error);
+            }
+        }
+    });
 
 </script>
 
@@ -65,6 +78,8 @@
     </div>
 
 </div>
+
+
 
 <style>
     .new-restaurant-form-input {
