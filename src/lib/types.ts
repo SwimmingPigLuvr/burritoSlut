@@ -1,6 +1,7 @@
 declare global {
     interface Window {
         initMap: () => void;
+        resolveGoogleMapsPromise: (() => void) | null;
     }
 } 
 

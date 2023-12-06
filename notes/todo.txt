@@ -422,4 +422,8 @@ i just have to be patient in taking everything apart and pay attention to how i 
 
 
 
-let's go 
+okay so i somewhat got the script loading when i need it to!
+
+
+
+no not somewhat. it is loading exactly when i needed it too now i should just fix the autocomplete shit

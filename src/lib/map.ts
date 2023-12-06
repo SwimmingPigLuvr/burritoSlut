@@ -1,4 +1,7 @@
 import type { RestaurantData, BurritoData } from "./types";
+import { PUBLIC_GOOGLE_MAPS_API_KEY } from "$env/static/public";
+import { browser } from "$app/environment";
+
 
 	let map: google.maps.Map; 
     let infoWindow: google.maps.InfoWindow;
@@ -135,25 +138,31 @@ import type { RestaurantData, BurritoData } from "./types";
         // autocomplete = new google.maps.places.Autocomplete(inputElement, options);
     }
 
-    function loadGoogleMapsScript() {
-        return new Promise((resolve, reject) => {
+    // Store the resolve function of the promise in the window object to access it later
+    let resolveScriptPromise: () => void;
+
+    export function loadGoogleMapsScript() {
+        return new Promise<void>((resolve, reject) => {
+            if (!browser) {
+                resolve();
+                return;
+            }
             if (typeof google === 'undefined') {
                 // Create a new script element
                 const script = document.createElement('script');
                 // Set the source to the Google Maps API, including your API key and the callback function
-                script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=resolveGoogleMapsPromise`;
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${PUBLIC_GOOGLE_MAPS_API_KEY}&callback=resolveGoogleMapsPromise`;
                 script.async = true;
                 script.defer = true;
                 // Append the script to the document head
                 document.head.appendChild(script);
                 // This global function will be called when the script is loaded
-                window.resolveGoogleMapsPromise = () => {
-                    resolve();
-                    // Clean up the global function after it's called
-                    window.resolveGoogleMapsPromise = null;
-                };
-                // Handle any errors that occur while loading the script
-                script.onerror = reject;
+                (window as any)['resolveGoogleMapsPromise'] = () => {
+                    if (resolveScriptPromise) {
+                        resolveScriptPromise();
+                    }
+                    (window as any)['resolveGoogleMapsPromise'] = undefined;
+                }
             } else {
                 // If the google object is already defined, resolve immediately
                 resolve();
