@@ -3,61 +3,62 @@
 	import { onMount } from "svelte";
 	import LogIn from "./LogIn.svelte";
 	import { page } from "$app/stores";
-	import { inputElementStore } from "$lib/stores";
 
+    // get current url as var
     $: currentPath = $page.url.pathname;
-
-    let autocomplete;
-    let inputElement: HTMLInputElement | null = null;
-
+    
+    // homepage navbar will be transparent
     let isHomePage: boolean = false;
     if (currentPath === '/') {
         isHomePage = true;
     };
 
-    $: if (inputElement) {
-        inputElementStore.set(inputElement);
-    }
+    let nameAutocomplete;
+    let locationAutocomplete;
 
-    onMount(() => {
+    // init input elements
+    let nameInput: HTMLInputElement;
+    let locationInput: HTMLInputElement ;
 
-        
 
+    // look into why we had the input element as a store in the first place
+    // $: if (inputElement) {
+    //     inputElementStore.set(inputElement);
+    // }
+
+    onMount(async () => {
         if (browser) {
+            const center = { lat: 50.064192, lng: -130.605469};
+            const defaultBounds = {
+                north: center.lat + 0.1,
+                south: center.lat - 0.1,
+                east: center.lng + 0.1,
+                west: center.lng - 0.1,
+            };
 
-            
-            // check if google maps script is loaded
-            if (window.google && window.google.maps) {
+            const nameOptions = {
+                componentRestrictions: { country: 'us'},
+                fields: ["address_components", "geometry", "icon", "name"],
+                strictBounds: false,
+                types: ["cafe", "meal-delivery", "meal-takeaway", "restaurant", "supermarket"],
+            };
 
-                // init autocomplete
-                inputElement = document.getElementById('inputElement') as HTMLInputElement;
+            const locationOptions = {
+                componentRestrictions: { country: 'us'},
+                fields: ["address_components", "geometry", "icon", "name"],
+                strictBounds: false,
+                bounds: defaultBounds,
+                types: ["(cities)", "postal_code", "locality", "sublocality"],
+            };
 
-                console.log('inputElement: ', inputElement);
+            nameAutocomplete = new google.maps.places.Autocomplete(nameInput, nameOptions);
+            locationAutocomplete = new google.maps.places.Autocomplete(locationInput, locationOptions);
 
-                const nameOptions = {
-                    componentRestrictions: { country: 'us'},
-                    fields: ["address_components", "geometry", "icon", "name"],
-                    strictBounds: false,
-                    types: ["cafe", "meal-delivery", "meal-takeaway", "restaurant", "supermarket"],
-                };
 
-                const options = {
-                    componentRestrictions: { country: 'us'},
-                    fields: ["address_components", "geometry", "icon", "name"],
-                    strictBounds: false,
-                    types: ["(cities)", "postal_code", "locality", "sublocality"],
-                };
-                
-                autocomplete = new google.maps.places.Autocomplete(inputElement, options);
-
-                // add listener for place_changed event
-            } else {
-                // handle google maps script not being loaded
-                console.log('google maps script not loaded');
-                // load the script of listen to see if it's loaded
-            }
         }
     });
+
+    
 
 </script>
 <div class="{currentPath === '/' ? `bg-none` : `bg-white`} z-20 p-[1.25rem] flex fixed top-0 w-full h-36 md:h-24  justify-end items-end md:items-start transform transition-all duration-1000 ease-in-out">
@@ -69,9 +70,15 @@
     </a>
     <!-- searchbar -->
     <div class="bg-white rounded md:-translate-x-[10%] items-center join mx-auto shadow-lg h-10 font-light tracking-widest w-full md:w-[55%]">
-        <input placeholder="breakfast burritos" type="text" class="rounded focus:outline-none tracking-wide text-xs px-4 h-full w-[365px]">
+
+        <!-- left search box -->
+        <input bind:this={nameInput} id="nameInputElement" placeholder="breakfast burritos" type="text" class="rounded focus:outline-none tracking-wide text-xs px-4 h-full w-[365px]">
+
         <p class="scale-y-[2] -translate-y-1 text-slate-100">|</p>
-        <input bind:this={inputElement} id="inputElement" placeholder="address, neighborhood, city, state, or zip" type="text" class="focus:outline-none tracking-wide text-xs p-4 w-[365px] h-full">
+
+        <!-- right search box -->
+        <input bind:this={locationInput} id="locationInputElement" placeholder="address, neighborhood, city, state, or zip" type="text" class="focus:outline-none tracking-wide text-xs p-4 w-[365px] h-full">
+
         <p class="scale-y-[2] -translate-y-1 text-slate-100">|</p>
         <button class="px-4 w-14 h-full items-center text-2xl hover:rotate-[30deg] transform transition-all duration-500 ease-in-out">🔍</button>
     </div>

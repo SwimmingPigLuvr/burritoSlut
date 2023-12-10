@@ -5,9 +5,7 @@
 	import Nav from "$lib/components/Nav.svelte";
 	import Search from "$lib/components/Search.svelte";
     import type { BurritoData, MenuItem, RestaurantData, Address, ReviewData, UserData } from "$lib/types";
-    import { GeoPoint, Timestamp } from "firebase/firestore";
 	import { theme } from "../../stores/stores.js";
-	import RestaurantResult from "$lib/components/RestaurantResult.svelte";
     import type { SearchResults } from "$lib/fetchData";
 
 	let themeValue: string;
@@ -19,31 +17,27 @@
     // export let data;
     export let data: SearchResults;
     
-    let searchResults: {
-        restaurants: RestaurantData[],
-        burritos: BurritoData[],
-        lastVisible: null
+    // Initialize searchResults with default values
+    let searchResults: SearchResults = {
+        restaurants: data?.restaurants ?? [],
+        burritos: data?.burritos ?? [],
+        lastVisible: data?.lastVisible
     };
 
-    $: {
-        if (data) {
-            console.log('data: ', data);
-            searchResults = {
-                restaurants: data.restaurants ?? [],
-                burritos: data.burritos ?? [],
-                lastVisible: data.lastVisible,
-            };
-        }
+    $: if (data) {
+        searchResults = {
+            restaurants: data.restaurants ?? [],
+            burritos: data.burritos ?? [],
+            lastVisible: data.lastVisible,
+        };
     }
 
-    
-
-    console.log('hello from the browser ', {browser});
-    console.log('hello from the data ', {data});
-
-
-    
-
+    // Reactively log the first restaurant, if available
+    $: if (searchResults && searchResults.restaurants && searchResults.restaurants.length > 0) {
+        console.log('from page.svelte: ', searchResults.restaurants[0]);
+    } else {
+        console.log('No restaurants found');
+    }
     
 </script>
 

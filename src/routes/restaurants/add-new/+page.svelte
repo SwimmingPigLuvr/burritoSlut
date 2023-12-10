@@ -16,9 +16,10 @@
     let newRestaurant: RestaurantData;
 
     onMount(async () => {
-        if (browser) {
+        if (browser && typeof google === 'undefined') {
             try {
-                await loadGoogleMapsScript();
+                // await loadGoogleMapsScript();
+                console.log('restys/add-new: browser and google undefined');
             } catch (error) {
                 console.error('Error loading Google Maps:', error);
             }

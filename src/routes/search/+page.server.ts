@@ -4,7 +4,7 @@ import type { RestaurantData } from '$lib/types';
 
 let mode: string = 'restaurants';
 let tags: string[] = ['Mexican', 'Breakfast'];
-let maxLimit = 10;
+let maxLimit = 30;
 let lastVisible = '';
 
 
@@ -15,6 +15,6 @@ export const load = async ({ url }) => {
 
     // argument order:
     // mode, maxLimit, tags, lastVisible
-    const res = await fetchSearchResults(mode, maxLimit, tags);
+    const res = await fetchSearchResults(mode, maxLimit, tags, lastVisible);
     return { props: { res } };
 };

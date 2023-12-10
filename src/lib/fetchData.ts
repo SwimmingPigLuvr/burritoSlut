@@ -36,23 +36,23 @@ interface FetchBurritoDataResult {
 }
 
 export interface SearchResults {
-    burritos?: BurritoData[];
-    restaurants?: RestaurantData[];
+    burritos: BurritoData[];
+    restaurants: RestaurantData[];
     lastVisible: any;
-    location: GeoPoint | null;
+    // location: GeoPoint | null;
 }
 
 export async function fetchSearchResults(
     mode: string, 
     maxLimit: number, 
-    location: GeoPoint, 
-    searchRadius: number,
+    // location: GeoPoint, 
+    // searchRadius: number,
     tags?: string[], 
     lastVisible?: any , 
 ): Promise<SearchResults> {
 
     console.log('hello from inside fetchSearchResults()');
-    console.log('executing a search for ', mode, 'wihtin ', searchRadius, 'of ', location);
+    // console.log('executing a search for ', mode, 'wihtin ', searchRadius, 'of ', location);
     if (tags) {
         console.log('tags:')
         for (const tag of tags) {
@@ -79,28 +79,34 @@ export async function fetchSearchResults(
     const snapshot = await getDocs(q);
     let filteredResults = snapshot.docs.map(doc => doc.data() as RestaurantData | BurritoData);
 
-    if (location && searchRadius) {
-        const start = 'gbsuv';
-        const end = start + '~';
+    // if (location && searchRadius) {
+    //     const start = 'gbsuv';
+    //     const end = start + '~';
 
-        collectionRef
-            .orderBy('location')
-            .startAt(start)
-            .endAt(end);
-
-    }
+    //     collectionRef
+    //         .orderBy('location')
+    //         .startAt(start)
+    //         .endAt(end);
+    // }
     const lastVisibleDocument = snapshot.docs[snapshot.docs.length - 1];
     const lastVisibleSerializable = lastVisibleDocument ? { id: lastVisibleDocument.id } : null;
 
+    let restaurants: RestaurantData[] = [];
+    let burritos: BurritoData[] = [];
+
     if (mode === 'restaurants') {
 
-        const restaurants = filteredResults as RestaurantData[];
-        return { restaurants, lastVisible: lastVisibleSerializable, location };
+        restaurants = filteredResults as RestaurantData[];
+
+        // check first resty
+        console.log(restaurants[0].name);
+
+        return { restaurants, burritos, lastVisible: lastVisibleSerializable, /*location*/ };
 
     } else if (mode === 'burritos') {
 
-        const burritos = filteredResults as BurritoData[];
-        return { burritos, lastVisible: lastVisibleSerializable, location };
+        burritos = filteredResults as BurritoData[];
+        return { restaurants, burritos, lastVisible: lastVisibleSerializable, /*location*/ };
 
     } else {
         throw new Error(`unsupported mode: ${mode}`);

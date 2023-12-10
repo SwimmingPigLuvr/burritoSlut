@@ -7,7 +7,6 @@
 	import { doc, type GeoPoint } from "firebase/firestore";
 	import { cubicInOut } from "svelte/easing";
 	import { fly } from "svelte/transition";
-	import { initMap, loadGoogleMapsScript } from "$lib/map";
 
     export let restaurants: RestaurantData[];
     export let burritos: BurritoData[];
@@ -23,22 +22,76 @@
 
     // center should be the center of the search that the user determines
     
+    let map: google.maps.Map; 
+    let infoWindow: google.maps.InfoWindow;
 
-    
+	let defaultCoordinates = {
+        lat: 33.60892483696627,
+        lng: -117.93045220733654,
+    }
 
+    const mapOptions = {
+        center: defaultCoordinates,
+        zoom: 16,
+        mapId: 'c9dc6f1b5dba17d5',
+        fullscreenControl: false,
+    }
 
     onMount(async () => {
-        if (typeof google !== 'undefined') {
-            await initMap(restaurants, burritos); // Call initMap after the script is loaded
-        } else {
-            try {
-                await loadGoogleMapsScript();
-                if (typeof google !== 'undefined') {
-                    await initMap(restaurants, burritos);
-                }
-            } catch (error) {
-                console.error('that does not work i guess');
+        if (browser) {
+            async function initMap(): Promise<void> {
+
+                // request needed libraries
+                // @ts-ignore
+                const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
+                const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
+
+                map = new Map(document.getElementById('map') as HTMLElement, mapOptions);
+                infoWindow = new google.maps.InfoWindow();
+
+                // create markers for restaurants and burritos
+                restaurants.forEach(restaurant => {
+                    if (restaurant.address && restaurant.address.coordinates) {
+                        const marker = new AdvancedMarkerElement({
+                            position: {
+                                lat: restaurant.address.coordinates.latitude,
+                                lng: restaurant.address.coordinates.longitude,
+                            },
+                            map: map,
+                            title: restaurant.name,
+                        });
+                        const infoWindow = new google.maps.InfoWindow({
+                            content: `<div><strong>${restaurant.name}</strong><br>${restaurant.address.street}, ${restaurant.address.city}</div>`,
+                        });
+                        marker.addListener("click", () => {
+                            infoWindow.open(map, marker);
+                        });
+                    }
+                });
+
+                burritos.forEach(burrito => {
+                    if (burrito.restaurant.address && burrito.restaurant.address.coordinates) {
+                        const marker = new AdvancedMarkerElement({
+                            position: {
+                                lat: burrito.restaurant.address.coordinates.latitude,
+                                lng: burrito.restaurant.address.coordinates.latitude,
+                            },
+                            map: map,
+                            title: burrito.restaurant.name,
+                        });
+                        const infoWindow = new google.maps.InfoWindow({
+                            content: `<div><strong>${burrito.restaurant.name}</strong><br>${burrito.restaurant.address.street}, ${burrito.restaurant.address.city}`,
+                        });
+                        marker.addListener("click", () => {
+                            infoWindow.open(map, marker);
+                        });
+                    }
+                });
+	
             }
+
+            initMap();
+        
         }
     });
 

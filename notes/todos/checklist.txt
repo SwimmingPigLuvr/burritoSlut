@@ -1,0 +1,7 @@
+user auth
+    google / email sign in
+    admin sign in
+burrito rating criteria 
+user review page
+geoqueries
+get data from 3rd party database
