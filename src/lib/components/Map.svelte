@@ -8,8 +8,8 @@
 	import { cubicInOut } from "svelte/easing";
 	import { fly } from "svelte/transition";
 
-    export let restaurants: RestaurantData[];
-    export let burritos: BurritoData[];
+    export let restaurants: RestaurantData[] = [];
+    export let burritos: BurritoData[] = [];
 
     
     

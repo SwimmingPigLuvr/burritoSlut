@@ -14,31 +14,22 @@
 		themeValue = value;
 	});
 
-    // export let data;
-    export let data: SearchResults;
-    
-    // Initialize searchResults with default values
+    export let data;
+
     let searchResults: SearchResults = {
-        restaurants: data?.restaurants ?? [],
-        burritos: data?.burritos ?? [],
-        lastVisible: data?.lastVisible
+        restaurants: [],
+        burritos: [],
+        lastVisible: null
     };
 
-    $: if (data) {
+    $: if (data.res) {
         searchResults = {
-            restaurants: data.restaurants ?? [],
-            burritos: data.burritos ?? [],
-            lastVisible: data.lastVisible,
+            restaurants: data.res.restaurants,
+            burritos: data.res.burritos,
+            lastVisible: data.res.lastVisible
         };
     }
 
-    // Reactively log the first restaurant, if available
-    $: if (searchResults && searchResults.restaurants && searchResults.restaurants.length > 0) {
-        console.log('from page.svelte: ', searchResults.restaurants[0]);
-    } else {
-        console.log('No restaurants found');
-    }
-    
 </script>
 
 <Nav />

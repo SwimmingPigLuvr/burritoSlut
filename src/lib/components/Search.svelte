@@ -3,8 +3,8 @@
 	import BurritoResult from "./BurritoResult.svelte";
 	import RestaurantResult from "./RestaurantResult.svelte";
     
-    export let restaurants: RestaurantData[];
-    export let burritos: BurritoData[];
+    export let restaurants: RestaurantData[] = [];
+    export let burritos: BurritoData[] = [];
 
     let i: number = 1;
 
