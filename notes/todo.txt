@@ -427,3 +427,14 @@ okay so i somewhat got the script loading when i need it to!
 
 
 no not somewhat. it is loading exactly when i needed it too now i should just fix the autocomplete shit
+o
+
+
+dec 10 2023
+
+goal
+
+center the map on the first search result
+
+add markers for each result
+    make test marker to make sure it works

@@ -3,8 +3,8 @@ import { fetchRestaurantData, fetchSearchResults } from '$lib/fetchData';
 import type { RestaurantData } from '$lib/types';
 
 let mode: string = 'restaurants';
-let tags: string[] = [];
-// let tags: string[] = ['Mexican', 'Breakfast'];
+// let tags: string[] = [];
+let tags: string[] = ['Mexican', 'Breakfast'];
 let maxLimit = 30;
 let lastVisible = '';
 

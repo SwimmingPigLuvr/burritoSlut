@@ -11,7 +11,6 @@ export interface Address {
     state: string;
     street: string;
     zip_code: number;
-    coordinates: GeoPoint;
 }
 
 export interface RestaurantData {

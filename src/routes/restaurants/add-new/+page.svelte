@@ -5,7 +5,6 @@
 	import type { PageData } from "./$types";
 	import { onMount } from "svelte";
 	import { browser } from "$app/environment";
-	import { loadGoogleMapsScript } from "$lib/map";
 
     export let data: PageData;
     const { form } = superForm(data.form, {
@@ -15,16 +14,6 @@
 
     let newRestaurant: RestaurantData;
 
-    onMount(async () => {
-        if (browser && typeof google === 'undefined') {
-            try {
-                // await loadGoogleMapsScript();
-                console.log('restys/add-new: browser and google undefined');
-            } catch (error) {
-                console.error('Error loading Google Maps:', error);
-            }
-        }
-    });
 
 </script>
 

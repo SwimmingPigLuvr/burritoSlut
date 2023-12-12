@@ -1,0 +1,6 @@
+create custom markers
+create info windows
+get search location and use that as the center
+search by query
+finish resty form
+increase typing speed

@@ -235,7 +235,7 @@
         </div>
 
         <!-- start order -->
-        <button class="btn sm:btn-lg btn-circle btn-primary hover:scale-105 active:outline-none lowercase absolute left-2 bottom-2  transform transition-all duration-300 ease-out outline-primary-content outline-4 outline-double bg-opacity-100 -tracking-widest ">Start Order</button>
+        <button class="btn btn-circle btn-primary hover:scale-105 active:outline-none lowercase absolute right-4 bottom-4  transform transition-all duration-300 ease-out outline-primary-content outline-4 outline-double bg-opacity-100 -tracking-widest ">Start Order</button>
     </div>
 </div>
 

@@ -25,21 +25,33 @@
     let map: google.maps.Map; 
     let infoWindow: google.maps.InfoWindow;
 
-	let defaultCoordinates = {
-        lat: 33.60892483696627,
-        lng: -117.93045220733654,
+    let searchCoordinates = {
+        lat: 39.41452055927911,
+        lng: -117.60016706097267,
     }
 
-    const mapOptions = {
-        center: defaultCoordinates,
-        zoom: 16,
-        mapId: 'c9dc6f1b5dba17d5',
-        fullscreenControl: false,
+    const lat = restaurants[0].location.coordinates.lat;
+    const lng = restaurants[0].location.coordinates.lng;
+
+    if (restaurants[0]) {
+        searchCoordinates = {
+            lat: parseFloat(lat),
+            lng: parseFloat(lng),
+        }
     }
+
+	
 
     onMount(async () => {
         if (browser) {
             async function initMap(): Promise<void> {
+
+                let mapOptions = {
+                    center: searchCoordinates,
+                    zoom: 13.5,
+                    mapId: 'c9dc6f1b5dba17d5',
+                    fullscreenControl: false,
+                }
 
                 // request needed libraries
                 // @ts-ignore
@@ -51,15 +63,37 @@
 
                 // create markers for restaurants and burritos
                 restaurants.forEach(restaurant => {
-                    if (restaurant.address && restaurant.address.coordinates) {
+                    if (restaurant.location && restaurant.location.coordinates) {
+                        const lat = restaurant.location.coordinates.lat;
+                        const lng = restaurant.location.coordinates.lng;
+                        // const image = {
+                        //     url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+                        //     size: new google.maps.Size(20,32),
+                        //     origin: new google.maps.Point(0, 0),
+                        //     anchor: new google.maps.Point(0, 32),
+                        // };
+
+                        const image = document.createElement('img');
+                        image.src = 'https://images.blur.io/_blur-prod/0xd3d9ddd0cf0a5f0bfb8f7fceae075df687eaebab/7339-d13bfbe906080f7a?w=1024';
+                        image.width = 30;
+                        image.height = 30;
+
+                        const shape = {
+                            coords: [1, 1, 1, 20, 18, 20, 18, 1],
+                            type: "poly",
+                        };
+
                         const marker = new AdvancedMarkerElement({
                             position: {
-                                lat: restaurant.address.coordinates.latitude,
-                                lng: restaurant.address.coordinates.longitude,
+                                lat: parseFloat(lat),
+                                lng: parseFloat(lng),
                             },
-                            map: map,
                             title: restaurant.name,
+                            map,
+                            content: image,
+                            zIndex: 1,
                         });
+                        console.log('fortnite', parseFloat(lng), parseFloat(lat));
                         const infoWindow = new google.maps.InfoWindow({
                             content: `<div><strong>${restaurant.name}</strong><br>${restaurant.address.street}, ${restaurant.address.city}</div>`,
                         });
@@ -70,11 +104,11 @@
                 });
 
                 burritos.forEach(burrito => {
-                    if (burrito.restaurant.address && burrito.restaurant.address.coordinates) {
+                    if (burrito.restaurant.location && burrito.restaurant.location.coordinates) {
                         const marker = new AdvancedMarkerElement({
                             position: {
-                                lat: burrito.restaurant.address.coordinates.latitude,
-                                lng: burrito.restaurant.address.coordinates.latitude,
+                                lat: parseFloat(burrito.restaurant.location.coordinates.lat),
+                                lng: parseFloat(burrito.restaurant.location.coordinates.lng),
                             },
                             map: map,
                             title: burrito.restaurant.name,
@@ -88,6 +122,21 @@
                     }
                 });
 	
+            }
+
+            function setMarkers(map: google.maps.Map) {
+                // add markers to the map
+
+                
+
+                for (let i = 0; i < restaurants.length; i++) {
+                    const restaurant = restaurants[i];
+
+                    new google.maps.Marker({
+                        position: { lat: restaurant.location.coordinates.lat, lng: lng},
+                        
+                    });
+                }
             }
 
             initMap();
