@@ -1,10 +1,116 @@
 <script lang='ts'>
+
+// https://developers.google.com/maps/documentation /javascript/examples/places-autocomplete-addressform
+
 	import { enhance } from "$app/forms";
     import type { RestaurantData } from "$lib/types";
 	import { superForm } from "sveltekit-superforms/client";
 	import type { PageData } from "./$types";
 	import { onMount } from "svelte";
 	import { browser } from "$app/environment";
+	import { writable } from "svelte/store";
+
+    // form store
+    // let initialFormState = {
+    //     name: '',
+    //     chain: '',
+    //     address: {
+    //         street: '',
+    //         city: '',
+    //         state: '',
+    //         zip: '',
+    //     }
+    // };
+
+    // const form = writable(initialFormState);
+
+    let autocomplete: google.maps.places.Autocomplete;
+    let streetField: HTMLInputElement;
+    let streetLine2Field: HTMLInputElement;
+    let cityField: HTMLInputElement;
+    let stateField: HTMLInputElement;
+    let zipField: HTMLInputElement;
+
+    function initAutocomplete() {
+        streetField = document.querySelector("#street_address") as HTMLInputElement;
+        streetLine2Field = document.querySelector("address_line_2") as HTMLInputElement;
+        cityField = document.querySelector("#city") as HTMLInputElement;
+        stateField = document.querySelector("#state") as HTMLInputElement;
+        zipField = document.querySelector("#zip") as HTMLInputElement;
+
+        autocomplete = new google.maps.places.Autocomplete(streetField, {
+            componentRestrictions: { country: 'us'},
+            fields: ["address_components", "geometry"],
+            types: ["address"],
+        });
+        streetField.focus();
+        autocomplete.addListener("place_changed", fillInAddress);
+    }
+
+    function fillInAddress() {
+        const place = autocomplete.getPlace();
+        let street = '';
+        let streetLine2 = '';
+        let city = '';
+        let state = '';
+        let zip = '';
+
+        for (const component of place.address_components as google.maps.GeocoderAddressComponent[]) {
+            // @ts-ignore remove once typings fixed
+            const componentType = component.types[0];
+
+            switch (componentType) {
+                case "street_number": {
+                    street = `${component.long_name} ${street}`;
+                    break;
+                }
+
+                case "route": {
+                    street += component.short_name;
+                    break;
+                }
+
+                case "postal_code": {
+                    zip = `${component.long_name}${zip}`;
+                    break;
+                }
+
+                case "postal_code_suffix": {
+                    zip = `${zip}-${component.long_name}`;
+                    break;
+                }
+
+                case "locality":
+                    (document.querySelector("#locality") as HTMLInputElement).value =
+                        component.long_name;
+                        break;
+
+                case "administrative_area_level_1": {
+                    (document.querySelector("#state") as HTMLInputElement).value =
+                    component.short_name;
+                    break;
+                }
+
+                case "country":
+                    (document.querySelector("#country") as HTMLInputElement).value =
+                    component.long_name;
+                    break;
+            }
+        }
+
+        streetField.value = street;
+        cityField.value = city;
+        stateField.value = state;
+        zipField.value = zip;
+
+        streetLine2Field.focus();
+    }
+
+    onMount(() => {
+        if (browser) {
+            window.initAutocomplete = initAutocomplete;
+        }
+    })
 
     export let data: PageData;
     const { form } = superForm(data.form, {
@@ -42,8 +148,13 @@
             
             <h3 class="text-xl pt-6">Address</h3>
             <div class="flex flex-col">
-                <label  for="street">Street</label>
-                <input bind:value={$form.address.street} class="new-restaurant-form-input" type="text" id="street" name="street" placeholder="Street Address" required>
+                <label  for="street_address">Street Adress</label>
+                <input bind:value={$form.address.street} class="new-restaurant-form-input" type="text" id="street_address" name="street_address" placeholder="Street Address" required>
+            </div>
+
+            <div class="flex flex-col">
+                <label  for="address_line_2">Address Line 2</label>
+                <input bind:value={$form.address.streetLine2} class="new-restaurant-form-input" type="text" id="address_line_2" name="address_line_2" placeholder="Apartment, Suite, etc..." required>
             </div>
 
             <div class="flex flex-col">
@@ -74,7 +185,8 @@
 <style>
     .new-restaurant-form-input {
         height: 37px;
-        padding: 4px 8px;
+        padding: 5px 2px 0px 10px;
         font-family: monospace;
+        border-radius: 5px;
     }
 </style>

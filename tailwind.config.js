@@ -2,7 +2,15 @@
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        hvnter: ["HVNTER"],
+        'avenir-bold': ["AVENIRNEXT-BOLD"],
+        'avenir-demi': ["AVENIRNEXT-DEMIBOLD"],
+        'avenir-medium': ["AVENIRNEXT-MEDIUM"],
+        'avenir-regular': ["AVENIRNEXT-REGULAR"],
+      },
+    },
   },
   daisyui: {
     themes: [

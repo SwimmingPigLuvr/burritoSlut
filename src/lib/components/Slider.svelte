@@ -11,6 +11,8 @@
         '/images/burritoFortnite.jpeg',
     ];
     let taglines: string[][] = [
+        // ["Satisfy your cravings, ", "find the spiciest burritos in town"],
+        // ["Find hot local burritos, ", "near you"],
         ["No matter where you are or what you're doing, ", "YOU NEED A BURRITO"],
         ["LIFE'S SHORT, ", "EAT MORE BURRITOS"],
         ["No talkie, until I've had my", "hashbrowns and steak breakfast burrito"],
@@ -25,17 +27,17 @@
     {#each images as image, index}
         <div id="item{index}" class="relative carousel-item h-full">
 
-            <img data-theme="autumn" src={image} alt="slide {index}" class="slider-item w-full h-full">
+            <img src={image} alt="slide {index}" class="slider-item w-full h-full">
 
             <!-- tagline -->
             {#if index === index}
             <div class="transform transition-all duration-1000 ease-in-out pr-4 w-full md:w-[50%] z-20 absolute left-6 sm:left-10 md:left-[20%] top-36 md:top-[7.5rem] flex flex-col space-y-4">
                     <h3 
                         in:fade={{duration: 1000, easing: cubicIn, delay: 500}}
-                        class="font-black text-accent text-5xl">{taglines[index][0]}</h3>
+                        class="font-black text-primary text-5xl">{taglines[index][0]}</h3>
                     <h3 
                         in:fade={{duration: 1000, easing: cubicIn, delay: 1000}}
-                        class="font-black text-opacity-95 text-white text-[5rem] leading-[1]">{taglines[index][1]}</h3>
+                        class="font-black uppercase text-primary-content text-[5rem] leading-[1]">{taglines[index][1]}</h3>
                     <a href="/search" class="btn-primary btn font-mono btn-lg w-[20rem]">Find One Near You</a>
             </div>
             {/if}

@@ -1,6 +1,7 @@
 declare global {
     interface Window {
         initMap: () => void;
+        initAutocomplete: () => void;
     }
 } 
 
@@ -10,6 +11,7 @@ export interface Address {
     city: string;
     state: string;
     street: string;
+    streetLine2: string;
     zip_code: number;
 }
 
@@ -45,6 +47,11 @@ export interface RestaurantData {
         name: string,
         restaurantIDs: string[] | null,
     } | null;
+    dot: {
+        delivery: boolean,
+        outdoorSeating: boolean,
+        takeout: boolean,
+    }
 
 }
 

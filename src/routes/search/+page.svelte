@@ -4,9 +4,18 @@
     import Map from "$lib/components/Map.svelte";
 	import Nav from "$lib/components/Nav.svelte";
 	import Search from "$lib/components/Search.svelte";
-    import type { BurritoData, MenuItem, RestaurantData, Address, ReviewData, UserData } from "$lib/types";
 	import { theme } from "../../stores/stores.js";
     import type { SearchResults } from "$lib/fetchData";
+	import { page } from "$app/stores";
+
+    let mode;
+    let tags;
+
+    $: {
+        const urlParams = $page.url.searchParams;
+        mode = urlParams.get('mode') || 'restaurants';
+        tags = urlParams.get('tags') ? urlParams.get('tags')?.split(',') : [];
+    }
 
 	let themeValue: string;
 
@@ -36,7 +45,22 @@
 
 <body data-theme={themeValue} class="bg-white w-screen h-screen">
    
-    <Filters />
-    <Search restaurants={searchResults.restaurants} burritos={searchResults.burritos}/>
+    <div class="main-content">
+        <Filters />
+        <Search restaurants={searchResults.restaurants} burritos={searchResults.burritos}/>
+    </div>
     <Map restaurants={searchResults.restaurants} burritos={searchResults.burritos} />
 </body>
+
+<style>
+    body {
+        heigh: 100vh;
+        overflow-y: auto;
+        display: flex;
+    }
+
+    .main-content {
+        flex-grow: 1;
+        overflow-y: hidden;
+    }
+</style>

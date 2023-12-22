@@ -3,8 +3,58 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: "HVNTER";
+    src: url('/fonts/Medium.otf');
+}
+
+@font-face {
+    font-family: "AVENIRNEXT-BOLD";
+    src: url('/fonts/AvenirNext-Bold.woff');
+}
+
+@font-face {
+    font-family: "AVENIRNEXT-DEMIBOLD";
+    src: url('/fonts/AvenirNext-DemiBold.woff');
+}
+
+@font-face {
+    font-family: "AVENIRNEXT-MEDIUM";
+    src: url('/fonts/AvenirNext-Medium.woff');
+}
+
+@font-face {
+    font-family: "AVENIRNEXT-Regular";
+    src: url('/fonts/AvenirNext-Regular.woff');
+}
+
 .current-location-btn {
     background-color: hsl(var(--p));
     padding: 12px;
     color: hsl(var(--pc));
+}
+
+@keyframes flyIn {
+    0% {
+        transform: translateY(5px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+.info-card-animation {
+    animation: flyIn 300ms ease-in-out;
+}
+
+.triangle {
+    position: absolute;
+    right: 5px;
+    width: 0;
+    height: 0;
+    border-left: 7.5px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-top: 10px solid white; /* Color of the triangle */
 }

@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
     import type { BurritoData, RestaurantData, ReviewData } from "$lib/types";
-	import { cubicInOut } from "svelte/easing";
-	import { blur, fade, slide } from "svelte/transition";
+	import { backIn, backInOut, backOut, cubicInOut } from "svelte/easing";
+	import { blur, fade, fly, slide } from "svelte/transition";
+    
     export let restaurant: RestaurantData;
+    export let index: number;
     console.log('photo: ', restaurant?.profilePicture?.url);
     console.log('alt: ', restaurant?.profilePicture?.alt);
 
@@ -54,9 +57,18 @@
     let showHoursMsg = false;
     let showHours = false;
     let tags: string[] = [];
+    let dot: {
+        delivery: boolean,
+        outdoorSeating: boolean,
+        takeout: boolean,
+    };
+
+    async function searchByTag(tag: string) {
+        await goto(`/search?tags=${encodeURIComponent(tag)}`);
+    }
 
     console.log('restaurant', restaurant);
-    if (restaurant) {
+    $: if (restaurant) {
         
         if (restaurant.profilePicture) {
             if (restaurant.profilePicture.url) {
@@ -88,6 +100,16 @@
         if (restaurant.tags) {
             tags = restaurant.tags;
         }
+
+        if (restaurant.dot) {
+            dot = restaurant.dot
+        } else {
+            dot = {
+                delivery: true,
+                outdoorSeating: true,
+                takeout: true,
+            }
+        }
     }
 
     
@@ -115,7 +137,7 @@
 </script>
 
 
-<div class="bg-white relative mt-2 flex space-x-2 sm:space-x-6 items-start border-b-2 border-slate-100 p-2 sm:p-6 hover:cursor-pointer hover:shadow-lg font-mono">
+<div class=" border-black relative flex space-x-2 sm:space-x-4 items-start p-2 sm:p-4 hover:cursor-pointer hover:shadow-inner bg-white border-8 border-transparent hover:border-8 hover:border-da hover:border-spacing-4 hover:border-primary font-avenir-bold">
     <!-- images from reviews -->
 
     <div class="overflow-auto carousel w-[175px] h-[175px] rounded relative">
@@ -151,10 +173,10 @@
 
 
     <!-- restaurant info -->
-    <div class="flex flex-col space-y- items-start">
+    <div class="flex flex-col items-start">
 
         <!-- title -->
-        <h2 class="font-mono font-bold -tracking-wider px-2"><span class="hover:text-primary">{restaurantName}</span></h2>
+        <h2 class="font-avenir-bold font-bold px-2">{index + 1}. <span class="hover:text-primary">{restaurantName}</span></h2>
 
         <!-- rating -->
         <div class="flex space-x-2 items-baseline pl-2">
@@ -176,7 +198,9 @@
             <div class="flex space-x-1">
                 {#if tags.length > 0}
                     {#each tags as tag}
-                        <button class="text-[0.6rem] -tracking-wide h-[1rem] font-bold px-[0.3rem] rounded-md first-letter:uppercase lowercase hover:bg-primary bg-secondary text-secondary-content hover:text-primary-content">{tag}</button>
+                        <button 
+                            on:click={() => searchByTag(tag)}
+                            class="text-[0.6rem] font-avenir-demi h-[1rem] px-[0.3rem] rounded-md capitalize hover:bg-primary bg-accent text-accent-content hover:text-primary-content">{tag}</button>
                     {/each}
                 {/if}
             </div>
@@ -187,22 +211,20 @@
 
         <!-- hours -->
         <button 
-            on:mouseenter={() => showHoursMsg = true}
-            on:mouseleave={() => {showHoursMsg = false; showHours = false}}
+            on:mouseenter={() => showHours = true}
+            on:mouseleave={() => showHours = false}
             on:mousedown={() => showHours = true}
             class="rounded px-2 text-sm py-1 hover:bg-primary hover:bg-opacity-10"><span class="{isOpen? 'text-success' : 'text-warning'}">{isOpen? 'Open' : 'Closed'}</span> until {closingTime ?? '??'}
-            {#if showHoursMsg}
-                <button 
-                    in:slide out:slide
-                    class="absolute top-1/2 right-1/2 rounded z-30 bg-black p-4 font-mono text-primary">See Full Hours</button>
-            {/if}
-            <p></p>
             {#if showHours}
-                <div in:fade={{duration: 100, easing: cubicInOut,}} out:fade class=" z-30 flex flex-col space-y-2 text-white absolute top-0 sm:top-20 right-0 sm:right-1/2 rounded p-4 px-6 sm:p-6 bg-black font-mono">
+                <div 
+                    in:fade={{duration: 500, easing: cubicInOut}} 
+                    out:fade={{duration: 500, easing: cubicInOut}} 
+                    class="z-30 flex flex-col space-y-1 text-white absolute top-0 left-0 rounded-none px-8 py-2 bg-primary bg-opacity-100 backdrop-blur font-avenir-bold">
+                    <h3 class="font-black text-center text-lg">Full Hours</h3>
                     {#each days as day}
-                        <div class="flex gap-10 items-center justify-end">
+                        <div class="flex gap-4 items-center justify-end">
                             <p class="text-left">{dayz[day]}</p>
-                            <p class="text-right">
+                            <p class="text-right -tracking-widest">
                                 {restaurant.hours?.[day].open ?? '??'} - 
                                 {restaurant.hours?.[day].close ?? '??'}
                             </p>
@@ -219,23 +241,35 @@
         </div>
 
         <!-- amenities -->
-        <div class="-tracking-widest sm:tracking-normal space-x-2 sm:space-x-4 flex text-[0.6rem] sm:text-sm sm:translate-x-2 translate-y-[0.4rem] sm:translate-y-[0.6rem]">
+        <div class="space-x-6 flex text-[0.55rem] sm:translate-x-2 translate-y-[0.4rem] sm:translate-y-[0.6rem]">
             <div class="flex w-1/3 space-x-1">
-                <p class="">❌</p>
+                {#if dot.delivery}
+                    <p class="">✅</p>
+                {:else}
+                    <p class="">❌</p>
+                {/if}
                 <p class="">Delivery</p>
             </div>
-            <div class="flex w-1/3 space-x-1">
-                <p class="">✅</p>
-                <p class="">Takeout</p>
+            <div class="flex w-2/3 space-x-1">
+                {#if dot.outdoorSeating}
+                    <p class="">✅</p>
+                {:else}
+                    <p class="">❌</p>
+                {/if}
+                <p class="">Outdoor Seating</p>
             </div>
-            <div class="flex w-full space-x-1">
-                <p class="">✅</p>
-                <p class="">Outdoor seating</p>
+            <div class="flex w-1/3 space-x-1">
+                {#if dot.takeout}
+                    <p class="">✅</p>
+                {:else}
+                    <p class="">❌</p>
+                {/if}
+                <p class="">Takeout</p>
             </div>
         </div>
 
-        <!-- start order -->
-        <button class="btn btn-circle btn-primary hover:scale-105 active:outline-none lowercase absolute right-4 bottom-4  transform transition-all duration-300 ease-out outline-primary-content outline-4 outline-double bg-opacity-100 -tracking-widest ">Start Order</button>
+        <!-- order now -->
+        <button class="btn-sm btn-outline btn-primary hover:scale-105 active:outline-none absolute right-8 bottom-8 transform transition-all duration-300 ease-out outline-primary-content bg-white outline-4 outline-double bg-opacity-100 -tracking-wider text-white uppercase font-black">Order Now</button>
     </div>
 </div>
 

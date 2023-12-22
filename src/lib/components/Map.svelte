@@ -5,13 +5,13 @@
 	import { onDestroy, onMount } from "svelte";
     import { browser } from '$app/environment';
 	import { doc, type GeoPoint } from "firebase/firestore";
-	import { cubicInOut } from "svelte/easing";
+	import { backInOut, cubicInOut } from "svelte/easing";
 	import { fly } from "svelte/transition";
 
     export let restaurants: RestaurantData[] = [];
     export let burritos: BurritoData[] = [];
 
-    
+    let showInfoCard: boolean = false; 
     
     // let autocomplete;
     // let inputElement: HTMLInputElement | null;
@@ -62,7 +62,7 @@
                 infoWindow = new google.maps.InfoWindow();
 
                 // create markers for restaurants and burritos
-                restaurants.forEach(restaurant => {
+                restaurants.forEach((restaurant, index) => {
                     if (restaurant.location && restaurant.location.coordinates) {
                         const lat = restaurant.location.coordinates.lat;
                         const lng = restaurant.location.coordinates.lng;
@@ -73,15 +73,34 @@
                         //     anchor: new google.maps.Point(0, 32),
                         // };
 
-                        const image = document.createElement('img');
-                        image.src = 'https://images.blur.io/_blur-prod/0xd3d9ddd0cf0a5f0bfb8f7fceae075df687eaebab/7339-d13bfbe906080f7a?w=1024';
-                        image.width = 30;
-                        image.height = 30;
+                        const infoCard = document.createElement('div');
+                        infoCard.className = 'absolute -right-1 -top-48 info-card-animation';
+                        infoCard.innerHTML = `
+                            <div class="w-56 left-0 flex flex-col space-y-1 bg-white text-black rounded p-4">
+                                <div>
+                                    <img class="w-full h-20 rounded" src="${restaurant.profilePicture?.url}" alt="${restaurant.profilePicture?.alt}">
+                                </div>
+                                    <h2 class="text-lg translate-y-1 font-avenir-bold capitalize text-left">${restaurant.name}</h2>
+                                    <div class="flex space-x-2 items-baseline">
+                                        <p>⭐⭐⭐⭐</p>
+                                        <p class="text-xs">4.2</p>
+                                        <p class="text-xs text-info">(<span class="hover:underline">46 reviews</span>)</p>
+                                    </div>
+                            </div>
+                            <div class="triangle"></div>
+                        `;
 
-                        const shape = {
-                            coords: [1, 1, 1, 20, 18, 20, 18, 1],
-                            type: "poly",
-                        };
+                        const markerIcon = document.createElement('button');
+                        markerIcon.className = 'z-50 relative btn btn-circle btn-xs btn-info border-2 border-white shadow-lg shadow hover:border-primary hover:bg-secondary';
+
+                        const textSpan = document.createElement('span');
+                        textSpan.style.color = "white";
+                        textSpan.textContent = (index + 1).toString();
+                        markerIcon.appendChild(textSpan);
+
+                        if (showInfoCard) {
+                            markerIcon.appendChild(infoCard);
+                        }
 
                         const marker = new AdvancedMarkerElement({
                             position: {
@@ -90,16 +109,27 @@
                             },
                             title: restaurant.name,
                             map,
-                            content: image,
-                            zIndex: 1,
+                            content: markerIcon,
+                            zIndex: index,
                         });
-                        console.log('fortnite', parseFloat(lng), parseFloat(lat));
-                        const infoWindow = new google.maps.InfoWindow({
-                            content: `<div><strong>${restaurant.name}</strong><br>${restaurant.address.street}, ${restaurant.address.city}</div>`,
+
+                        google.maps.event.addListener(marker, 'click', function(event: google.maps.MapMouseEvent) {
+                            // Toggle the showInfoCard state
+                            showInfoCard = !showInfoCard;
+
+                            if (showInfoCard) {
+                                markerIcon.appendChild(infoCard);
+                            } else {
+                                if (markerIcon.contains(infoCard)) {
+                                    markerIcon.removeChild(infoCard);
+                                }
+                            }
+
+                            // If needed, stop the event from further propagation
+                            // event.stopPropagation();
                         });
-                        marker.addListener("click", () => {
-                            infoWindow.open(map, marker);
-                        });
+
+                        
                     }
                 });
 
@@ -124,25 +154,12 @@
 	
             }
 
-            function setMarkers(map: google.maps.Map) {
-                // add markers to the map
-
-                
-
-                for (let i = 0; i < restaurants.length; i++) {
-                    const restaurant = restaurants[i];
-
-                    new google.maps.Marker({
-                        position: { lat: restaurant.location.coordinates.lat, lng: lng},
-                        
-                    });
-                }
-            }
-
             initMap();
         
         }
     });
+
+
 
     
 
@@ -165,15 +182,17 @@
         }
     }
 
+    
+
 
 </style>
 
 <body>
     <!-- map -->
-    <div 
-        
-        class="fixed sm:block top-36 md:top-24 right-[0%] h-[100%] bg-white md:w-[33%] transform transition-all duration-1000 ease-in-out {mobileView? 'w-full block' : ''}">
-        <div id="map" class="w-full custom-height"></div>
+    <div class="border-l-0 sm:border-l-2 sm:border-l-black fixed sm:block top-36 md:top-24 right-[0%] h-[100%] bg-white md:w-[33%] transform transition-all duration-1000 ease-in-out {mobileView? 'w-full block' : ''}">
+        <!-- <div class="bg-accent bg-opacity-50 mix-blend-color-burn absolute inset-0 w-full custom-height z-50"></div> -->
+        <div id="map" class="relative w-full custom-height">
+        </div>
     </div>
     <!-- map button for mobileView -->
     {#if !mobileView}

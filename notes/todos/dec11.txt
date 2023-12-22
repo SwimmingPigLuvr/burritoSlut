@@ -1,6 +1,103 @@
 create custom markers
+
+    notes:
+        yelp uses a basic one that inverts the border/bg color on hover
+        if i want to do this it might be easier to use css than to use two images
+
+        the content is what sets the marker image
+        it is a document.createElement
+
 create info windows
 get search location and use that as the center
 search by query
 finish resty form
 increase typing speed
+
+make everything fit! 
+condense amenties to the import ones... see full amenities
+
+handle tags that don't exist instead of throwing a 500 error
+
+create restaurant page
+
+burrito criteria
+
+
+current task create an info window that opens on hover
+
+
+im going to make my own html elements instead of using the info windows that google has
+
+
+change animation to:
+    instant in 
+    fade out
+
+create little pointy for the infocard....
+o
+
+
+
+
+december 16
+
+goal is to let autocomplete fill in a real address
+only submit restaurant form for real address
+need to check it
+
+Geocode address / coordinates into geohash data
+
+after restaurant is submitted ask for additional info
+
+Amenities?
+menu?
+Hours?
+photos?
+
+
+december 18
+
+make the resty result wider
+
+get tags from url
+
+
+there are 1 million different things to add some off the top of my head are
+functions to add photos to storage
+use all of the photos as a slideshow
+login functionality
+restaurant pages
+filters
+
+we need to add way more data points to get a filtered search going
+price amenities vibe etc
+query search
+
+
+december 19
+
+how to get review data into each restaurantdata object
+
+the search results need 
+    average rating
+    number of reviews
+    preview of a good review
+
+
+
+focus: 
+    get the filter integrated
+
+    mode needs to be in url
+    tags specific to mode
+    because burritos will have different tags than restaurants
+    all tags need to be stored in a giant list
+    also when a user is adding a tag they will have all of the previous ones to chosoe from
+
+
+fix the filter function based on the suggestion by chat gpt
+
+sort the categories of filters in order then each filter in each category has an order. not too complicated
+
+
+for the filters to be highly reactive and functional they should be made into stores that way they instantly start a search with the correct filters

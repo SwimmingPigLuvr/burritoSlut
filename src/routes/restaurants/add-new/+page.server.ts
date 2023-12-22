@@ -26,6 +26,7 @@ const schema = z.object({
     address: z
         .object({
             street: z.string(),
+            streetLine2: z.string(),
             city: z.string(),
             state: z.string(),
             zip: z.number(),
@@ -55,11 +56,12 @@ export const actions = {
         const form = await request.formData();
         
         const street = form.get('street') || '';
+        const streetLine2 = form.get('streetLine2') || '';
         const city = form.get('city') || '';
         const state = form.get('state') || '';
         const zip = form.get('zip') || '';
 
-        const formattedAddress = `${street}, ${city}, ${state}, ${zip}`;
+        const formattedAddress = `${street} ${streetLine2}, ${city}, ${state}, ${zip}`;
         const location = await geocode({ address: formattedAddress });
         
         const restaurantData = {
@@ -67,6 +69,7 @@ export const actions = {
             chain: form.get('chain-name'),
             address: {
                 street: street,
+                streetLine2: streetLine2,
                 city: city,
                 state: state,
                 zip: zip,
