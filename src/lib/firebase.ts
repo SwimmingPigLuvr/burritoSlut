@@ -4,7 +4,7 @@ import 'firebase/compat/firestore';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, EmailAuthProvider } from "firebase/auth";
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, EmailAuthProvider, getRedirectResult, } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { writable, type Readable, derived } from "svelte/store";
 import type { MyUser, RestaurantData, Address, UserData, BurritoData } from "./types";
@@ -92,4 +92,3 @@ export const userData: Readable<UserData | null> = derived(
   },
 );
 
-const provider = new GoogleAuthProvider();

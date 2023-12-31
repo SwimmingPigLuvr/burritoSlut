@@ -3,12 +3,37 @@
     import type { BurritoData, RestaurantData, ReviewData } from "$lib/types";
 	import { backIn, backInOut, backOut, cubicInOut } from "svelte/easing";
 	import { blur, fade, fly, slide } from "svelte/transition";
+    import { filters } from "../../stores/stores";
     
     export let restaurant: RestaurantData;
     export let index: number;
     console.log('photo: ', restaurant?.profilePicture?.url);
     console.log('alt: ', restaurant?.profilePicture?.alt);
 
+    function toggleFilter(filter: string) {
+        filters.update((current: string[]) => {
+            let updatedFilters;
+
+            if (current.indexOf(filter) === -1) {
+                // Add the filter and then sort
+                updatedFilters = [...current, filter];
+            } else {
+                // Remove the filter
+                updatedFilters = current.filter(f => f !== filter);
+            }
+
+            // Sort the filters - especially useful for price categories
+            return updatedFilters.sort((a, b) => {
+                // If both filters are price filters, sort by length
+                if (['$', '$$', '$$$', '$$$$'].includes(a) && ['$', '$$', '$$$', '$$$$'].includes(b)) {
+                    return a.length - b.length;
+                }
+                // Otherwise, maintain existing order
+                return current.indexOf(a) - current.indexOf(b);
+            });
+        });
+    }
+    
     const dayz: { [key: string]: string } = {
         'monday': 'Mon',
         'tuesday': 'Tue',
@@ -137,15 +162,15 @@
 </script>
 
 
-<div class=" border-black relative flex space-x-2 sm:space-x-4 items-start p-2 sm:p-4 hover:cursor-pointer hover:shadow-inner bg-white border-8 border-transparent hover:border-8 hover:border-da hover:border-spacing-4 hover:border-primary font-avenir-bold">
+<div class=" border-black relative flex space-x-2 sm:space-x-4 items-start p-2 sm:p-4 hover:cursor-pointer hover:bg-primary hover:bg-opacity-20 transform transition-all duration-300 ease-in-out bg-white border-8 border-transparent hover:border-8 hover:border-da hover:border-spacing-4 hover:border-primary font-avenir-demi">
     <!-- images from reviews -->
 
     <div class="overflow-auto carousel w-[175px] h-[175px] rounded relative">
 
         <!-- handles -->
         <div class="absolute z-30 flex justify-between transform -translate-y-1/2 left-1 right-1 top-1/2">
-            <button class="btn bg-opacity-70 btn-accent btn-xs">❮</button> 
-            <button class="btn bg-opacity-70 btn-accent btn-xs">❯</button>
+            <button class="btn btn-circle bg-opacity-0 backdrop-blur-sm btn-accent btn-xs text-white">❮</button> 
+            <button class="btn btn-circle bg-opacity-0 backdrop-blur-sm btn-accent btn-xs text-white">❯</button>
         </div>
 
         <div id="slide1" class="carousel-item relative w-full">
@@ -176,7 +201,7 @@
     <div class="flex flex-col items-start">
 
         <!-- title -->
-        <h2 class="font-avenir-bold font-bold px-2">{index + 1}. <span class="hover:text-primary">{restaurantName}</span></h2>
+        <h2 class="font-avenir-bold px-2">{index + 1}. <span class="hover:text-primary">{restaurantName}</span></h2>
 
         <!-- rating -->
         <div class="flex space-x-2 items-baseline pl-2">
@@ -199,7 +224,7 @@
                 {#if tags.length > 0}
                     {#each tags as tag}
                         <button 
-                            on:click={() => searchByTag(tag)}
+                            on:click={() => {searchByTag(tag); toggleFilter(tag)}}
                             class="text-[0.6rem] font-avenir-demi h-[1rem] px-[0.3rem] rounded-md capitalize hover:bg-primary bg-accent text-accent-content hover:text-primary-content">{tag}</button>
                     {/each}
                 {/if}
@@ -219,8 +244,8 @@
                 <div 
                     in:fade={{duration: 500, easing: cubicInOut}} 
                     out:fade={{duration: 500, easing: cubicInOut}} 
-                    class="z-30 flex flex-col space-y-1 text-white absolute top-0 left-0 rounded-none px-8 py-2 bg-primary bg-opacity-100 backdrop-blur font-avenir-bold">
-                    <h3 class="font-black text-center text-lg">Full Hours</h3>
+                    class="z-30 flex flex-col space-y-1 text-white absolute top-0 left-0 rounded-none px-6 py-2 bg-primary bg-opacity-100 backdrop-blur font-avenir-bold">
+                    <h3 class=" text-center text-lg">Full Hours</h3>
                     {#each days as day}
                         <div class="flex gap-4 items-center justify-end">
                             <p class="text-left">{dayz[day]}</p>
@@ -269,7 +294,7 @@
         </div>
 
         <!-- order now -->
-        <button class="btn-sm btn-outline btn-primary hover:scale-105 active:outline-none absolute right-8 bottom-8 transform transition-all duration-300 ease-out outline-primary-content bg-white outline-4 outline-double bg-opacity-100 -tracking-wider text-white uppercase font-black">Order Now</button>
+        <button class="btn-sm btn-outline btn-primary hover:scale-105 active:outline-none absolute right-8 bottom-8 transform transition-all duration-300 ease-out outline-primary bg-white border-2 hover:border-white bg-opacity-100 -tracking-wider text-white uppercase">Order Now</button>
     </div>
 </div>
 

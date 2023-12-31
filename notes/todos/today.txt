@@ -1,0 +1,57 @@
+google sign in
+    use a popup for desktop
+    use a redirect for mobile
+
+    is there a way to check if mobile device?
+        first answer is screen size but there are big tablets that might not handle a pop up well?
+
+current actions:
+    paste in googleauth sign in function
+
+
+right now i have routes/login & routes/signup
+but i should have routes/login/+page.svlete
+so looking at my past sign in logic
+
+right now i need to consolidate the login page with the signup page and just toggle which one were getting into based on the users status
+    
+    **routes/signup/+page.svelte
+    1. sign in with google
+
+    **routes/signup/username/+page.svelte
+    2. if $userData?.username
+            welcome {$userData.username}
+        else <form on:submit|preventDefault={confirmUsername}>
+                <input
+                    type="text"
+                    placeholder="username"
+                    class="input"
+                    bind:value={username}
+                    on:input={checkAvailability}
+                    class:input-error={(!isValid && isTouched)}
+                    class:input-warning={isTaken}
+                    class:input-success={isAvailable && isValid && !loading}
+                />
+    
+
+    how to consolidate the two pages:
+
+    if $user
+
+    boom thats it. it takes the user store that we created earlier
+
+    this actually handles a different but still neccessary thing
+
+    so if the user is signed in already then ...
+
+    why would they even be here
+
+    but if an account exists already they are in the login page but how would we know that? i think we should have 2 different pages
+
+    but they should both act just like the sign in that we have in the other project where it checks if the user store is signed in then we handle it differently
+
+
+    so essentially the google sign in and the google log in are 1 in the same
+        google{signup/login}
+            if account exists => login
+            else => sign up

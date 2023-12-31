@@ -1,1 +1,1 @@
-<h1 class="font-black">TERMS OF SERVICE</h1>
+<h1 class="font-avenir-bold">TERMS OF SERVICE</h1>

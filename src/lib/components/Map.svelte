@@ -74,9 +74,9 @@
                         // };
 
                         const infoCard = document.createElement('div');
-                        infoCard.className = 'absolute -right-1 -top-48 info-card-animation';
+                        infoCard.className = 'z-40 absolute -right-1 -top-36 info-card-animation';
                         infoCard.innerHTML = `
-                            <div class="w-56 left-0 flex flex-col space-y-1 bg-white text-black rounded p-4">
+                            <div class="w-56 left-0 flex flex-col space-y-1 bg-white text-black rounded-none border-2 border-black p-4">
                                 <div>
                                     <img class="w-full h-20 rounded" src="${restaurant.profilePicture?.url}" alt="${restaurant.profilePicture?.alt}">
                                 </div>
@@ -87,7 +87,7 @@
                                         <p class="text-xs text-info">(<span class="hover:underline">46 reviews</span>)</p>
                                     </div>
                             </div>
-                            <div class="triangle"></div>
+                            <button class="absolute pl-2 pt-1 bg-primary bottom-0 w-8 h-8 right-0 rounded-tl-full border-black border-2"><span class="text-sm text-primary-content">${index + 1}</span></button>
                         `;
 
                         const markerIcon = document.createElement('button');

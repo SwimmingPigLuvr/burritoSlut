@@ -101,3 +101,11 @@ sort the categories of filters in order then each filter in each category has an
 
 
 for the filters to be highly reactive and functional they should be made into stores that way they instantly start a search with the correct filters
+
+
+todo 
+get the seearch function getting all the search requirements done doen doen
+
+
+https://docs.developer.yelp.com/reference/v3_business_search 
+learn how to read this

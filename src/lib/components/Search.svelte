@@ -3,6 +3,8 @@
 	import BurritoResult from "./BurritoResult.svelte";
 	import RestaurantResult from "./RestaurantResult.svelte";
 	import { page } from '$app/stores';
+    import { mode } from '../../stores/stores';
+    import { searchQuery, searchLocation } from '../../stores/stores';
     
     export let restaurants: RestaurantData[] = [];
     export let burritos: BurritoData[] = [];
@@ -17,19 +19,28 @@
     let searchItem: string = 'restaurant';
     let location: string = 'Costa Mesa, CA';
 
-    let mode;
     let tags: string | null;
     $: {
         const urlParams = $page.url.searchParams;
-        mode = urlParams.get('mode') || 'restaurants';
         tags = urlParams.get('tags') ? urlParams.get('tags') : '';
     }
 
 </script>
 <div class="translate-y-40 lg:translate-y-0 px- font-avenir-bold bg-opacity-25 z-10 overflow-y-auto w-full mx-auto md:w-[66%] lg:w-[50%] md:ml-auto md:mr-[33%] h-full lg:h-screen transform transition-all duration-1000 ease-in-out">
 <!-- site map? -->
-<h4 class="mt-24 mb-8 text-xs p-2">{`y4b > `}{category}{` > `}{location}</h4>
-<h3 class="p-2">All {tags? tags.toLowerCase() : ''} results</h3>
+<div class="mt-24 text-xs pl-4 pt-4 capitalize flex space-x-4">
+   <a href="/" class="hover:text-accent">{`Burrito Slut`}</a>
+   <span>{` > `}</span>
+   <a href="/search" class="hover:text-accent">{$mode}</a>
+   <span>{` > `}</span>
+   <a href="/search" class="hover:text-accent">{location}</a>
+</div>
+<!-- seo tagline -->
+<div class="px-4">
+    <h1 class="text-2xl capitalize">Top 10 Best {$searchQuery} near {$searchLocation}</h1>
+</div>
+<h3 class="pt-4 px-4">All {tags? tags.toLowerCase() : ''} results</h3>
+
 <!-- {#if searchItem === 'burrito'}
     {#each data as burrito}
         <BurritoResults burrito={burrito}/>
@@ -46,3 +57,7 @@
     {/each}
 {/if}
 </div>
+
+<style>
+    
+</style>

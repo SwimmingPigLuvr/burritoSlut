@@ -48,7 +48,7 @@
     <div class="flex flex-col space-y- items-start">
 
         <!-- title -->
-        <h2 class="font-mono font-bold -tracking-wider"><span class="hover:text-primary">{burrito.name}</span></h2>
+        <h2 class="font-avenir-bold -tracking-wider"><span class="hover:text-primary">{burrito.name}</span></h2>
 
         <!-- rating -->
         <div class="flex space-x-2 items-baseline">
@@ -67,8 +67,8 @@
         <div class="flex space-x-1 items-center">
 
             <!-- tags -->
-            <button class="text-[0.6rem] -tracking-wide h-[1rem] font-bold px-[0.3rem] rounded-md first-letter:uppercase lowercase hover:bg-primary bg-secondary text-primary-content">Mexican</button>
-            <button class="text-[0.6rem] -tracking-wide h-[1rem] font-bold px-[0.3rem] rounded-md first-letter:uppercase lowercase bg-secondary hover:bg-primary text-primary-content">Breakfast</button>
+            <button class="text-[0.6rem] -tracking-wide h-[1rem] px-[0.3rem] rounded-md first-letter:uppercase lowercase hover:bg-primary bg-secondary text-primary-content">Mexican</button>
+            <button class="text-[0.6rem] -tracking-wide h-[1rem] px-[0.3rem] rounded-md first-letter:uppercase lowercase bg-secondary hover:bg-primary text-primary-content">Breakfast</button>
 
             <!-- price -->
             <p>💰💰</p>

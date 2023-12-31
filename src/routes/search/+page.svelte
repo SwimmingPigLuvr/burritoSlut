@@ -54,7 +54,7 @@
 
 <style>
     body {
-        heigh: 100vh;
+        height: 100vh;
         overflow-y: auto;
         display: flex;
     }
@@ -63,4 +63,6 @@
         flex-grow: 1;
         overflow-y: hidden;
     }
+
+    
 </style>

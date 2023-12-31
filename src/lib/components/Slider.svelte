@@ -23,9 +23,12 @@
 </script>
 
 <!-- carousel -->
-<div class="mx-auto w-[100%] h-[100%] carousel carousel-vertical fixed top-0 ">
+<div class=" w-[100%] h-[100%] carousel fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-none">
     {#each images as image, index}
-        <div id="item{index}" class="relative carousel-item h-full">
+        <div id="item{index}" class="relative carousel-item w-full">
+        <!-- tint -->
+            <div class="overlay"></div>
+            <div class="tint"></div>
 
             <img src={image} alt="slide {index}" class="slider-item w-full h-full">
 
@@ -34,28 +37,28 @@
             <div class="transform transition-all duration-1000 ease-in-out pr-4 w-full md:w-[50%] z-20 absolute left-6 sm:left-10 md:left-[20%] top-36 md:top-[7.5rem] flex flex-col space-y-4">
                     <h3 
                         in:fade={{duration: 1000, easing: cubicIn, delay: 500}}
-                        class="font-black text-primary text-5xl">{taglines[index][0]}</h3>
+                        class="font-avenir-bold text-white text-xl">{taglines[index][0]}</h3>
                     <h3 
                         in:fade={{duration: 1000, easing: cubicIn, delay: 1000}}
-                        class="font-black uppercase text-primary-content text-[5rem] leading-[1]">{taglines[index][1]}</h3>
-                    <a href="/search" class="btn-primary btn font-mono btn-lg w-[20rem]">Find One Near You</a>
+                        class="font-avenir-bold uppercase text-white text-[5rem] leading-[1]">{taglines[index][1]}</h3>
+                    <a href="/search" class="btn-primary border-white border-2 rounded-none btn font-avenir-bold btn-lg w-[20rem]">Find One Near You</a>
             </div>
             {/if}
         </div> 
     {/each}
-    <!-- tint -->
-    <div class="overlay"></div>
-    <div class="tint"></div>
-    
-</div>
+   
 
-<!-- slider controls -->
-<div class="transform transition-all duration-1000 ease-in-out flex flex-col justify-center py-2 gap-2 fixed top-36 md:top-28 sm:left-4 left-2 md:left-[18%]">
-    {#each images as image, index}
-        <a 
-            href="#item{index}" class="transform transition-all duration-500 ease-in-out rounded-full bg-white opacity-50 hover:opacity-100 w-2 h-20 text-white">.</a> 
-    {/each}
-</div>
+    
+</div> 
+    <!-- slider controls -->
+    <div class="fixed z-50 bottom-[20%] left-1/2 -translate-x-1/2 transform transition-all duration-1000 ease-in-out flex space-x-4 justify-center">
+        {#each images as image, index}
+            <!-- svelte-ignore a11y-missing-content -->
+            <a 
+                href="#item{index}" class="transform transition-all duration-500 ease-in-out rounded-none bg-white opacity-100 hover:opacity-50 w-10 h-4 text-white"></a> 
+        {/each}
+    </div>
+
 
 
 
@@ -66,7 +69,7 @@
     }
 
     .tint {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
@@ -78,7 +81,7 @@
     }
 
     .overlay {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;

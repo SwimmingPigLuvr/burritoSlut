@@ -15,7 +15,7 @@ export default {
   daisyui: {
     themes: [
       {
-        mytheme: {
+        mine: {
         
           "primary": "#77ce48",
                   
@@ -35,6 +35,26 @@ export default {
                   
           "error": "#e72329",
         },
+        woosh: {
+          
+          "primary": "#E65F5C",
+                   
+          "secondary": "#00ca00",
+                   
+          "accent": "#00eeba",
+                   
+          "neutral": "#082c2e",
+                   
+          "base-100": "#242329",
+                   
+          "info": "#0073d2",
+                   
+          "success": "#009f76",
+                   
+          "warning": "#a28400",
+                   
+          "error": "#ff5779",
+                   },
       },
       "light",
       "dark",
@@ -49,6 +69,8 @@ export default {
       "autumn",
       "cmyk",
       "nord",
+      "synthwave",
+      "black"
 
     ],
   },

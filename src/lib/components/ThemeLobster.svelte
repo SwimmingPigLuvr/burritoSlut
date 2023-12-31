@@ -29,8 +29,8 @@
 				<button 
 					in:fly={{x:10, y: 10, duration: 500, easing: backOut, delay: 400}}
 					out:fly={{x:10, y: 10, duration: 500, easing: backIn, delay: 0}}
-					data-theme='winter'
-					on:mouseenter={() => theme.update(n => 'winter')}
+					data-theme='woosh'
+					on:mouseenter={() => theme.update(n => 'woosh')}
 					class="bg-opacity-0 text-4xl hover:scale-125 fixed right-3 bottom-20 z-20">🥶</button>
 				<button 
 					in:fly={{x:15, y: 15, duration: 500, easing: backOut}}

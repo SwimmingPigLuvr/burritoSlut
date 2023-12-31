@@ -1,1 +1,1 @@
-<h1 class="font-black">PRIVACY POLICY</h1>
+<h1 class="font-avenir-bold">PRIVACY POLICY</h1>

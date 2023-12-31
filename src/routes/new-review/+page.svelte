@@ -1,1 +1,1 @@
-<h1 class="font-black">Find a Burrito to review</h1>
+<h1 class="">Find a Burrito to review</h1>

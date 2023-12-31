@@ -3,6 +3,11 @@
 	import { onMount } from "svelte";
 	import LogIn from "./LogIn.svelte";
 	import { page } from "$app/stores";
+    import { theme, safeMode } from '../../stores/stores';
+
+    function toggleSafeMode() {p
+        safeMode.set(!safeMode);
+    }
 
     interface CustomAutocomplete extends google.maps.places.Autocomplete {
         inputId?: string;
@@ -16,6 +21,12 @@
     $: if (currentPath === '/') {
         isHomePage = true;
     };
+
+    let selectedTheme = 'mine'; // Local component state
+    let localSafeMode = $safeMode;
+
+    // Watch the local selectedTheme for changes and update the store
+    $: theme.set(selectedTheme);
 
     onMount(() => {
         if (browser) {
@@ -78,21 +89,28 @@
     
     <!-- logo -->
     <a href="/" class="{!isHomePage? `text-black` : `text-primary-content`} font-avenir-bold text-xl fixed top-[1.75rem] left-[2rem]">
-        BURRITO FINDER
+        BURRITO 
+        {#if !localSafeMode}
+            <span>SLUT</span>
+        {:else}
+            <span>FINDER</span>
+        {/if}
     </a>
     <!-- searchbar -->
     <div class="bg-white border-2 border-black rounded-none md:-translate-x-[10%] items-center join mx-auto shadow-lg h-10 font-light tracking-widest w-full md:w-[55%]">
 
         <!-- left search box -->
-        <input id="nameInputElement" placeholder="breakfast burritos" type="text" class="rounded focus:outline-none tracking-wide text-xs px-4 h-full w-[365px]">
+        <input id="nameInputElement" placeholder="breakfast burritos" type="text" class="bg-white rounded focus:outline-none tracking-wide text-xs px-4 h-full w-[365px]">
 
         <p class="scale-y-[2] -translate-y-1 text-black">|</p>
 
         <!-- right search box -->
-        <input id="locationInputElement" placeholder="address, neighborhood, city, state, or zip" type="text" class="focus:outline-none tracking-wide text-xs p-4 w-[365px] h-full">
+        <input id="locationInputElement" placeholder="address, neighborhood, city, state, or zip" type="text" class="bg-white focus:outline-none tracking-wide text-xs p-4 w-[365px] h-full">
 
         <p class="scale-y-[2] -translate-y-1 text-black">|</p>
         <button class="px-4 w-14 h-full items-center text-2xl hover:rotate-[30deg] transform transition-all duration-500 ease-in-out">🔍</button>
+        
+        
     </div>
    
     <!-- write a review / restaurant login -->
@@ -108,11 +126,10 @@
 
     <LogIn />
 
-    
+</div>
 
-
-
-    
+<div class="fixed bottom-4 left-4 z-50">
+    <input type="checkbox" on:change={toggleSafeMode} checked={$safeMode}>
 </div>
 
 <style>

@@ -1,27 +1,4 @@
 <script lang='ts'>
-	import { auth, user, userData } from "$lib/firebase";
-	import { GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";
-	import { onMount } from "svelte";
-
-    async function signInWithGoogle() {
-        console.log('signInWithGoogle: Hi');
-        const provider = new GoogleAuthProvider();
-        signInWithRedirect(auth, provider);
-    }
-
-    onMount(() => {
-        getRedirectResult(auth)
-            .then((result) => {
-                if (result) {
-                    const credential = GoogleAuthProvider.credentialFromResult(result);
-                    const token = credential?.accessToken;
-
-                    const user = result.user;
-                }
-            }).catch((error) => {
-                // do something
-            })
-    });
 
     let viewGoogleSignIn: boolean = false;
 
@@ -38,12 +15,6 @@
             ⚡︎⚡️⚡︎
         </a>
     </nav>
-
-    {#if $user}
-        <!-- handle if the user is logged in -->
-    {:else}
-        <!-- most likely the user is not logged in -->
-    {/if}
     <div 
         class="w-[16rem] flex flex-col my-8 mx-[20%]">
         <!-- title/tagline/terms -->
