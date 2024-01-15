@@ -55,3 +55,27 @@ right now i need to consolidate the login page with the signup page and just tog
         google{signup/login}
             if account exists => login
             else => sign up
+
+
+
+    sun dec 31
+    1:27PM
+
+    going to document everything that i do
+
+    right now im looking through my files to see what my first step is
+        notes:
+            i need to toggle a state for signup / login
+            well if these are on the same page for convenience
+                i want to denote this state in the url so that a login / signup page can be sent
+                    that actually doesn't make sense i can share the login page and if they arent signed up already then we just switch it then. i doubt that will turn users away
+
+    now that the state is set up i need to compartmentalize the areas that each state controls
+
+
+    well i just got sidetracked on the safemode but at least i figured it out
+
+
+    also just realized if we are signing up with goog we dont need all the random info like the birthday etc..
+
+    so the normal login and the google/provider logins will be separated

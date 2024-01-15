@@ -5,4 +5,4 @@ export const filters = writable<string[]>([]);
 export const mode = writable<string>('restaurants');
 export const searchQuery = writable('breakfast burritos');
 export const searchLocation = writable('Costa Mesa, CA');
-export const safeMode = writable<boolean>(false);
+export const safeMode = writable<boolean>(true);

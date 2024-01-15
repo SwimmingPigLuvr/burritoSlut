@@ -26,7 +26,10 @@
 
         <!-- continue with google / apple -->
         <div class="mx-auto flex flex-col space-y-2">
-            <button on:click={() => viewGoogleSignIn = true} class="rounded-sm text-xs hover:bg-opacity-20 font-mono text-black btn btn-sm h-[2.5rem] btn-wide btn-outline">🦞 Continue with Google</button>
+            <button on:click={() => viewGoogleSignIn = true} class="rounded-sm text-xs hover:bg-opacity-20 font-mono text-black btn btn-sm h-[2.5rem] btn-wide btn-outline">
+                <img src="/logos/google.jpg" class="h-10 w-10" alt="google logo">
+                Continue with Google
+            </button>
             <button class="rounded-sm text-xs hover:bg-opacity-80 font-mono text-white btn btn-sm h-[2.5rem] btn-wide">🍎 Continue with Apple</button>
         </div>
 

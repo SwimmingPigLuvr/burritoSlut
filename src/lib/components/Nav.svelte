@@ -4,9 +4,11 @@
 	import LogIn from "./LogIn.svelte";
 	import { page } from "$app/stores";
     import { theme, safeMode } from '../../stores/stores';
+	import { backIn, backOut, cubicInOut } from "svelte/easing";
+	import { blur, fly } from "svelte/transition";
 
-    function toggleSafeMode() {p
-        safeMode.set(!safeMode);
+    function toggleSafeMode() {
+        safeMode.set(!localSafeMode);
     }
 
     interface CustomAutocomplete extends google.maps.places.Autocomplete {
@@ -22,8 +24,10 @@
         isHomePage = true;
     };
 
-    let selectedTheme = 'mine'; // Local component state
-    let localSafeMode = $safeMode;
+    let selectedTheme = 'garden'; // Local component state
+    let localSafeMode: boolean;
+
+    $: localSafeMode = $safeMode;
 
     // Watch the local selectedTheme for changes and update the store
     $: theme.set(selectedTheme);
@@ -90,10 +94,15 @@
     <!-- logo -->
     <a href="/" class="{!isHomePage? `text-black` : `text-primary-content`} font-avenir-bold text-xl fixed top-[1.75rem] left-[2rem]">
         BURRITO 
-        {#if !localSafeMode}
-            <span>SLUT</span>
+        {#if !$safeMode}
+            <span 
+                in:blur={{amount: 100, duration: 500, easing: cubicInOut}}
+            >
+                SLUT</span>
         {:else}
-            <span>FINDER</span>
+            <span
+                in:blur={{amount: 100, duration: 500, easing: cubicInOut}}
+            >FINDER</span>
         {/if}
     </a>
     <!-- searchbar -->

@@ -1,20 +1,23 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { initializeApp } from "firebase/app";
+import { initializeApp, type FirebaseApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, EmailAuthProvider, getRedirectResult, } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-import { writable, type Readable, derived } from "svelte/store";
+import { writable, type Readable, derived, readable } from "svelte/store";
 import type { MyUser, RestaurantData, Address, UserData, BurritoData } from "./types";
+
+import { PUBLIC_FIREBASE_API_KEY } from "$env/static/public";
+import { browser } from '$app/environment';
 
 
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCod60FyEfWwW2oagOhFzR9xZsqrfECtA4",
+  apiKey: PUBLIC_FIREBASE_API_KEY,
   authDomain: "burritoslut-1a7c8.firebaseapp.com",
   projectId: "burritoslut-1a7c8",
   storageBucket: "burritoslut-1a7c8.appspot.com",
@@ -22,6 +25,26 @@ const firebaseConfig = {
   appId: "1:1005834415961:web:c33a00ff6289dcff646648",
   measurementId: "G-R6HZDMR11X"
 };
+
+// load firebase as needed by creating a store
+function createApp() {
+  let app: FirebaseApp
+
+  const { subscribe } = readable<FirebaseApp>(undefined, (set) => {
+    async function init() {
+      if (!app) {
+        const { initializeApp } = await import('firebase/app')
+        app = initializeApp(firebaseConfig)
+      }
+      set(app)
+    }
+
+    if (browser) init()
+  })
+
+  return { subscribe }
+}
+
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
@@ -91,4 +114,25 @@ export const userData: Readable<UserData | null> = derived(
     }
   },
 );
+
+async function providerFor(name: string) {
+  const { GoogleAuthProvider } = await import('firebase/auth')
+  switch (name) {
+    case 'google': return new GoogleAuthProvider()
+    default: throw 'unknown provider' + name
+  }
+}
+
+async function signInWith(name: string) {
+  const { signInWithRedirect } = await import('firebase/auth')
+  const provider = await providerFor(name)
+  await signInWithRedirect(auth, provider)
+}
+
+async function signOut() {
+  const { signOut } = await import('firebase/auth')
+  await signOut(auth)
+}
+
+
 
