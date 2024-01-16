@@ -1,27 +1,38 @@
 <script lang="ts">
-  import ThemeLobster from '../lib/components/ThemeLobster.svelte';
-
-	import { blur, fly } from 'svelte/transition';
-	import '../app.css';
-	import { backIn, backInOut, backOut } from 'svelte/easing';
 	import { theme } from '../stores/stores';
-	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
-	import type { RestaurantData, BurritoData } from '$lib/types';
+	import { invalidateAll } from '$app/navigation';
+	import type { LayoutData } from './$types';
 
+	export let data: LayoutData
+
+	function signOut() {
+		// DELETE /session endpoint to clear session cookie
+		invalidateAll()
+	}
+
+	function signIn() {
+		// POST /session endpoint to set session cookie
+		invalidateAll()
+	}
+
+	// subscribe to theme store
 	let themeValue: string;
 	theme.subscribe((value) => {
 		themeValue = value;
 	});
-
-	
-
 	
 </script>
 
-<slot />
-
 <body data-theme={themeValue}>
 
+{#if data.session.user}
+	Welcome {data.session.user.name}
+	<button on:click={signOut}>sign out</button>
+{:else}
+	Welcome Visitor
+	<button on:click={signIn}>Sign in</button>
+{/if}
+
+<slot />
 	
 </body>

@@ -46,7 +46,16 @@
     async function signInWithGoogle() {
         console.log('signInWithGoogle: Hi');
         const provider = new GoogleAuthProvider();
-        signInWithRedirect(auth, provider);
+        const credential = await signInWithRedirect(auth, provider);
+        const idToken = await credential.user.getIdToken();
+
+        const res = await fetch("/api/signin", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ idToken }),
+        });
     }
 
     async function signInWithApple() {
