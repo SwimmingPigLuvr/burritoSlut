@@ -2,8 +2,9 @@
 	import { theme } from '../stores/stores';
 	import { invalidateAll } from '$app/navigation';
 	import type { LayoutData } from './$types';
+	import '../app.css'
 
-	export let data: LayoutData
+	// export let data: LayoutData
 
 	function signOut() {
 		// DELETE /session endpoint to clear session cookie
@@ -25,13 +26,13 @@
 
 <body data-theme={themeValue}>
 
-{#if data.session.user}
+<!-- {#if data.session.user}
 	Welcome {data.session.user.name}
 	<button on:click={signOut}>sign out</button>
 {:else}
 	Welcome Visitor
 	<button on:click={signIn}>Sign in</button>
-{/if}
+{/if} -->
 
 <slot />
 	

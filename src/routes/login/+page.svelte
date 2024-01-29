@@ -1,15 +1,9 @@
-
-<!-- todos for this page: -->
-<!-- login user / signup user -->
-<!-- login button green only when email and password are entered -->
-<!-- finish setting up the login vs sign up states -->
-
-
 <script lang='ts'>
 	import { auth, user, userData } from "$lib/firebase";
 	import { GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";
 	import { onMount } from "svelte";
 	import { safeMode } from "../../stores/stores";
+    import { auth2 } from '$lib/auth'
 
     let email = '';
     let password = '';
@@ -46,16 +40,7 @@
     async function signInWithGoogle() {
         console.log('signInWithGoogle: Hi');
         const provider = new GoogleAuthProvider();
-        const credential = await signInWithRedirect(auth, provider);
-        const idToken = await credential.user.getIdToken();
-
-        const res = await fetch("/api/signin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ idToken }),
-        });
+        await signInWithRedirect(auth, provider);
     }
 
     async function signInWithApple() {
@@ -70,15 +55,23 @@
 
     onMount(() => {
         getRedirectResult(auth)
-            .then((result) => {
+            .then(async (result) => {
                 if (result) {
                     const credential = GoogleAuthProvider.credentialFromResult(result);
                     const token = credential?.accessToken;
 
                     const user = result.user;
+
+                    const res = await fetch("/api/signin", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ token: token }),
+                    });
                 }
             }).catch((error) => {
-                // do something
+                console.log('uh oh');
             })
     });
 
@@ -102,68 +95,76 @@
     </nav>
 
     {#if $user}
-        <!-- handle if the user is logged in -->
+        <div>
+            <div>
+                <h2>Welcome, {$userData?.username ?? 'new_user'}</h2>
+                <p>you have been successfully logged in</p>
+            </div>
+            <div>
+                <button on:click={() => auth2.signOut} class="btn btn-error">
+                    sign out
+                </button>
+            </div>
+        </div>
     {:else}
-        <!-- most likely the user is not logged in -->
-        <!-- if user is logged in then they can signout? -->
-        <!-- to make another account -->
+        <div 
+            class="border-2 border-black p-8 bg-white w-[24rem]  flex flex-col my-20 m-auto">
+            <!-- title/tagline/terms -->
+            <div class="font-avenir-bold flex flex-col space-y-2 justify-center mx-auto items-center mb-6 text-center">
+                    <h1 class="text-primary text-2xl leading-8">
+                        {#if login}
+                            Login to
+                        {:else}
+                            Signup for
+                        {/if}
+                        <br>BURRITO
+                        {#if safeMode}
+                            <span>FINDER</span>
+                        {:else}
+                            <span>SLUT</span>
+                        {/if}
+                    </h1>
+                <p class="text-lg text-center text-black my-1">New to BurritoSlut? <button class="text-info no-underline hover:underline">Sign up</button></p>
+                <p class="text-xs font-thin text-center tracking w-[16rem]">By continuing, you agree to BurritoSlut's <a href="/tos">Terms of Service</a> and acknowledge BurritoSlut's <a href="privacy">Privacy Policy</a>.</p>
+            </div>
+
+            <!-- continue with google / apple -->
+            <div class="mx-auto flex flex-col space-y-2">
+                <button on:click={signInWithGoogle} class="rounded-none font-mono btn btn-wide btn-outline border-2 ">
+                    📚
+                    Continue with Google
+                </button>
+                <button on:click={signInWithApple} class="rounded-none font-mono btn btn-wide btn-outline border-2">
+                    🍎
+                    Continue with Apple
+                </button>
+            </div>
+
+            <!-- or -->
+            <p class="my-4 mx-auto">Or</p>
+
+            <!-- form -->
+            <div class="flex flex-col space-y-1 w-[16rem] mx-auto mb-4">
+                <label for="email">Email</label>
+                <input type="email" bind:value={email} class="">
+                <label for="password">Password</label>
+                <input type="password" bind:value={password}>
+                <a href="/forgot-password" class="text-xs font-avenir-medium text-right px- my-1 text-slate-400 hover:text-info">Forgot password?</a>
+            </div>
+
+                <button 
+                        class="my-2 m-auto text-xs hover:bg-opacity-80 font-mono text-black btn btn-sm border-2 border-black rounded-none h-[2.5rem] btn-wide hover:bg-primary"
+                        class:btn-success={isLoginButtonEnabled}
+                        on:click={signIn}
+                        disabled={!isLoginButtonEnabled}>
+                    Login
+                </button>
+
+                <p class="text-xs px-8 font-avenir-medium text-right text-black my-1">Don't have an account? <button on:click={() => switchToSignup()} class="text-info hover:underline">Sign up</button></p>
+
+        </div>
     {/if}
-    <div 
-        class="border-2 border-black p-8 bg-white w-[24rem]  flex flex-col my-20 m-auto">
-        <!-- title/tagline/terms -->
-        <div class="font-avenir-bold flex flex-col space-y-2 justify-center mx-auto items-center mb-6 text-center">
-                <h1 class="text-primary text-2xl leading-8">
-                    {#if login}
-                        Login to
-                    {:else}
-                        Signup for
-                    {/if}
-                    <br>BURRITO
-                    {#if safeMode}
-                        <span>FINDER</span>
-                    {:else}
-                        <span>SLUT</span>
-                    {/if}
-                </h1>
-            <p class="text-lg text-center text-black my-1">New to BurritoSlut? <button class="text-info no-underline hover:underline">Sign up</button></p>
-            <p class="text-xs font-thin text-center tracking w-[16rem]">By continuing, you agree to BurritoSlut's <a href="/tos">Terms of Service</a> and acknowledge BurritoSlut's <a href="privacy">Privacy Policy</a>.</p>
-        </div>
-
-        <!-- continue with google / apple -->
-        <div class="mx-auto flex flex-col space-y-2">
-            <button on:click={signInWithGoogle} class="rounded-none font-mono btn btn-wide btn-outline border-2 ">
-                📚
-                Continue with Google
-            </button>
-            <button on:click={signInWithApple} class="rounded-none font-mono btn btn-wide btn-outline border-2">
-                🍎
-                Continue with Apple
-            </button>
-        </div>
-
-        <!-- or -->
-        <p class="my-4 mx-auto">Or</p>
-
-        <!-- form -->
-        <div class="flex flex-col space-y-1 w-[16rem] mx-auto mb-4">
-            <label for="email">Email</label>
-            <input type="email" bind:value={email} class="">
-            <label for="password">Password</label>
-            <input type="password" bind:value={password}>
-            <a href="/forgot-password" class="text-xs font-avenir-medium text-right px- my-1 text-slate-400 hover:text-info">Forgot password?</a>
-        </div>
-
-            <button 
-                    class="my-2 m-auto text-xs hover:bg-opacity-80 font-mono text-black btn btn-sm border-2 border-black rounded-none h-[2.5rem] btn-wide hover:bg-primary"
-                    class:btn-success={isLoginButtonEnabled}
-                    on:click={signIn}
-                    disabled={!isLoginButtonEnabled}>
-                Login
-            </button>
-
-            <p class="text-xs px-8 font-avenir-medium text-right text-black my-1">Don't have an account? <button on:click={() => switchToSignup()} class="text-info hover:underline">Sign up</button></p>
-
-    </div>
+    
 
     {#if viewGoogleSignIn}
         <!-- google sign in -->

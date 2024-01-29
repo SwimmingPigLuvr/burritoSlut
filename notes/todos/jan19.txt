@@ -1,0 +1,24 @@
+place the find one near you button and the review burritos buttons horizontally in the center under the slide
+o
+
+
+jan 21 2024
+
+focus:
+    burrito rating console
+    burrito judgment chamber
+    burrito fate decider
+    burrito analysis quadrant
+
+    image uploads
+        use design from IMPORTANT LINKS project
+            select image -> black and white image preview + laoding animation -> full color image when successfully loaded
+                requirements:
+                    storage bucket, upload functions, for demo purposes anyone can upload
+        ui
+        if 1 image: uses full image div h and w
+        if images: divs split into sections within main image div into sections
+            smooth transitions when adding images
+        after image upload
+            select data point relevant to image? (optional)
+            add caption

@@ -1,0 +1,23 @@
+review page
+select restaurant -> select menu item
+
+review form:
+
+nav condensed
+    logo/home button + profile button: top corners
+
+h1
+    restaurant/menu item
+h3
+    review tips / guide
+    rating info page that breaks down how each data point is rated
+
+inputs for each data point:
+    ratings/scales/etc
+    notes
+
+main text box / other thoughts
+
+attach photos
+
+post review button

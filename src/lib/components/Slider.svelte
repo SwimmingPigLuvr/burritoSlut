@@ -34,14 +34,17 @@
 
             <!-- tagline -->
             {#if index === index}
-            <div class="transform transition-all duration-1000 ease-in-out pr-4 w-full md:w-[50%] z-20 absolute left-6 sm:left-10 md:left-[20%] top-36 md:top-[7.5rem] flex flex-col space-y-4">
+            <div class="h-full w-full left-1/2 -translate-x-1/2 p-12 flex flex-col items-center transform transition-all duration-1000 ease-in-out pr-4 md:w-[50%] z-20 absolute right-6 sm:right-10 md:right-[20%] top-36 md:top-[7.5rem] space-y-4">
                     <h3 
                         in:fade={{duration: 1000, easing: cubicIn, delay: 500}}
-                        class="font-avenir-bold text-white text-xl">{taglines[index][0]}</h3>
+                        class="font-avenir-bold text-white text-xl text-center">{taglines[index][0]}</h3>
                     <h3 
                         in:fade={{duration: 1000, easing: cubicIn, delay: 1000}}
-                        class="font-avenir-bold uppercase text-white text-[5rem] leading-[1]">{taglines[index][1]}</h3>
-                    <a href="/search" class="btn-primary border-white border-2 rounded-none btn font-avenir-bold btn-lg w-[20rem]">Find One Near You</a>
+                        class="font-avenir-bold uppercase text-white text-5xl leading-[1] text-center">{taglines[index][1]}</h3>
+                    <div class="flex space-x-2">
+                        <a href="/search" class="btn-primary bg-black border-primary border-2 rounded-none btn font-avenir-bold">Find One Near You! 📍</a>
+                        <a href="/burrito-JUDGEMENT-ZONE" class="btn-primary bg-black border-primary border-2 rounded-none btn font-avenir-bold">Review Burritos 🌯</a>
+                    </div>
             </div>
             {/if}
         </div> 
@@ -51,7 +54,7 @@
     
 </div> 
     <!-- slider controls -->
-    <div class="fixed z-50 bottom-[20%] left-1/2 -translate-x-1/2 transform transition-all duration-1000 ease-in-out flex space-x-4 justify-center">
+    <div class="fixed z-50 bottom-[7.5%] left-1/2 -translate-x-1/2 transform transition-all duration-1000 ease-in-out flex space-x-4 justify-center">
         {#each images as image, index}
             <!-- svelte-ignore a11y-missing-content -->
             <a 

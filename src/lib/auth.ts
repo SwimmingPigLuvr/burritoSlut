@@ -2,7 +2,7 @@ import { derived, type Readable } from 'svelte/store'
 import { browser, dev } from '$app/environment'
 import type { Auth } from "firebase/auth"
 import type { FirebaseApp } from 'firebase/app'
-import { app } from './firebase.js'
+import { app } from './app'
 
 // load the firebase auth client as a store and provide an API to access its methods
 // this depends on the app store and will also only be loaded on demand
@@ -54,4 +54,4 @@ const createAuth = () => {
   }
 }
 
-export const auth = createAuth()
+export const auth2 = createAuth()

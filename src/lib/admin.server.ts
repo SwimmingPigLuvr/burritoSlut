@@ -8,5 +8,5 @@ if (userEmulator) {
 }
 
 // server side firebase client
-export const app = initializeApp({ projectId: 'burritoSlut' })
+export const app = initializeApp({ projectId: 'burritoSlut-demo' })
 export const auth = getAuth(app)
