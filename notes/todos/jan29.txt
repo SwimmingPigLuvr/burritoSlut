@@ -1,8 +1,0 @@
-todo for today
-
-image uploads
-1. get the reviewphotos formatted better inside the div
-2. add the option to add a caption to each photo
-3. add the option to add a category to each photo
-
-create the criteria inputs

@@ -112,3 +112,11 @@ export interface Session {
         uid: string
     } | null
 }
+
+export interface ReviewPhoto {
+    id: string
+    url: string
+    alt?: string
+    caption?: string
+    category?: string
+}

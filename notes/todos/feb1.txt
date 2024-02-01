@@ -1,0 +1,20 @@
+todo for today
+
+make these into smaller components
+
+
+image uploads
+💎 1. get the reviewphotos formatted better inside the div
+💎 2. add the option to add a caption to each photo
+💎 3. add the option to add a category to each photo
+💎 4. add delete buttons
+💎 5. modal should have an attach button which goes back outside the modal and displays the images with the rest of the review
+💎 6. link caption to correct image
+    a. make sure when image is deleted that the caption stays with that images
+        solution: use custom uuid for each $reviewPhotos
+            good news: the console log shows that the reviewPhotos store contains the correct captions
+                issue: not showing up in the ui
+                    solution: make sure the ui is conditionally rendered based on the store
+
+
+create the criteria inputs

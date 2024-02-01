@@ -48,6 +48,7 @@
 		"firebase": "^10.6.0",
 		"firebase-admin": "^12.0.0",
 		"firebaseui": "^6.1.0",
-		"geofire-common": "^6.0.0"
+		"geofire-common": "^6.0.0",
+		"uuid": "^9.0.1"
 	}
 }
