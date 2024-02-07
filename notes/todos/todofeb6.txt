@@ -1,0 +1,5 @@
+✅ use the public api keys instead of env vars
+✅ move the file ui to the right in vscode
+the default firebase app exists
+    that means that i called initapp twice in my code
+        figure this out

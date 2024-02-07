@@ -9,7 +9,7 @@ import { getStorage } from "firebase/storage";
 import { writable, type Readable, derived, readable } from "svelte/store";
 import type { MyUser, RestaurantData, Address, UserData, BurritoData } from "./types";
 
-import { PUBLIC_FIREBASE_API_KEY } from "$env/static/public";
+// import { PUBLIC_FIREBASE_API_KEY } from "$env/static/public";
 import { browser } from '$app/environment';
 
 
@@ -17,7 +17,7 @@ import { browser } from '$app/environment';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: PUBLIC_FIREBASE_API_KEY,
+  apiKey: 'AIzaSyCod60FyEfWwW2oagOhFzR9xZsqrfECtA4',
   authDomain: "burritoslut-1a7c8.firebaseapp.com",
   projectId: "burritoslut-1a7c8",
   storageBucket: "burritoslut-1a7c8.appspot.com",
