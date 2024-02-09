@@ -18,7 +18,7 @@
 	import { blur, fade, fly, slide } from "svelte/transition";
 	import ImageControls from "./ImageControls.svelte";
 	import PreviewPhoto from "./PreviewPhoto.svelte";
-    import { reviewPhotos, dropZoneFocused } from "../../stores/stores";
+    import { reviewPhotos, dropZoneFocused, isModalOpen } from "../../stores/stores";
     import type { ReviewPhoto } from "$lib/types";
 	import AttachedPhotos from "./AttachedPhotos.svelte";
 
@@ -34,7 +34,7 @@
     }
 
     function handleAttach(event: Event) {
-        isModalOpen = false
+        $isModalOpen = false
     }
 
     function handleButtonKeydown(event: KeyboardEvent) {
@@ -50,12 +50,12 @@
         if ($reviewPhotos.length > 0) {
             confirmClose = true
         } else {
-            isModalOpen = false
+            $isModalOpen = false
         }
     }
 
     function handleModalReset(event: Event) {
-        isModalOpen = false
+        $isModalOpen = false
         confirmClose = false
         $dropZoneFocused = false
         $reviewPhotos = []
@@ -115,8 +115,6 @@
             }
         }
     }
-
-    let isModalOpen: boolean = false
 
     let reviewID: string
     let caption: string
@@ -191,7 +189,7 @@
             <AttachedPhotos />
         {:else}
             <button 
-                on:click={() => isModalOpen = !isModalOpen}
+                on:click={() => $isModalOpen = !$isModalOpen}
                 class="mx-auto bg-white hover:border-4 filter grayscale hover:grayscale-0 w-[90%] h-[100px] border-black border-2"
             >
                 <p class="text-5xl">+📸🌯</p>
@@ -199,7 +197,7 @@
         {/if}
 
     </div>
-    {#if isModalOpen}
+    {#if $isModalOpen}
 
         <!-- bg -->
         <button 
