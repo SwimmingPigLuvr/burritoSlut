@@ -6,7 +6,7 @@
 
     let caption: string
 
-    function deletePhoto(photoId: string) {
+    function deletePhoto(photoId: number) {
         reviewPhotos.update(photos => photos.filter(photo => photo.id !== photoId));
         if ($reviewPhotos.length === 0) {
             dropZoneFocused.set(false)
@@ -17,7 +17,7 @@
         }
     }
 
-    function updateCaption(photoId: string, caption: string) {
+    function updateCaption(photoId: number, caption: string) {
         reviewPhotos.update((photos: ReviewPhoto[]) => {
             return photos.map(photo => {
                 if (photo.id === photoId) {
@@ -77,7 +77,6 @@
         </select>
     </div>
     <br>
-    <hr class="">
 </div>
 
 <style>

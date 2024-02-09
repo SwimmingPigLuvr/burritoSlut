@@ -1,4 +1,5 @@
 // temporarily commenting this out to fix the issue of default app already created
+// this is a test to see how fast i can type
 
 // import { browser, dev } from '$app/environment'
 // import type { FirebaseApp, FirebaseOptions } from 'firebase/app'

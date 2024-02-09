@@ -114,7 +114,7 @@ export interface Session {
 }
 
 export interface ReviewPhoto {
-    id: string
+    id: number
     url: string
     alt?: string
     caption?: string

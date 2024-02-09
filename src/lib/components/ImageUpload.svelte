@@ -20,7 +20,7 @@
 	import PreviewPhoto from "./PreviewPhoto.svelte";
     import { reviewPhotos, dropZoneFocused } from "../../stores/stores";
     import type { ReviewPhoto } from "$lib/types";
-    import { v4 as uuid } from 'uuid'
+	import AttachedPhotos from "./AttachedPhotos.svelte";
 
     let confirmClose: boolean = false
 
@@ -31,6 +31,10 @@
         if (fileInput) {
             fileInput.click()
         }
+    }
+
+    function handleAttach(event: Event) {
+        isModalOpen = false
     }
 
     function handleButtonKeydown(event: KeyboardEvent) {
@@ -55,6 +59,7 @@
         confirmClose = false
         $dropZoneFocused = false
         $reviewPhotos = []
+        filesToUpload = []
     }
 
     function onDragOver(event: DragEvent) {
@@ -81,7 +86,12 @@
         }
     }
 
+    let addingReviewPhotos = false
+    let addedReviewPhotosSuccess = false
+
     function handleFiles(files: File[]) {
+        addingReviewPhotos = true
+        addedReviewPhotosSuccess = false
         for (let file of files) {
             // check for duplicates
             const isDuplicate = filesToUpload.some(existingFile =>
@@ -91,13 +101,17 @@
             if (!isDuplicate) {
                 const previewURL = URL.createObjectURL(file)
                 const newPhoto: ReviewPhoto = { 
-                    id: uuid(),
+                    id: $reviewPhotos.length + 1,
                     url: previewURL, 
                     caption: `Photo ${$reviewPhotos.length + 1}`, 
                 }
+                addingReviewPhotos = false
+                addedReviewPhotosSuccess = true
+
                 filesToUpload.push(file)
                 
                 $reviewPhotos = [...$reviewPhotos, newPhoto]
+
             }
         }
     }
@@ -173,12 +187,16 @@
 <div class="p-8">
     <div class="flex flex-col w-full space-y-4">
         <h2 class="font-avenir-bold text-lg">Attach Photos</h2>
-        <button 
-            on:click={() => isModalOpen = !isModalOpen}
-            class="mx-auto bg-white hover:border-4 filter grayscale hover:grayscale-0 w-[90%] h-[100px] border-black border-2"
-        >
-            <p class="text-5xl">+📸🌯</p>
-        </button>
+        {#if $reviewPhotos.length > 0}
+            <AttachedPhotos />
+        {:else}
+            <button 
+                on:click={() => isModalOpen = !isModalOpen}
+                class="mx-auto bg-white hover:border-4 filter grayscale hover:grayscale-0 w-[90%] h-[100px] border-black border-2"
+            >
+                <p class="text-5xl">+📸🌯</p>
+            </button>
+        {/if}
 
     </div>
     {#if isModalOpen}
@@ -191,25 +209,28 @@
             <!-- modal container -->
             <button 
                 on:click|stopPropagation
-                class="relative hover:cursor-default my-auto bg-white w-full h-[500px] max-h-[750px] flex items-center p-8">
+                class="relative hover:cursor-default my-auto bg-white border-2 border-black w-full {$reviewPhotos.length > 1 ? 'h-[750px]' : 'h-[500px]'} flex items-center p-8">
 
                     <!-- x button -->
                     {#if !confirmClose}
                         {#if $reviewPhotos.length > 0}
                             <div class="absolute top-4 -left-6 w-full p-4">
-                                <h2 class="font-avenir-bold text-[1.33rem]">Write descriptions and select categories.</h2>
+                                <h2 class="font-avenir-bold -tracking-wide text-[1.23rem]">Write descriptions and select categories.</h2>
                             </div>
                         {/if}
 
                         <button 
                             on:click={handleModalClose}
-                            class="z-20 btn btn-circle absolute top-4 right-4"
+                            class="z-20 btn btn btn-circle absolute top-4 right-4"
                         >
                                 X
                         </button>
                     {/if}
 
                 {#if $reviewPhotos.length === 0}
+                        {#if addingReviewPhotos}
+                            <div><span class="loading loading-spinner"></span></div>
+                        {/if}
                 <!-- inner div (dashed border) -->
                 <div 
                     on:dragover={onDragOver}
@@ -265,7 +286,7 @@
                     {:else}
 
                     <!-- reviewphotos -->
-                    <div class="h-[350px] overflow-auto flex flex-col space-y-">
+                    <div class="{$reviewPhotos.length > 1 ? 'h-[600px]' : 'h-[350px]'} w-full overflow-auto flex flex-col space-y- ">
                         {#each $reviewPhotos as photo (photo.id)}
                             <PreviewPhoto photo={photo} />
                         {/each}
@@ -274,6 +295,7 @@
                         <!-- attach / add more buttons -->
                         <div class="w-[300px] flex justify-evenly absolute bottom-4 left-1/2 -translate-x-1/2 space-x-2">
                             <button 
+                                on:click={handleAttach}
                                 class="btn btn-primary rounded-none w-1/2">
                                 Attach
                             </button>

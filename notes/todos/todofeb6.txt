@@ -3,3 +3,15 @@
 the default firebase app exists
     that means that i called initapp twice in my code
         figure this out
+
+rewrite the rating sliders component
+
+customize vim
+	don't need the directory at the top
+
+todo feb 7
+
+enable reupload of previously discarded photos
+get attach function going
+get preview ui going
+    array of previews with captions and delete buttons
