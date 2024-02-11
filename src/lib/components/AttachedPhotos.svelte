@@ -7,9 +7,10 @@
 </script>
 
 <div class="flex space-x-2 h-[140px] w-full overflow-auto overflow-y-hidden">
+	<!-- this button is way skinnier than 125px or 150px wide in my ui -->
 	<button
 		on:click={() => ($isModalOpen = !$isModalOpen)}
-		class="bg-white rounded-none h-[125px] mix-w-[125px] w-[150px] border-2 border-black text-avenir-bold text-3xl hover:border-4 filter grayscale hover:grayscale-0"
+		class="bg-white rounded-none h-[125px] min-w-[125px] w-[150px] border-2 border-black text-avenir-bold text-5xl hover:border-4 filter grayscale hover:grayscale-0"
 		>+📸🌯</button
 	>
 	{#each $reviewPhotos as attachedPhoto}

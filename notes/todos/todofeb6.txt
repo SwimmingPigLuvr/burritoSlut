@@ -15,3 +15,44 @@ enable reupload of previously discarded photos
 get attach function going
 get preview ui going
     array of previews with captions and delete buttons
+
+
+
+get the other components on the review page
+
+first page: finding burrito / restaurant to review
+    nav: homepage --- login / account
+    search for restaurant to review
+        once restaurant selected:
+            choose burrito to rate -> go to rating page
+    recentlyVisited?
+        ask if they've eaten any burritos
+            shows any burrito / restaurant page they've clicked on
+                <button on:hover={ignore this suggestion}> 
+                    X 
+                </button>
+    footer
+
+second page: burrito judgment zone                             right side:
+    nav                                                         recent reviews in a vertical list
+    h1 --- rating guidleins + rating score breakdown                user profile
+    general text review                                                 pfp, badges, scores, review count, ...etc
+        textarea                                                    first photo
+    ratingZone                                                      text preview
+        {#each categories as category}
+            name --- ratingValue
+            rating slider
+            caption? photo?
+        {/each}
+    attachPhotos
+        self explanitory
+    submit review button
+        on:click -> go to next page
+    footer
+
+third page
+    nav with search bar
+    thanks for the review
+    you just got 100 burrito pts
+    recentlyVisited?
+    footer
