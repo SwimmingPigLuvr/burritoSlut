@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { ReviewPhoto } from '$lib/types';
+import type { ReviewPhoto, Dimension } from '$lib/types';
 
 export const theme = writable('garden');
 export const filters = writable<string[]>([]);
@@ -13,6 +13,13 @@ export const filesToUpload = writable<File[]>([]);
 export const dropZoneFocused = writable<boolean>(false);
 export const isModalOpen = writable<boolean>(false);
 
-export const dimensions = writable<string[]>([
-    cheese,
+export const dimensions = writable<Dimension[]>([
+    { name: 'cheese', score: 0 },
+    { name: 'tortilla', score: 0 },
+    { name: 'meat', score: 0 },
+    { name: 'ratio', score: 0 },
+    { name: 'temp', score: 0 },
+    { name: 'grease', score: 0 },
+    { name: 'ingredients', score: 0 },
+    { name: 'volume', score: 0 },
 ]);

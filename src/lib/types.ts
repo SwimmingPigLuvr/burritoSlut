@@ -120,3 +120,8 @@ export interface ReviewPhoto {
     caption?: string
     category?: string
 }
+
+export interface Dimension {
+    name: string
+    score: number
+}

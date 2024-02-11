@@ -174,8 +174,8 @@
 	}
 </script>
 
-<div class="p-8 bg-amber-300 w-full">
-	<div class=" sm:max-w-[500px] flex flex-col w-full space-y-4 bg-lime-600 mx-auto">
+<div class="p-8 w-full">
+	<div class=" sm:max-w-[500px] flex flex-col w-full space-y-4">
 		<h2 class="font-avenir-bold text-lg mx-auto w-full text-left">Attach Photos</h2>
 		{#if $reviewPhotos.length > 0}
 			<AttachedPhotos />

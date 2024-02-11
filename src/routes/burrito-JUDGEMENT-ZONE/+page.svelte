@@ -1,18 +1,12 @@
 <script lang="ts">
-
-	import ImageUpload from "$lib/components/ImageUpload.svelte";
-
+	import ImageUpload from '$lib/components/ImageUpload.svelte';
+	import RatingSystem from '$lib/components/RatingSystem.svelte';
+	import { dimensions } from '../../stores/stores';
 </script>
 
-<div class="w-screen h-screen flex flex-col sm:flex-row bg-primary-content">
-
-    <!-- image preview -->
-        <ImageUpload />
-
-    <!-- rating inputs -->
-    <div>
-
-    </div>
+<div class="w-screen h-screen flex flex-col bg-primary-content">
+	<RatingSystem />
+	<ImageUpload />
 </div>
 
 <style></style>
