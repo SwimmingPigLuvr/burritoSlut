@@ -9,5 +9,10 @@ export const searchLocation = writable('Costa Mesa, CA');
 export const safeMode = writable<boolean>(true);
 
 export const reviewPhotos = writable<ReviewPhoto[]>([]);
+export const filesToUpload = writable<File[]>([]);
 export const dropZoneFocused = writable<boolean>(false);
 export const isModalOpen = writable<boolean>(false);
+
+export const dimensions = writable<string[]>([
+    cheese,
+]);

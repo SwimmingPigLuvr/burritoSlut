@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { reviewPhotos, dropZoneFocused } from '../../stores/stores';
+	import { reviewPhotos, dropZoneFocused, isModalOpen, filesToUpload } from '../../stores/stores';
 	import type { ReviewPhoto } from '$lib/types';
 
 	export let photo: ReviewPhoto;
@@ -7,9 +7,28 @@
 	let caption: string;
 
 	function deletePhoto(photoId: number) {
-		reviewPhotos.update((photos) => photos.filter((photo) => photo.id !== photoId));
+		let indexToDelete = -1;
+
+		reviewPhotos.update((photos) => {
+			const filteredPhotos = photos.filter((photo, index) => {
+				if (photo.id !== photoId) return true;
+				indexToDelete = index; // Capture the index to delete
+				return false;
+			});
+			return filteredPhotos;
+		});
+
+		if (indexToDelete !== -1) {
+			filesToUpload.update((files) => {
+				return files.filter((_, index) => index !== indexToDelete);
+			});
+		}
+
 		if ($reviewPhotos.length === 0) {
 			dropZoneFocused.set(false);
+			$isModalOpen = false;
+			$reviewPhotos = [];
+			$filesToUpload = [];
 		}
 		console.log('logging current review captions');
 		for (let i = 0; i < $reviewPhotos.length; i++) {
@@ -33,7 +52,7 @@
 	}
 </script>
 
-<div class="relative flex flex-col space-y-2 bg-sky-500 w-full">
+<div class="relative flex flex-col space-y-2 w-full">
 	<div class="w-full h-[169px] overflow-hidden">
 		<img src={photo.url} alt={photo.alt} class="w-full h-full object-cover" />
 	</div>

@@ -18,7 +18,7 @@
 	import { blur, fade, fly, slide } from 'svelte/transition';
 	import ImageControls from './ImageControls.svelte';
 	import PreviewPhoto from './PreviewPhoto.svelte';
-	import { reviewPhotos, dropZoneFocused, isModalOpen } from '../../stores/stores';
+	import { reviewPhotos, dropZoneFocused, isModalOpen, filesToUpload } from '../../stores/stores';
 	import type { ReviewPhoto } from '$lib/types';
 	import AttachedPhotos from './AttachedPhotos.svelte';
 
@@ -59,7 +59,7 @@
 		confirmClose = false;
 		$dropZoneFocused = false;
 		$reviewPhotos = [];
-		filesToUpload = [];
+		$filesToUpload = [];
 	}
 
 	function onDragOver(event: DragEvent) {
@@ -94,7 +94,7 @@
 		addedReviewPhotosSuccess = false;
 		for (let file of files) {
 			// check for duplicates
-			const isDuplicate = filesToUpload.some(
+			const isDuplicate = $filesToUpload.some(
 				(existingFile) => existingFile.name === file.name && existingFile.size === file.size
 			);
 
@@ -108,7 +108,7 @@
 				addingReviewPhotos = false;
 				addedReviewPhotosSuccess = true;
 
-				filesToUpload.push(file);
+				$filesToUpload.push(file);
 
 				$reviewPhotos = [...$reviewPhotos, newPhoto];
 			}
@@ -129,9 +129,6 @@
 		currentImageIndex = index;
 	}
 
-	// let reviewPhotos: ReviewPhoto[] = []
-	let filesToUpload: File[] = [];
-
 	async function handleFileSelect(e: Event) {
 		const input = e.target as HTMLInputElement;
 		if (input.files) {
@@ -150,8 +147,8 @@
 		const reviewRef = doc(db, `reviews/${reviewID}`);
 		let photoURLs = [];
 
-		for (let i = 0; i < filesToUpload.length; i++) {
-			const imageFile = filesToUpload[i];
+		for (let i = 0; i < $filesToUpload.length; i++) {
+			const imageFile = $filesToUpload[i];
 			const storageRef = ref(storage, `reviews/${reviewID}/photos/image${i + 1}`);
 
 			const uploadResult = await uploadBytes(storageRef, imageFile);
@@ -178,7 +175,7 @@
 </script>
 
 <div class="p-8 bg-amber-300 w-full">
-	<div class=" sm:max-w-[750px] flex flex-col w-full space-y-4 bg-lime-600 mx-auto">
+	<div class=" sm:max-w-[500px] flex flex-col w-full space-y-4 bg-lime-600 mx-auto">
 		<h2 class="font-avenir-bold text-lg mx-auto w-full text-left">Attach Photos</h2>
 		{#if $reviewPhotos.length > 0}
 			<AttachedPhotos />
