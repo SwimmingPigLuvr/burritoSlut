@@ -14,9 +14,9 @@ first page: finding burrito / restaurant to review
                 </button>
     footer
 
-second page: burrito judgment zone                             right side:
+second page: burrito judgment zone                             right side: recent reviews component
     nav                                                         recent reviews in a vertical list
-    h0 --- rating guidleins + rating score breakdown                user profile
+    h2 --- rating guidlines + rating score breakdown                user profile
     general text review                                                 pfp, badges, scores, review count, ...etc
         textarea                                                    first photo
     ratingZone                                                      text preview
@@ -37,3 +37,24 @@ third page
     you just got 99 burrito pts
     recentlyVisited?
     footer
+
+
+
+rating system + questions
+
+i think that the rating doesn't always give enough info
+
+we should ask the users to describe details about the burritos
+
+for example was it spicy?
+that shouldn't be a factor into the overall score
+that's purely informational
+
+solution:
+spice level?
+🫑🌶️🔥🌋
+
+that way we can categorize burritos
+
+some users might like really cheesy burrito
+but if they just see the raw rating that won't be good info
