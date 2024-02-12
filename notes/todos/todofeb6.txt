@@ -17,42 +17,28 @@ get preview ui going
     array of previews with captions and delete buttons
 
 
+todo feb 12
+move outline into outline.txt
+    follow outline
+
+    todos based on outline 
+        create simple mode for nav
+        create burrito lookup component
+            similar to the autocomplete found in the nav search bars
+                main difference: burritoLookup just looks through the database, NOT Google
+        recentlyEaten burritos component
+            use this on multiple pages
+            ask if the user has eaten these options
+                sort by 
+                    recently visited pages: burrito -> restaurants, 
+                    places with similar names to past searches
+    footer component
+        sitemap
+        list of links and info
+        idk let's just see what other sites do
+
+
 
 get the other components on the review page
 
-first page: finding burrito / restaurant to review
-    nav: homepage --- login / account
-    search for restaurant to review
-        once restaurant selected:
-            choose burrito to rate -> go to rating page
-    recentlyVisited?
-        ask if they've eaten any burritos
-            shows any burrito / restaurant page they've clicked on
-                <button on:hover={ignore this suggestion}> 
-                    X 
-                </button>
-    footer
 
-second page: burrito judgment zone                             right side:
-    nav                                                         recent reviews in a vertical list
-    h1 --- rating guidleins + rating score breakdown                user profile
-    general text review                                                 pfp, badges, scores, review count, ...etc
-        textarea                                                    first photo
-    ratingZone                                                      text preview
-        {#each categories as category}
-            name --- ratingValue
-            rating slider
-            caption? photo?
-        {/each}
-    attachPhotos
-        self explanitory
-    submit review button
-        on:click -> go to next page
-    footer
-
-third page
-    nav with search bar
-    thanks for the review
-    you just got 100 burrito pts
-    recentlyVisited?
-    footer

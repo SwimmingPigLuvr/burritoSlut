@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { reviewPhotos, dropZoneFocused, isModalOpen, filesToUpload } from '../../stores/stores';
+	import {
+		reviewPhotos,
+		dropZoneFocused,
+		isModalOpen,
+		filesToUpload,
+		dimensions
+	} from '../../stores/stores';
 	import type { ReviewPhoto } from '$lib/types';
 
 	export let photo: ReviewPhoto;
@@ -83,13 +89,9 @@
 	<div class="w-full flex flex-col text-left space-y-2">
 		<label for="category"><strong>Category</strong> (optional)</label>
 		<select class="" name="category" id="category" bind:value={photo.category}>
-			<option value="none">None</option>
-			<option value="meat">Meat Quality</option>
-			<option value="cheesiness">Cheesiness</option>
-			<option value="tortilla"> Tortilla</option>
-			<option value="messiness">Messiness</option>
-			<option value="volume">Volume</option>
-			<option value="spiciness">Spiciness</option>
+			{#each $dimensions as dimension}
+				<option value={dimension}>{dimension.name}</option>
+			{/each}
 		</select>
 	</div>
 	<br />

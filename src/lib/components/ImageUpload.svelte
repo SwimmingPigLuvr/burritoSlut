@@ -174,15 +174,15 @@
 	}
 </script>
 
-<div class="p-8 w-full">
-	<div class=" sm:max-w-[500px] flex flex-col w-full space-y-4">
+<div class="w-full">
+	<div class=" md:max-w-[750px] flex flex-col mx-auto w-full space-y-4">
 		<h2 class="font-avenir-bold text-lg mx-auto w-full text-left">Attach Photos</h2>
 		{#if $reviewPhotos.length > 0}
 			<AttachedPhotos />
 		{:else}
 			<button
 				on:click={() => ($isModalOpen = !$isModalOpen)}
-				class="mx-auto bg-white hover:border-4 filter grayscale hover:grayscale-0 w-full sm:w-[500px] h-[100px] border-black border-2"
+				class="mx-auto bg-white hover:border-4 filter grayscale hover:grayscale-0 w-full md:w-[750px] h-[100px] border-black border-2"
 			>
 				<p class="text-5xl">+📸🌯</p>
 			</button>

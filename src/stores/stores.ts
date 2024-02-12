@@ -14,12 +14,12 @@ export const dropZoneFocused = writable<boolean>(false);
 export const isModalOpen = writable<boolean>(false);
 
 export const dimensions = writable<Dimension[]>([
-    { name: 'cheese', score: 0 },
-    { name: 'tortilla', score: 0 },
-    { name: 'meat', score: 0 },
-    { name: 'ratio', score: 0 },
-    { name: 'temp', score: 0 },
-    { name: 'grease', score: 0 },
-    { name: 'ingredients', score: 0 },
-    { name: 'volume', score: 0 },
+    { name: 'cheese', score: 5 },
+    { name: 'tortilla', score: 5 },
+    { name: 'meat', score: 5 },
+    { name: 'ratio', score: 5 },
+    { name: 'temp', score: 5 },
+    { name: 'grease', score: 5 },
+    { name: 'ingredients', score: 5 },
+    { name: 'volume', score: 5 },
 ]);
