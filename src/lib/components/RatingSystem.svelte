@@ -2,12 +2,13 @@
 	import { dimensions } from '../../stores/stores';
 
 	function getRatingMessage(score: number): string {
-		if (score === 0) return 'Terrible!';
-		else if (score > 0 && score <= 2) return 'Bad';
-		else if (score > 2 && score <= 4) return 'Okay';
-		else if (score > 4 && score <= 6) return 'Good';
-		else if (score > 6 && score <= 8) return 'Very good';
-		else if (score > 8 && score < 10) return 'Excellent!';
+		if (score === 0) return 'Garbage!';
+		else if (score > 0 && score <= 2) return 'Terrible';
+		else if (score > 2 && score <= 4) return 'Bad';
+		else if (score > 4 && score <= 6) return 'Alright';
+		else if (score > 6 && score <= 8) return 'Good';
+		else if (score > 8 && score < 9) return 'Very Good!';
+		else if (score > 9 && score < 10) return 'Excellent';
 		else if (score === 10) return 'PERFECT!';
 		else return 'Invalid score'; // Fallback message
 	}
@@ -39,11 +40,16 @@
 		<h3 class="text-5xl text-center">{averageScore}</h3>
 		<p class="">{ratingMessage}</p>
 	</div>
-	<div class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 w-full md:max-w-[750px] mx-auto">
+	<div
+		class="flex flex-col space-y-8 sm:grid sm:gap-4 sm:grid-cols-2 md:grid-cols-3 w-full md:max-w-[1200px] mx-auto"
+	>
 		{#each $dimensions as dimension}
-			<div class="">
-				<div class="h-10 font-avenir-bold relative text-3xl flex w-full space-x-2 text-left">
-					<h3 class="text-primary mx-auto capitalize">{dimension.name}</h3>
+			<div class="flex flex-col space-y-4">
+				<div
+					class="h-10 font-avenir-bold relative text-5xl items-center px-3 flex w-full justify-between"
+				>
+					<h3 class="absolute left-0 text-primary mx-auto capitalize">{dimension.name}</h3>
+					<span class="text-secondary absolute right-3">{dimension.score}</span>
 				</div>
 				<input
 					class="
@@ -52,18 +58,21 @@
                         {dimension.score > 5 && dimension.score <= 7 ? 'range-secondary' : ''}
                         {dimension.score > 7 && dimension.score < 10 ? 'range-accent' : ''}
                         {dimension.score === 10 ? 'range-success' : ''}
-                             range"
+                        range range-lg"
 					bind:value={dimension.score}
 					type="range"
 					min="0"
 					max="10.0"
 					step="0.1"
 				/>
-				<div class="flex justify-evenly">
-					<span class="text-info">{getRatingMessage(dimension.score)}</span>
-					<span class="text-secondary">{dimension.score}</span>
+				<!-- add captions -->
+				<div class="flex space-x-2 items-center justify-start text-5xl">
+					<button class="">📸</button>
+					<!-- add photos -->
+					<button class="">📝</button>
 				</div>
 			</div>
+			<hr class="border-2 border-black" />
 		{/each}
 	</div>
 </div>

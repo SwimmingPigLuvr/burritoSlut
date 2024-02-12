@@ -12,9 +12,11 @@
 		themeValue = value;
 	});
 
+	const withSearchBar: string = 'nav with search bard'
+
 </script>
 
-<Nav />
+<Nav simple={false} />
 
 
 

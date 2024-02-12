@@ -4,11 +4,13 @@
 	import RatingSystem from '$lib/components/RatingSystem.svelte';
 	import { dimensions } from '../../stores/stores';
 
+    const simple: boolean = true
+
 	let burrito = 'Breakfast Burrito';
 	let restaurant = 'Greasy Grove';
 </script>
 
-<Nav />
+<Nav simple={true} />
 <div
 	class="h-screen w-screen overflow-x-hidden overflow-y-auto flex flex-col space-y-4 bg-primary-content p-8"
 >

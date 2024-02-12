@@ -23,6 +23,29 @@ move outline into outline.txt
 
     todos based on outline 
         create simple mode for nav
+            what exactly are the differences in the simple mode?
+                no search bars just the home page / login component
+                size is normal on the smallest breakpoint
+
+        create space to attach thoughts / photos for each rating dimension
+            the numbers don't tell the full story
+            the user should share why they think the tortilla was a 9.5
+            
+            creating the component with the necessary functions is easy
+                fiting it into the ui is the tricky part
+                    thoughts:
+                        photos that select a dimension will already be there
+                        use camera + writing symbols / emojis as the buttons
+                            hover:button shows current caption / photos
+
+        update the messages that are shown based on the rating score
+        move the theme store to the stores/stores.ts file
+
+        move all of the google autocomplete functions into its own component
+        make login component just 1 button not "login, signup"
+            and if user the show pfp with badges
+        
+        
         create burrito lookup component
             similar to the autocomplete found in the nav search bars
                 main difference: burritoLookup just looks through the database, NOT Google
@@ -40,5 +63,8 @@ move outline into outline.txt
 
 
 get the other components on the review page
+
+
+
 
 
