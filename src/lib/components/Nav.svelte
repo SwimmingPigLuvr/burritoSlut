@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import LogIn from './LogIn.svelte';
 	import { page } from '$app/stores';
-	import { theme, safeMode } from '../../stores/stores';
+	import { safeMode } from '../../stores/stores';
 	import { backIn, backOut, cubicInOut } from 'svelte/easing';
 	import { blur, fly } from 'svelte/transition';
 
@@ -26,13 +26,11 @@
 		isHomePage = true;
 	}
 
-	let selectedTheme = 'garden'; // Local component state
 	let localSafeMode: boolean;
 
 	$: localSafeMode = $safeMode;
 
 	// Watch the local selectedTheme for changes and update the store
-	$: theme.set(selectedTheme);
 
 	onMount(() => {
 		if (browser) {

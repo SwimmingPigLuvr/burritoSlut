@@ -15,11 +15,11 @@
 	class="h-screen w-screen overflow-x-hidden overflow-y-auto flex flex-col space-y-4 bg-primary-content p-8"
 >
 	<!-- text area -->
-	<div class="mt-32 md:mt-20" />
+	<div class="mt-20" />
 	<div class="mx-auto w-full text-3xl font-avenir-bold max-w-[750px]">
 		<h1 class="text-left">
-			Rate the <span class="text-primary">{burrito}</span> from
-			<span class="text-secondary">{restaurant}</span>.
+			Rate the <a href="/restaurants/{burrito}" class="text-primary hover:underline">{burrito}</a> from
+			<a href="/restaurants/{restaurant}" class="text-secondary hover:underline">{restaurant}</a>.
 		</h1>
 	</div>
 	<div class="w-full sm:max-w-[750px] mx-auto">
@@ -33,6 +33,7 @@
 		/>
 	</div>
 	<RatingSystem />
+	<h2 class="font-avenir-bold text-lg mx-auto w-full text-left">Attach Photos</h2>
 	<ImageUpload />
 	<div class="flex justify-end w-full max-w-[750px] mx-auto">
 		<button class="btn btn-primary rounded-none font-avenir-bold">Submit Rating</button>

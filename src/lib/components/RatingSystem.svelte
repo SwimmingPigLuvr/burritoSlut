@@ -1,5 +1,16 @@
 <script lang="ts">
-	import { dimensions } from '../../stores/stores';
+	import CategoryReviewAndPhotos from './CategoryReviewAndPhotos.svelte';
+
+	import { slide } from 'svelte/transition';
+	import { dimensions, reviewPhotos } from '../../stores/stores';
+
+	let showPhotos: boolean[] = [];
+	let showCaption: boolean[] = [];
+
+	function toggleCaptionPhotos(index: number) {
+		showPhotos[index] = !showPhotos[index];
+		showCaption[index] = !showCaption[index];
+	}
 
 	function getRatingMessage(score: number): string {
 		if (score === 0) return 'Garbage!';
@@ -29,6 +40,16 @@
 		return average;
 	}
 
+	let openSlideShow: boolean = false;
+	let currentCategory: string | null = null;
+
+	function handleOpenSlideShow(category: string) {
+		return function () {
+			currentCategory = category;
+			openSlideShow = true;
+		};
+	}
+
 	// Reactive statement to calculate the average score whenever dimensions change
 	$: scoresArray = $dimensions.map((dimension) => dimension.score);
 	$: averageScore = calculateAverage(scoresArray);
@@ -36,14 +57,16 @@
 </script>
 
 <div class="w-full font-avenir-bold mx-auto">
-	<div class="w-full max-w-[750px] mx-auto text-center">
-		<h3 class="text-5xl text-center">{averageScore}</h3>
-		<p class="">{ratingMessage}</p>
+	<div class="w-full flex max-w-[750px] mx-auto text-center">
+		<div class="flex flex-col pt-8 pb-10">
+			<h3 class="text-5xl text-center">{averageScore}</h3>
+			<p class="">{ratingMessage}</p>
+		</div>
 	</div>
 	<div
 		class="flex flex-col space-y-8 sm:grid sm:gap-4 sm:grid-cols-2 md:grid-cols-3 w-full md:max-w-[1200px] mx-auto"
 	>
-		{#each $dimensions as dimension}
+		{#each $dimensions as dimension, index}
 			<div class="flex flex-col space-y-4">
 				<div
 					class="h-10 font-avenir-bold relative text-5xl items-center px-3 flex w-full justify-between"
@@ -65,12 +88,8 @@
 					max="10.0"
 					step="0.1"
 				/>
-				<!-- add captions -->
-				<div class="flex space-x-2 items-center justify-start text-5xl">
-					<button class="">📸</button>
-					<!-- add photos -->
-					<button class="">📝</button>
-				</div>
+
+				<CategoryReviewAndPhotos {dimension} {index} />
 			</div>
 			<hr class="border-2 border-black" />
 		{/each}

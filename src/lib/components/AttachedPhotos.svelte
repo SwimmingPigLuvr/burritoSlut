@@ -14,6 +14,12 @@
 	>
 	{#each $reviewPhotos as attachedPhoto}
 		<div class="relative max-h-[125px]">
+			{#if attachedPhoto.category !== 'none'}
+				<button 
+					class="absolute top-0 left-0 text-left p-1 text-xs font-avenir-bold uppercase"
+					>{attachedPhoto.category}</button
+				>
+			{/if}
 			<button
 				on:click={() => deletePhoto(attachedPhoto.id)}
 				class="btn btn-square btn-xs btn-error bg-opacity-50 rounded-none absolute top-0 right-0 font-avenir-bold text-white"

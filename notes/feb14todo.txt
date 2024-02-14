@@ -1,0 +1,17 @@
+need to rewrite the attached photos component
+
+requirements:
+    has to fit in the general attached photos
+    has to fit in each category
+
+uniformality
+consistency
+
+they will all have
+    an upload button at the front of the list
+    a delete button
+    a caption
+    the ability to on:click into a bigger slide show
+
+the category ones 
+will not have the category displayed in the upper left

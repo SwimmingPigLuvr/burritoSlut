@@ -1,15 +1,3 @@
-<!-- what does the review need -->
-<!-- userID -->
-<!-- burritoID -->
-<!-- restaurantID -->
-
-<!-- uplaoding multiple photos -->
-
-<!-- previewurl: {
-    url: url,
-    caption: caption
-} -->
-
 <script lang="ts">
 	import { db, storage, user, userData } from '$lib/firebase';
 	import { doc, writeBatch } from 'firebase/firestore';
@@ -176,7 +164,6 @@
 
 <div class="w-full">
 	<div class=" md:max-w-[750px] flex flex-col mx-auto w-full space-y-4">
-		<h2 class="font-avenir-bold text-lg mx-auto w-full text-left">Attach Photos</h2>
 		{#if $reviewPhotos.length > 0}
 			<AttachedPhotos />
 		{:else}

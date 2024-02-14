@@ -118,7 +118,7 @@ export interface ReviewPhoto {
     url: string
     alt?: string
     caption?: string
-    category?: string
+    category: string
 }
 
 export interface Dimension {

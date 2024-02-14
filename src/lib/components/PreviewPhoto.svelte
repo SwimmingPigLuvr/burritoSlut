@@ -4,7 +4,8 @@
 		dropZoneFocused,
 		isModalOpen,
 		filesToUpload,
-		dimensions
+		dimensions,
+		photoCategory
 	} from '../../stores/stores';
 	import type { ReviewPhoto } from '$lib/types';
 
@@ -89,8 +90,9 @@
 	<div class="w-full flex flex-col text-left space-y-2">
 		<label for="category"><strong>Category</strong> (optional)</label>
 		<select class="" name="category" id="category" bind:value={photo.category}>
+				<option value='none'>none</option>
 			{#each $dimensions as dimension}
-				<option value={dimension}>{dimension.name}</option>
+				<option value={dimension.name}>{dimension.name}</option>
 			{/each}
 		</select>
 	</div>
