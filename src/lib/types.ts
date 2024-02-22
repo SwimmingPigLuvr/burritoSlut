@@ -123,5 +123,5 @@ export interface ReviewPhoto {
 
 export interface Dimension {
     name: string
-    score: number
+    score: number | null
 }

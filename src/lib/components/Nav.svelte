@@ -5,7 +5,8 @@
 	import { page } from '$app/stores';
 	import { safeMode } from '../../stores/stores';
 	import { backIn, backOut, cubicInOut } from 'svelte/easing';
-	import { blur, fly } from 'svelte/transition';
+	import { blur, fly, slide } from 'svelte/transition';
+
 
 	export let simple: boolean = false;
 
@@ -26,7 +27,7 @@
 		isHomePage = true;
 	}
 
-	let localSafeMode: boolean;
+	let localSafeMode: boolean = false;
 
 	$: localSafeMode = $safeMode;
 
@@ -87,78 +88,82 @@
 			}
 		}
 	});
+
+	// hide nav on scrollio
+	let y = 0
+	let showNav: boolean = true
+
+	$: if (y > 60) {
+		showNav = false
+	}
+
 </script>
 
-<div
-	class="{isHomePage
-		? `bg-none border-b-0 border-b-transparent`
-		: `bg-white border-b-black border-b-2`}  z-20 p-[1.25rem] flex fixed top-0 w-full {!simple
-		? 'h-36'
-		: 'h-24'} justify-end items-end md:items-start transform transition-all duration-1000 ease-in-out"
->
-	<!-- logo -->
-	<a
-		href="/"
-		class="{!isHomePage
-			? `text-black`
-			: `text-primary-content`} font-avenir-bold text-xl fixed top-[1.75rem] left-[2rem]"
+<svelte:window bind:scrollY="{y}" />
+
+{#if showNav}
+	<div
+		in:slide out:slide
+		class="sm:h-24 z-20 p-[1.25rem] flex fixed top-0 w-full justify-end items-end md:items-start transform transition-all duration-1000 ease-in-out
+			{isHomePage ? `bg-none border-b-0 border-b-transparent` : `bg-white border-b-black border-b-2`}
+			{simple ? 'h-24' : 'h-36'}
+		"
 	>
-		BURRITO
-		{#if !$safeMode}
-			<span in:blur={{ amount: 100, duration: 500, easing: cubicInOut }}> SLUT</span>
-		{:else}
-			<span in:blur={{ amount: 100, duration: 500, easing: cubicInOut }}>FINDER</span>
-		{/if}
-	</a>
-
-	{#if !simple}
-		<!-- searchbar -->
-		<div
-			class="bg-white border-2 border-black rounded-none md:-translate-x-[10%] items-center join mx-auto shadow-lg h-10 font-light tracking-widest w-full md:w-[55%]"
+		<!-- logo -->
+		<a
+			href="/"
+			class="{!isHomePage
+				? `text-black`
+				: `text-primary-content`} font-avenir-bold text-xl fixed top-[1.75rem] left-[2rem]"
 		>
-			<!-- left search box -->
-			<input
-				id="nameInputElement"
-				placeholder="breakfast burritos"
-				type="text"
-				class="bg-white rounded focus:outline-none tracking-wide text-xs px-4 h-full w-[365px]"
-			/>
+			BURRITO SLUT
+		</a>
 
-			<p class="scale-y-[2] -translate-y-1 text-black">|</p>
-
-			<!-- right search box -->
-			<input
-				id="locationInputElement"
-				placeholder="address, neighborhood, city, state, or zip"
-				type="text"
-				class="bg-white focus:outline-none tracking-wide text-xs p-4 w-[365px] h-full"
-			/>
-
-			<p class="scale-y-[2] -translate-y-1 text-black">|</p>
-			<button
-				class="px-4 w-14 h-full items-center text-2xl hover:rotate-[30deg] transform transition-all duration-500 ease-in-out"
-				>🔍</button
+		{#if !simple}
+			<!-- searchbar -->
+			<div
+				class="bg-white border-2 border-black rounded-none md:-translate-x-[10%] items-center join mx-auto shadow-lg h-10 font-light tracking-widest w-full md:w-[55%]"
 			>
-		</div>
-	{/if}
+				<!-- left search box -->
+				<input
+					id="nameInputElement"
+					placeholder="breakfast burritos"
+					type="text"
+					class="bg-white rounded focus:outline-none tracking-wide text-xs px-4 h-full w-[365px]"
+				/>
 
-	<!-- write a review / restaurant login -->
-	<!-- <div class="absolute md:relative top-[1.5rem] md:top-[4.5rem] right-1/3 flex space-x-2">
-        <button class="rounded-md  p-2 px-4  text-xs bg-transparent hover:bg-primary hover:bg-opacity-30">
-            Write a Review
-        </button>
-        <button class="rounded-md  p-2 px-4  text-xs bg-transparent hover:bg-primary hover:bg-opacity-30">
-            Restaurant Login
-        </button>
+				<p class="scale-y-[2] -translate-y-1 text-black">|</p>
 
-    </div> -->
+				<!-- right search box -->
+				<input
+					id="locationInputElement"
+					placeholder="address, neighborhood, city, state, or zip"
+					type="text"
+					class="bg-white focus:outline-none tracking-wide text-xs p-4 w-[365px] h-full"
+				/>
 
-	<LogIn />
-</div>
+				<p class="scale-y-[2] -translate-y-1 text-black">|</p>
+				<button
+					class="px-4 w-14 h-full items-center text-2xl hover:rotate-[30deg] transform transition-all duration-500 ease-in-out"
+					>🔍</button
+				>
+			</div>
+		{/if}
 
-<div class="fixed bottom-4 left-4 z-50">
-	<input type="checkbox" on:change={toggleSafeMode} checked={$safeMode} />
-</div>
+		<!-- write a review / restaurant login -->
+		<!-- <div class="absolute md:relative top-[1.5rem] md:top-[4.5rem] right-1/3 flex space-x-2">
+			<button class="rounded-md  p-2 px-4  text-xs bg-transparent hover:bg-primary hover:bg-opacity-30">
+				Write a Review
+			</button>
+			<button class="rounded-md  p-2 px-4  text-xs bg-transparent hover:bg-primary hover:bg-opacity-30">
+				Restaurant Login
+			</button>
+
+		</div> -->
+
+		<LogIn />
+	</div>
+{/if}
 
 <style>
 	input::placeholder {

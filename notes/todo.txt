@@ -438,3 +438,121 @@ center the map on the first search result
 
 add markers for each result
     make test marker to make sure it works
+
+
+feb 20 2024
+
+random todos that i just thought of
+
+on the burrito rating page:
+    nav hides on scroll down
+    comes back on scroll up
+
+current todo
+    reformatting the input divs
+        observations
+            each button just toggles the whole div
+                flow: click button => open whole input div
+                    click other button => switch to that input
+                        click same button as current input => toggle whole divverino
+
+            i think id rather just have a button to close that
+
+            also the input box is too clsoe to the share ur experience + buttons div
+
+            clicking on the same button shouldn't toggle to the other button
+            but fist let's make the close button for the whole shareandtelldiv
+
+
+previewPhotos.svelte component
+    "write descriptions and select categories" falls off the page (when smol)
+    clicking add cheese photos should just auto select cheese as the category
+    closing the shareandtelldiv with a big x in the corner is okay when there is any content
+    let's move that to the side?
+
+    array isn't refreshing instantly
+        but it does at the bottom so it should be easy to see ho we did that
+
+
+general todo
+    on submit
+        creates a new review document in the database with the correct burrito + restaurant id attached
+
+        review doc 
+            burritoId
+            text reviews
+            rating score
+            photos, captions
+
+next step
+    use actual burritodata to create the rating page
+
+fix the nav on scroll
+
+
+
+
+feb 21 2024
+
+/search
+    fix the nav height:
+        nav should only be taller to fit the compact view on small screen sizes
+
+        simple mode should be h-24 no matter what screen size
+
+/burrito review
+    photo/text inputs
+        clicking photo/text review buttons toggle one another
+            they should be responsible for just showing themselves
+                solution
+                    created specific handlers
+                problem
+                    idk both open??
+
+                let's see what else we're triggering
+
+
+    attached photos by category
+        after upload the array.length showed 1 but i had 2 photos...
+            also doesn't immediately show the photos
+                on delete
+                    doesn't delete right away but if i leave and come back to the div it's deleted??
+                        when i delete the last one the "share photos of the {dimension}" shows up
+                            beacause it knows that the array is empty but
+                                the add more photos doesn't know it's empty
+
+        number of photos is 1 more than showing for given category
+            iguess it works now?? idk how i did that
+
+            the array in attached photos updates in real time
+            but the category arrays aren't reactive?
+
+            my guess: attached photos is a svelte store
+                category arrays are not?
+
+
+    attached photos delete function
+        needs to delete not the shown photo but the $reviewPhoto with the matching id
+
+    delete function works properly but the ui doesn't show reactively
+        changed:
+            let categoryPHotos to $: categoryPHotos = ...
+
+    current problems:
+        after upload actergory shows as undefined 
+        even tho they are assigned to the proper category in ui
+
+        number shown needs to be reactive
+
+        not sure why the category is undefined
+            solution
+                go to where the category is shown and make it a reactive value
+
+
+hide nav on scroll
+    doesn't really work but we can figure this out later
+        obs taking too much cpu
+            typing is slow website is slow brain is slow
+
+
+

@@ -2,7 +2,7 @@
 	import { db, storage, user, userData } from '$lib/firebase';
 	import { doc, writeBatch } from 'firebase/firestore';
 	import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-	import { backIn, backInOut, backOut, cubicInOut } from 'svelte/easing';
+	import { backIn, backInOut, backOut, cubicInOut, sineInOut } from 'svelte/easing';
 	import { blur, fade, fly, slide } from 'svelte/transition';
 	import ImageControls from './ImageControls.svelte';
 	import PreviewPhoto from './PreviewPhoto.svelte';
@@ -91,7 +91,8 @@
 				const newPhoto: ReviewPhoto = {
 					id: $reviewPhotos.length + 1,
 					url: previewURL,
-					caption: `Photo ${$reviewPhotos.length + 1}`
+					caption: `Photo ${$reviewPhotos.length + 1}`,
+					category: 'none'
 				};
 				addingReviewPhotos = false;
 				addedReviewPhotosSuccess = true;
@@ -163,26 +164,19 @@
 </script>
 
 <div class="w-full">
-	<div class=" md:max-w-[750px] flex flex-col mx-auto w-full space-y-4">
-		{#if $reviewPhotos.length > 0}
-			<AttachedPhotos />
-		{:else}
-			<button
-				on:click={() => ($isModalOpen = !$isModalOpen)}
-				class="mx-auto bg-white hover:border-4 filter grayscale hover:grayscale-0 w-full md:w-[750px] h-[100px] border-black border-2"
-			>
-				<p class="text-5xl">+📸🌯</p>
-			</button>
-		{/if}
+	<div class="border-2 bg-white border-black h-28 w-full flex flex-col mx-auto space-y-4">
+		<AttachedPhotos />
 	</div>
 	{#if $isModalOpen}
 		<!-- bg -->
 		<button
+			in:blur={{easing: sineInOut}}
 			on:click={handleModalClose}
-			class="fixed top-0 left-0 bg-accent w-screen h-screen bg-opacity-100 flex items-center p-4"
+			class="z-20 fixed top-0 left-0 bg-opacity-50 bg-primary backdrop-blur-sm w-screen h-screen flex items-center p-4"
 		>
 			<!-- modal container -->
 			<button
+				in:slide={{delay: 100, easing: backOut}}
 				on:click|stopPropagation
 				class="relative hover:cursor-default my-auto bg-white border-2 border-black w-full mx-auto
                 {$reviewPhotos.length < 1 ? 'sm:max-w-[500px]' : 'sm:max-w-[750px]'}

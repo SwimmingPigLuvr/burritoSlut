@@ -9,19 +9,20 @@ export const searchLocation = writable('Costa Mesa, CA');
 export const safeMode = writable<boolean>(true);
 
 export const reviewPhotos = writable<ReviewPhoto[]>([]);
+export const shownPhotos = writable<ReviewPhoto[]>([]);
 export const filesToUpload = writable<File[]>([]);
 export const dropZoneFocused = writable<boolean>(false);
 export const isModalOpen = writable<boolean>(false);
 
 export const dimensions = writable<Dimension[]>([
-    { name: 'cheese', score: 11 },
-    { name: 'tortilla', score: 11 },
-    { name: 'meat', score: 11 },
-    { name: 'ratio', score: 11 },
-    { name: 'temp', score: 11 },
-    { name: 'grease', score: 11 },
-    { name: 'ingredients', score: 11 },
-    { name: 'volume', score: 11 },
+    { name: 'cheese', score: null },
+    { name: 'tortilla', score: null },
+    { name: 'meat', score: null },
+    { name: 'ratio', score: null },
+    { name: 'temp', score: null },
+    { name: 'grease', score: null },
+    { name: 'ingredients', score: null },
+    { name: 'volume', score: null },
 ]);
 
 export const photoCategory = writable('none')

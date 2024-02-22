@@ -72,15 +72,20 @@
 					class="h-10 font-avenir-bold relative text-5xl items-center px-3 flex w-full justify-between"
 				>
 					<h3 class="absolute left-0 text-primary mx-auto capitalize">{dimension.name}</h3>
-					<span class="text-secondary absolute right-3">{dimension.score}</span>
+					<span class="text-secondary absolute right-3">
+						{#if dimension.score}
+							{dimension.score}
+						{/if}
+					</span>
 				</div>
 				<input
 					class="
-                        {dimension.score <= 2 ? 'range-error' : ''}
-                        {dimension.score > 2 && dimension.score <= 5 ? 'range-warning' : ''}
-                        {dimension.score > 5 && dimension.score <= 7 ? 'range-secondary' : ''}
-                        {dimension.score > 7 && dimension.score < 10 ? 'range-accent' : ''}
-                        {dimension.score === 10 ? 'range-success' : ''}
+						{dimension.score === null ? 'range-info' : ''}
+                        {dimension.score && dimension.score <= 2 ? 'range-error' : ''}
+                        {dimension.score && dimension.score > 2 && dimension.score <= 5 ? 'range-warning' : ''}
+                        {dimension.score && dimension.score > 5 && dimension.score <= 7 ? 'range-secondary' : ''}
+                        {dimension.score && dimension.score > 7 && dimension.score < 10 ? 'range-accent' : ''}
+                        {dimension.score && dimension.score === 10 ? 'range-success' : ''}
                         range range-lg"
 					bind:value={dimension.score}
 					type="range"

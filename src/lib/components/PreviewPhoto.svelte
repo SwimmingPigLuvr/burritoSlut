@@ -37,10 +37,6 @@
 			$reviewPhotos = [];
 			$filesToUpload = [];
 		}
-		console.log('logging current review captions');
-		for (let i = 0; i < $reviewPhotos.length; i++) {
-			console.log('reviewID: ', $reviewPhotos[i].id, ' caption: ', $reviewPhotos[i].caption);
-		}
 	}
 
 	function updateCaption(photoId: number, caption: string) {
