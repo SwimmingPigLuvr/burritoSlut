@@ -556,3 +556,22 @@ hide nav on scroll
 
 
 
+big problems with the attached photos
+
+    need to simplify this
+        instead of checking which category the photos are in from the attached photos component
+            let's just put the photos in as props
+                also the main general attached photos should always be shown
+                    right now it says:
+                        share photos of the none
+                            it's from share photos of the {dimension}
+                                but for some reason it's not excluding none
+
+
+range sliders
+    different styles for the block range slider
+        bg-primary opacities
+            10 = 100 ... 0 = 0
+
+
+

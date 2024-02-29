@@ -1,0 +1,15 @@
+burrito rating ux
+
+3 pillars:
+
+rating
+review
+    text/photos
+
+
+what does a good rating look like?
+
+scores with text + photos to back it up
+
+if the cheese is 10/10
+    prompt user to explain why it scored so highly

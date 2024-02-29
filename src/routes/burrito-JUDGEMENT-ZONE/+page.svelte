@@ -30,40 +30,41 @@
 	<Nav simple={true} />
 {/if}
 
-<div
-	class="min-h-[200vh] h-screen w-screen overflow-x-hidden overflow-y-auto flex flex-col space-y-4 bg-primary-content p-8"
->
-	<!-- text area -->
-	<div class="mt-20" />
-	<div class="mx-auto w-full text-3xl font-avenir-bold max-w-[750px]">
-		<h1 class="text-left">
-			Rate the <a href="/restaurants/{burrito}" class="text-primary hover:underline">{burrito}</a> from
-			<a href="/restaurants/{restaurant}" class="text-secondary hover:underline">{restaurant}</a>.
-		</h1>
-	</div>
-	<div class="w-full sm:max-w-[750px] mx-auto">
-		<textarea
-			name="review"
-			id="review"
-			cols="30"
-			rows="10"
-			class="w-full mx-auto p-4 border-2 border-black font-avenir-bold text-lg"
-			placeholder="Share some thoughts about your experience with this burrito."
-		/>
-	</div>
-	<RatingSystem />
+<div class="min-h-[200vh] h-screen w-screen overflow-x-hidden overflow-y-auto flex flex-col space-y-4 bg-white p-8">
+	<div class="max-w-xl w-full mx-auto">
 
-		<h2 class="font-avenir-bold text-lg mx-auto w-full text-left">
+		<!-- text area -->
+		<div class="mt-20" />
+			<div class="mx-auto w-full text-3xl font-avenir-bold max-w-[750px]">
+				<h1 class="text-left">
+					Rate the <a href="/restaurants/{burrito}" class="text-primary hover:underline">{burrito}</a> from
+					<a href="/restaurants/{restaurant}" class="text-secondary hover:underline">{restaurant}</a>.
+				</h1>
+			</div>
+		<div class="w-full sm:max-w-[750px] mx-auto">
+			<textarea
+				name="review"
+				id="review"
+				cols="30"
+				rows="10"
+				class="w-full mx-auto p-4 border-2 border-black font-avenir-bold text-lg"
+				placeholder="Share some thoughts about your experience with this burrito."
+			/>
+		</div>
+		<RatingSystem />
 
-			 {#if $reviewPhotos.length === 0}
-				Attach photos
-			{:else}
-				All photos
-			{/if}
-		</h2>
-	<ImageUpload />
-	<div class="flex justify-end w-full max-w-[750px] mx-auto">
-		<button class="btn btn-primary rounded-none font-avenir-bold">Submit Rating</button>
+			<h2 class="font-avenir-bold text-lg mx-auto w-full text-left">
+
+				{#if $reviewPhotos.length === 0}
+					Attach photos
+				{:else}
+					All photos
+				{/if}
+			</h2>
+		<ImageUpload />
+		<div class="flex justify-end w-full max-w-[750px] mx-auto">
+			<button class="btn btn-primary rounded-none font-avenir-bold">Submit Rating</button>
+		</div>
 	</div>
 </div>
 
